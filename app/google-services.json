@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "894602325408",
+    "firebase_url": "https://emergency-alert-app-4046d.firebaseio.com",
+    "project_id": "emergency-alert-app-4046d",
+    "storage_bucket": "emergency-alert-app-4046d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:894602325408:android:41d3304c124be2302788c5",
+        "android_client_info": {
+          "package_name": "com.example.emergencyalertapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "894602325408-qc5kbs5gt99mbeo6dv0f8adptck231di.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfLyy0V4iFmayVIP8AnbnP2IZsn-yPPIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "894602325408-qc5kbs5gt99mbeo6dv0f8adptck231di.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

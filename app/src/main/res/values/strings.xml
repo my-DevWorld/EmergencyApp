@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Emergency Alert App</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="loginWithEmail">Log in with email</string>
+    <string name="register_here"><b>Sign up.</b></string>
+    <string name="contact_number">Phone number</string>
+    <string name="signUp">Sign Up</string>
+    <string name="fullName">Full name</string>
+    <string name="don_t_have_an_account">Don’t have an account?</string>
+    <string name="emergency_alert">Emergency Alert</string>
+    <string name="log_in_with">Log in with</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="login_here">Login here</string>
+    <string name="sign_up_email">Sign up with Email</string>
+    <string name="create_profile">Create Profile</string>
+
+
+    <string name="client_ID">894602325408-bv5m1mddcd4sj51nrfc5ifqvdtngtmt2.apps.googleusercontent.com</string>
+    <string name="client_Secret">x6wgPjaMqUagLd2lbPT-qLYG</string>
+
+    <string name="facebook_app_id">304407400521322</string>
+    <string name="fb_login_protocol_scheme">fb304407400521322</string>
+    <string name="log_in">Log In</string>
+    <string name="resend_verification">Resend verification</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="verify_your_phone_number">Verify Your Phone Number</string>
+    <string name="send_code">Send code</string>
+    <string name="verify">Verify number</string>
+    <string name="enter_verification_code">Enter verification code</string>
+    <string name="opt_description">We have sent you an OPT for your phone number verification</string>
+    <string name="verify_number">Please enter your phone number starting with country code.</string>
+    <string name="opt_code">OPT code</string>
+    <string name="sign_up_with_google">Sign up with Google</string>
+    <string name="sign_up_with_facebook">Sign up with Facebook</string>
+    <string name="sign_with_phone_number">Sign with Phone Number</string>
+    <string name="don_t_worry_you_can_change_this_info_later">Don’t worry… "\n"you can change this info later.</string>
+    <string name="residential_address">Residential address</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="body_weight_kg">Body Weight  (Kg)</string>
+    <string name="height">Height  (cm)</string>
+    <string name="allergies_reaction">Allergies &amp; reaction</string>
+    <string name="medical_history">Medical History</string>
+    <string name="personal_info">Personal Info</string>
+    <string name="gender">Gender</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="medical_records">Medical Records</string>
+    <string name="relation">Relation</string>
+    <string name="done">Done</string>
+    <string name="submit">Submit</string>
+
+</resources>
