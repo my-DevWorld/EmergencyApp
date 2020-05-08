@@ -411,20 +411,8 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
                 medRec.setVisibility(View.GONE);
                 essentials.scrollDown(scrollView, contact);
                 greenHeader(header2);
-//                if(Build.VERSION_CODES.LOLLIPOP_MR1 < 22){
-//                    header2.setBackground(getDrawable(R.color.greenBtn));
-//                }
-//                else {
-//                    header2.setBackgroundResource(R.color.greenBtn);
-//                }
             } else {
                 redHeader(header2);
-//                if(Build.VERSION_CODES.LOLLIPOP_MR1 < 22){
-//                    header2.setBackground(getDrawable(R.color.primaryButtonColorActive));
-//                }
-//                else {
-//                    header2.setBackgroundResource(R.color.primaryButtonColorActive);
-//                }
                 essentials.hideSoftKeyboard(this, medRecExpandMore);
                 Snackbar.make(findViewById(R.id.rootLayout), "Please fill in your medical records", Snackbar.LENGTH_LONG).show();
             }
@@ -508,11 +496,6 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
 
         if (TextUtils.isEmpty(userWeightEditTxt.getText())) {
             showError(userWeightEditTxt);
-//            if (Build.VERSION_CODES.LOLLIPOP_MR1 < 22) {
-//                userWeightEditTxt.setBackground(getDrawable(R.drawable.error_border_line));
-//            } else {
-//                userWeightEditTxt.setBackgroundResource(R.drawable.error_border_line);
-//            }
             Snackbar.make(findViewById(R.id.rootLayout), "Please enter your weight", Snackbar.LENGTH_LONG).show();
             return;
         }
@@ -522,11 +505,6 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
 
         if (TextUtils.isEmpty(userHeightEditTxt.getText())) {
             showError(userHeightEditTxt);
-//            if (Build.VERSION_CODES.LOLLIPOP_MR1 < 22) {
-//                userHeightEditTxt.setBackground(getDrawable(R.drawable.error_border_line));
-//            } else {
-//                userHeightEditTxt.setBackgroundResource(R.drawable.error_border_line);
-//            }
             Snackbar.make(findViewById(R.id.rootLayout), "Please enter your height", Snackbar.LENGTH_LONG).show();
             return;
         }
@@ -536,11 +514,6 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
 
         if (TextUtils.isEmpty(bloodGroupEditTxt.getText())) {
             showError(bloodGroupEditTxt);
-//            if (Build.VERSION_CODES.LOLLIPOP_MR1 < 22) {
-//                bloodGroupEditTxt.setBackground(getDrawable(R.drawable.error_border_line));
-//            } else {
-//                bloodGroupEditTxt.setBackgroundResource(R.drawable.error_border_line);
-//            }
             Snackbar.make(findViewById(R.id.rootLayout), "Please enter your blood group", Snackbar.LENGTH_LONG).show();
             return;
         }
@@ -614,7 +587,6 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
             userEmergencyContactResidentialAddress = contactAddressEditTxt.getText().toString().trim();
         }
 
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>> " + userAllergiesEditTxt.getText().toString().trim());
         PatientProfile patientProfile = new PatientProfile(userName, userDateOfBirth,
                 userGender, userPhoneNumber, userResidentialAddress, userWeight, userHeight, bloodGroup, userAllergies);
         EmergencyContact emergencyContact = new EmergencyContact(nameOfEmergencyContact, relationship,
@@ -709,7 +681,6 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         userDateOfBirth = dateFormat.format(c.getTime());
         userDOBEditTxt.setText(userDateOfBirth);
-        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<< " + userDateOfBirth);
     }
 
     private TextWatcher fullNameEditTextWatcher = new TextWatcher() {
@@ -931,9 +902,9 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
 
     private void showError(View view){
         if (Build.VERSION_CODES.LOLLIPOP_MR1 < 22) {
-            bloodGroupEditTxt.setBackground(getDrawable(R.drawable.error_border_line));
+            view.setBackground(getDrawable(R.drawable.error_border_line));
         } else {
-            bloodGroupEditTxt.setBackgroundResource(R.drawable.error_border_line);
+            view.setBackgroundResource(R.drawable.error_border_line);
         }
     }
 }
