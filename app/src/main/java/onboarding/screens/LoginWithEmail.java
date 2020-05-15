@@ -14,9 +14,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.emergencyalertapp.R;
+import com.example.emergencyalertapp.screens.patient.PatientActivities;
 import com.example.emergencyalertapp.screens.patient.SendAlert;
 import com.example.emergencyalertapp.screens.service_provider.SPHomeScreen;
 import com.example.emergencyalertapp.utils.Essentials;
@@ -26,12 +28,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Objects;
 
@@ -42,7 +44,7 @@ public class LoginWithEmail extends AppCompatActivity {
     //widgets
     private EditText userEmailLogin, userPasswordLogin;
     private TextInputLayout userEmailRegLayout, userPasswordRegLayout;
-    private Button btnLogin;
+    private RelativeLayout btnLogin;
     private ImageView close;
     private TextView forgottenPassword;
 
@@ -50,7 +52,7 @@ public class LoginWithEmail extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private static final String TAG = "LoginWithEmail";
-    private static final String CATEGORY1 = "Patient";
+    private static final String CATEGORY = "Patient";
     private static final String CATEGORY2 = "Service Provider";
     private FirebaseFirestore db;
     private CollectionReference usersCollection;
@@ -156,34 +158,31 @@ public class LoginWithEmail extends AppCompatActivity {
                         essentials.dismissProgressBar();
                         usersCollection.whereEqualTo("userID", firebaseAuth.getUid())
                                 .get()
-                                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                            @Override
-                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                                    user = documentSnapshot.toObject(User.class);
-                                }
-                                if(user.getCategory().equals(CATEGORY1)){
-                                    if(user.isRecordsAvailable()) {
-                                        Intent intent = new Intent(LoginWithEmail.this, SendAlert.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                        startActivity(intent);
-                                        finish();
+                                .addOnSuccessListener(queryDocumentSnapshots -> {
+                                    for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                                        user = documentSnapshot.toObject(User.class);
+                                    }
+                                    if(user.getCategory().equals(CATEGORY)){
+                                        if(user.isRecordsAvailable()) {
+                                            Intent intent = new Intent(LoginWithEmail.this, PatientActivities.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                        else {
+                                            Intent intent = new Intent(LoginWithEmail.this, CreateProfile.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(intent);
+                                            finish();
+                                        }
                                     }
                                     else {
-                                        Intent intent = new Intent(LoginWithEmail.this, CreateProfile.class);
+                                        Intent intent = new Intent(LoginWithEmail.this, SPHomeScreen.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(intent);
                                         finish();
                                     }
-                                }
-                                else {
-                                    Intent intent = new Intent(LoginWithEmail.this, SPHomeScreen.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }
-                        });
+                                });
                     }
                     else {
                         FirebaseAuth.getInstance().signOut();
@@ -207,29 +206,26 @@ public class LoginWithEmail extends AppCompatActivity {
     private void resetPassword(){
         if(!TextUtils.isEmpty(userEmailLogin.getText().toString())){
             firebaseAuth.sendPasswordResetEmail(userEmailLogin.getText().toString().trim())
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        Snackbar.make(findViewById(R.id.rootLayout), "Password reset link sent.", Snackbar.LENGTH_INDEFINITE)
-                                .setAction("OK", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
+                    .addOnCompleteListener(task -> {
+                        if(task.isSuccessful()){
+                            Snackbar.make(findViewById(R.id.rootLayout), "Password reset link sent.", Snackbar.LENGTH_INDEFINITE)
+                                    .setAction("OK", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
 
-                                    }
-                                }).show();
-                    }
-                    else {
-                        Snackbar.make(findViewById(R.id.rootLayout), "Something went wrong, please check email address and try again.", Snackbar.LENGTH_LONG)
-                                .setAction("RETRY", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                resetPassword();
-                            }
-                        }).show();
-                    }
-                }
-            });
+                                        }
+                                    }).show();
+                        }
+                        else {
+                            Snackbar.make(findViewById(R.id.rootLayout), "Something went wrong, please check email address and try again.", Snackbar.LENGTH_LONG)
+                                    .setAction("RETRY", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    resetPassword();
+                                }
+                            }).show();
+                        }
+                    });
         }
         else {
             userEmailRegLayout.setError("Enter your email address");

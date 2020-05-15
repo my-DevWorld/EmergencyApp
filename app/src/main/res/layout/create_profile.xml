@@ -460,7 +460,24 @@
                                 android:textColor="@color/primaryTextColo"
                                 android:textSize="16sp"
                                 android:maxLength="3"
+                                android:visibility="gone"
                                 />
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/border_line"
+                                android:layout_marginStart="8dp"
+                                >
+                                <Spinner
+                                    android:id="@+id/bloodGroupSpinner"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingTop="10dp"
+                                    android:paddingBottom="10dp"
+                                    />
+                            </RelativeLayout>
+
+
                         </LinearLayout>
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/userAllergiesLayout"
@@ -665,7 +682,7 @@
                 android:textAllCaps="false"
                 android:gravity="center"
                 android:layout_gravity="center_horizontal"
-                android:visibility="invisible"
+                android:visibility="gone"
                 />
 
             <View

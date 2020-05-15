@@ -9,6 +9,7 @@
     <color name="primaryTextColo">#212121</color>
     <color name="secondaryTextColor">#757575</color>
     <color name="dividerColor">#BDBDBD</color>
+    <color name="rootViewBg">#F3F0F0</color>
     <color name="primaryButtonColorActive">#FB7469</color>
     <color name="primaryButtonColorDeActive">#876F6D</color>
     <color name="forgotPassword">#6747CD</color>

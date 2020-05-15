@@ -1,4 +1,4 @@
-package com.example.emergencyalertapp.screens.patient;
+package com.example.emergencyalertapp.screens.patient.fragments;
 
 import android.content.Context;
 import android.os.Bundle;

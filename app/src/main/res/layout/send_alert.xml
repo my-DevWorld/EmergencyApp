@@ -1,66 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/sosBtn"
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".screens.patient.SendAlert"
-    android:gravity="center"
-    android:layout_gravity="center"
-    android:orientation="vertical"
     >
 
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/ic_sos_light"
-        />
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/logInBottomNav"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SOS"
-        android:textSize="70sp"
-        android:textColor="@color/colorPrimary"
-        android:fontFamily="@font/poppins_medium"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/whiteColor"
+        app:itemIconTint="@drawable/bottom_navigation_item_colors"
+        app:itemTextColor="@drawable/bottom_navigation_item_colors"
+        app:labelVisibilityMode="selected"
+        app:menu="@menu/bottom_navigation_menu"
         />
 
+    <LinearLayout
+        android:id="@+id/sosBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/logInBottomNav"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="150dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible"
+        >
 
-<!--    <RelativeLayout-->
-<!--        android:id="@+id/emailBtn"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="60dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        android:layout_marginTop="40dp"-->
-<!--        android:layout_marginStart="40dp"-->
-<!--        android:layout_marginEnd="40dp"-->
-<!--        android:background="@drawable/email_login_btn_bg"-->
-<!--        android:gravity="center"-->
-<!--        android:elevation="1.45dp"-->
-<!--        >-->
-<!--        <ImageView-->
-<!--            android:id="@+id/ic_mail"-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="24dp"-->
-<!--            android:contentDescription="@string/app_name"-->
-<!--            android:src="@drawable/ic_mail"-->
-<!--            android:layout_centerVertical="true"-->
-<!--            />-->
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/ic_sos_light"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SOS"
+            android:textSize="70sp"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/poppins_medium"
+            />
 
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_toEndOf="@+id/ic_mail"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            android:text="@string/sign_up_email"-->
-<!--            android:textSize="18sp"-->
-<!--            android:textColor="@color/whiteColor"-->
-<!--            android:fontFamily="@font/poppins_regular"-->
-<!--            android:layout_centerVertical="true"-->
-<!--            />-->
-<!--    </RelativeLayout>-->
 
-</LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

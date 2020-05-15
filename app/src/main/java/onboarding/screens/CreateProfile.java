@@ -14,6 +14,8 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -21,10 +23,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.models.PatientProfile;
 import com.example.emergencyalertapp.models.EmergencyContact;
+import com.example.emergencyalertapp.screens.patient.PatientActivities;
 import com.example.emergencyalertapp.screens.patient.SendAlert;
 import com.example.emergencyalertapp.utils.DatePickerFragment;
 import com.example.emergencyalertapp.utils.Essentials;
@@ -37,7 +41,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class CreateProfile extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
     //widgets
@@ -53,6 +59,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
     private CheckBox femaleCheckbox, maleCheckbox;
     private Button submitBtn, doneBtn;
     private NestedScrollView scrollView;
+    private Spinner bloodGroupSpinner;
 
     //fields
     private FirebaseAuth firebaseAuth;
@@ -131,6 +138,42 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         userHeightEditTxt.addTextChangedListener(userHeightTextWatcher);
         bloodGroupEditTxt = findViewById(R.id.bloodGroup);
         bloodGroupEditTxt.addTextChangedListener(userBloodGroup);
+        bloodGroupSpinner = findViewById(R.id.bloodGroupSpinner);
+
+        List<String> bloodGroups = new ArrayList<>();
+        bloodGroups.add(0, "Select blood group");
+        bloodGroups.add("A+");
+        bloodGroups.add("A-");
+        bloodGroups.add("B+");
+        bloodGroups.add("B-");
+        bloodGroups.add("O+");
+        bloodGroups.add("O-");
+        bloodGroups.add("AB+");
+        bloodGroups.add("AB-");
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, bloodGroups);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        bloodGroupSpinner.setAdapter(arrayAdapter);
+        bloodGroupSpinner.setOnTouchListener((v, event) -> {
+            userHeightEditTxt.clearFocus();
+            essentials.hideSoftKeyboard(this, bloodGroupSpinner);
+            essentials.scrollDown(scrollView, bloodGroupSpinner);
+            return false;
+        });
+        bloodGroupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(!parent.getItemAtPosition(position).toString().equals("Select blood group")){
+                    bloodGroup = parent.getItemAtPosition(position).toString();
+                }
+                else {
+                    bloodGroup = null;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
         userAllergiesEditTxt = findViewById(R.id.userAllergies);
 
         header3 = findViewById(R.id.header3);
@@ -314,108 +357,41 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
 
         pInfoExpandLess = findViewById(R.id.pInfoExpandLess);
         pInfoExpandLess.setOnClickListener(v -> {
-            pInfoExpandLess.setVisibility(View.GONE);
-            pInfoExpandMore.setVisibility(View.VISIBLE);
-            personalInfo.setVisibility(View.GONE);
-            if (!TextUtils.isEmpty(userFullNameEditTxt.getText())
-                    && !TextUtils.isEmpty(userDOBEditTxt.getText())
-                    && !TextUtils.isEmpty(userPhoneNumberEditTxt.getText())
-                    && !TextUtils.isEmpty(userAddressEditTxt.getText())
-                    && (femaleCheckbox.isChecked() || maleCheckbox.isChecked())) {
-                greenHeader(header1);
-            } else {
-                redHeader(header1);
-            }
+            infoSection();
         });
         pInfoExpandMore = findViewById(R.id.pInfoExpandMore);
         pInfoExpandMore.setOnClickListener(v -> {
-            pInfoExpandLess.setVisibility(View.VISIBLE);
-            pInfoExpandMore.setVisibility(View.GONE);
-            personalInfo.setVisibility(View.VISIBLE);
-            medRecExpandMore.setVisibility(View.VISIBLE);
-            medRecExpandLess.setVisibility(View.GONE);
-            medRec.setVisibility(View.GONE);
-            contactExpandMore.setVisibility(View.VISIBLE);
-            contactExpandLess.setVisibility(View.GONE);
-            contact.setVisibility(View.GONE);
+            infoSection();
+        });
+        header1.setOnClickListener(v -> {
+            infoSection();
         });
 
         medRec = findViewById(R.id.medRec);
         medRecExpandLess = findViewById(R.id.medRecExpandLess);
         medRecExpandLess.setOnClickListener(v -> {
-            medRecExpandMore.setVisibility(View.VISIBLE);
-            medRecExpandLess.setVisibility(View.GONE);
-            medRec.setVisibility(View.GONE);
-            if (!TextUtils.isEmpty(userWeightEditTxt.getText())
-                    && !TextUtils.isEmpty(userHeightEditTxt.getText())
-                    && !TextUtils.isEmpty(bloodGroupEditTxt.getText())) {
-                greenHeader(header2);
-            } else {
-                redHeader(header2);
-            }
-
+            medRecordsSection();
         });
         medRecExpandMore = findViewById(R.id.medRecExpandMore);
         medRecExpandMore.setOnClickListener(v -> {
-            if (!TextUtils.isEmpty(userFullNameEditTxt.getText())
-                    && !TextUtils.isEmpty(userDOBEditTxt.getText())
-                    && !TextUtils.isEmpty(userPhoneNumberEditTxt.getText())
-                    && !TextUtils.isEmpty(userAddressEditTxt.getText())
-                    && (femaleCheckbox.isChecked() || maleCheckbox.isChecked())) {
-                medRecExpandMore.setVisibility(View.GONE);
-                medRecExpandLess.setVisibility(View.VISIBLE);
-                medRec.setVisibility(View.VISIBLE);
-                personalInfo.setVisibility(View.GONE);
-                pInfoExpandLess.setVisibility(View.GONE);
-                pInfoExpandMore.setVisibility(View.VISIBLE);
-                contactExpandMore.setVisibility(View.VISIBLE);
-                contactExpandLess.setVisibility(View.GONE);
-                contact.setVisibility(View.GONE);
-                greenHeader(header1);
-            } else {
-                redHeader(header1);
-                essentials.hideSoftKeyboard(this, medRecExpandMore);
-                Snackbar.make(findViewById(R.id.rootLayout), "Please fill in your personal info", Snackbar.LENGTH_LONG).show();
-            }
+            medRecordsSection();
+        });
+        header2.setOnClickListener(v -> {
+            medRecordsSection();
         });
 
         contact = findViewById(R.id.contact);
         contactExpandLess = findViewById(R.id.contactExpandLess);
         contactExpandLess.setOnClickListener(v -> {
-            contactExpandMore.setVisibility(View.VISIBLE);
-            contactExpandLess.setVisibility(View.GONE);
-            contact.setVisibility(View.GONE);
-            if (!TextUtils.isEmpty(contactFullNameEditTxt.getText())
-                    && !TextUtils.isEmpty(contactRelationEditTxt.getText())
-                    && !TextUtils.isEmpty(contactPhoneNumbEditTxt.getText())
-                    && !TextUtils.isEmpty(contactAddressEditTxt.getText())) {
-                doneBtn.setVisibility(View.GONE);
-                redHeader(header3);
-            } else {
-                redHeader(header3);
-            }
+            contactInfoSection();
         });
         contactExpandMore = findViewById(R.id.contactExpandMore);
         contactExpandMore.setOnClickListener(v -> {
-            if (!TextUtils.isEmpty(userWeightEditTxt.getText())
-                    && !TextUtils.isEmpty(userHeightEditTxt.getText())
-                    && !TextUtils.isEmpty(bloodGroupEditTxt.getText())) {
-                contactExpandMore.setVisibility(View.GONE);
-                contactExpandLess.setVisibility(View.VISIBLE);
-                contact.setVisibility(View.VISIBLE);
-                pInfoExpandLess.setVisibility(View.GONE);
-                pInfoExpandMore.setVisibility(View.VISIBLE);
-                personalInfo.setVisibility(View.GONE);
-                medRecExpandMore.setVisibility(View.VISIBLE);
-                medRecExpandLess.setVisibility(View.GONE);
-                medRec.setVisibility(View.GONE);
-                essentials.scrollDown(scrollView, contact);
-                greenHeader(header2);
-            } else {
-                redHeader(header2);
-                essentials.hideSoftKeyboard(this, medRecExpandMore);
-                Snackbar.make(findViewById(R.id.rootLayout), "Please fill in your medical records", Snackbar.LENGTH_LONG).show();
-            }
+            contactInfoSection();
+        });
+
+        header3.setOnClickListener(v -> {
+            contactInfoSection();
         });
 
         femaleCheckbox = findViewById(R.id.femaleCheckbox);
@@ -426,6 +402,11 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
 
     private void formValidation() {
         if (TextUtils.isEmpty(userFullNameEditTxt.getText())) {
+            essentials.dismissProgressBar();
+            personalInfo.setVisibility(View.VISIBLE);
+            pInfoExpandLess.setVisibility(View.VISIBLE);
+            pInfoExpandMore.setVisibility(View.GONE);
+            redHeader(header1);
             userFullNameLayout.setError("Please enter your full name");
             userFullNameEditTxt.requestFocus();
             return;
@@ -434,6 +415,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         if (!TextUtils.isEmpty(userFullNameEditTxt.getText())) {
             String[] fullNameSplit = userFullNameEditTxt.getText().toString().trim().split("\\s+");
             if (fullNameSplit.length == 1) {
+                essentials.dismissProgressBar();
                 personalInfo.setVisibility(View.VISIBLE);
                 pInfoExpandLess.setVisibility(View.VISIBLE);
                 pInfoExpandMore.setVisibility(View.GONE);
@@ -448,6 +430,11 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         }
 
         if (TextUtils.isEmpty(userDOBEditTxt.getText())) {
+            essentials.dismissProgressBar();
+            personalInfo.setVisibility(View.VISIBLE);
+            pInfoExpandLess.setVisibility(View.VISIBLE);
+            pInfoExpandMore.setVisibility(View.GONE);
+            redHeader(header1);
             userDOBLayout.setError("Please enter your date of birth");
             userDOBEditTxt.requestFocus();
             return;
@@ -457,6 +444,11 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         }
 
         if (userGender == null || userGender.isEmpty()) {
+            essentials.dismissProgressBar();
+            personalInfo.setVisibility(View.VISIBLE);
+            pInfoExpandLess.setVisibility(View.VISIBLE);
+            pInfoExpandMore.setVisibility(View.GONE);
+            redHeader(header1);
             if (Build.VERSION_CODES.LOLLIPOP_MR1 < 22) {
                 genderLayout.setBackground(getDrawable(R.drawable.error_border_line));
             } else {
@@ -467,12 +459,18 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         }
 
         if (TextUtils.isEmpty(userPhoneNumberEditTxt.getText())) {
+            essentials.dismissProgressBar();
+            personalInfo.setVisibility(View.VISIBLE);
+            pInfoExpandLess.setVisibility(View.VISIBLE);
+            pInfoExpandMore.setVisibility(View.GONE);
+            redHeader(header1);
             userPhoneNumLayout.setError("Please enter your phone number");
             userPhoneNumLayout.requestFocus();
             return;
         }
 
         if (userPhoneNumberEditTxt.getText().toString().length() < 10) {
+            essentials.dismissProgressBar();
             personalInfo.setVisibility(View.VISIBLE);
             pInfoExpandLess.setVisibility(View.VISIBLE);
             pInfoExpandMore.setVisibility(View.GONE);
@@ -486,6 +484,11 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         }
 
         if (TextUtils.isEmpty(userAddressEditTxt.getText())) {
+            essentials.dismissProgressBar();
+            personalInfo.setVisibility(View.VISIBLE);
+            pInfoExpandLess.setVisibility(View.VISIBLE);
+            pInfoExpandMore.setVisibility(View.GONE);
+            redHeader(header1);
             userAddressLayout.setError("Please enter your residential address");
             userAddressLayout.requestFocus();
             return;
@@ -512,15 +515,6 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
             userHeight = userHeightEditTxt.getText().toString().trim();
         }
 
-        if (TextUtils.isEmpty(bloodGroupEditTxt.getText())) {
-            showError(bloodGroupEditTxt);
-            Snackbar.make(findViewById(R.id.rootLayout), "Please enter your blood group", Snackbar.LENGTH_LONG).show();
-            return;
-        }
-        else {
-            bloodGroup = bloodGroupEditTxt.getText().toString().trim();
-        }
-
         if(!TextUtils.isEmpty(userAllergiesEditTxt.getText())){
             userAllergies = userAllergiesEditTxt.getText().toString().trim();
         }
@@ -529,6 +523,11 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         }
 
         if (TextUtils.isEmpty(contactFullNameEditTxt.getText())) {
+            essentials.dismissProgressBar();
+            contactExpandMore.setVisibility(View.GONE);
+            contactExpandLess.setVisibility(View.VISIBLE);
+            contact.setVisibility(View.VISIBLE);
+            redHeader(header3);
             contactFullNameLayout.setError("Please enter contact full name");
             contactFullNameEditTxt.requestFocus();
             return;
@@ -537,6 +536,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         if (!TextUtils.isEmpty(contactFullNameEditTxt.getText())) {
             String[] fullNameSplit = contactFullNameEditTxt.getText().toString().trim().split("\\s+");
             if (fullNameSplit.length == 1) {
+                essentials.dismissProgressBar();
                 contactExpandMore.setVisibility(View.GONE);
                 contactExpandLess.setVisibility(View.VISIBLE);
                 contact.setVisibility(View.VISIBLE);
@@ -551,6 +551,11 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         }
 
         if (TextUtils.isEmpty(contactRelationEditTxt.getText())) {
+            essentials.dismissProgressBar();
+            contactExpandMore.setVisibility(View.GONE);
+            contactExpandLess.setVisibility(View.VISIBLE);
+            contact.setVisibility(View.VISIBLE);
+            redHeader(header3);
             contactRelationLayout.setError("Please enter the relation with contact");
             contactRelationEditTxt.requestFocus();
             return;
@@ -560,12 +565,18 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         }
 
         if (TextUtils.isEmpty(contactPhoneNumbEditTxt.getText())) {
+            essentials.dismissProgressBar();
+            contactExpandMore.setVisibility(View.GONE);
+            contactExpandLess.setVisibility(View.VISIBLE);
+            contact.setVisibility(View.VISIBLE);
+            redHeader(header3);
             contactPhoneNumbLayout.setError("Please enter your phone number");
             contactPhoneNumbEditTxt.requestFocus();
             return;
         }
 
         if (contactPhoneNumbEditTxt.getText().toString().length() < 10) {
+            essentials.dismissProgressBar();
             contactExpandMore.setVisibility(View.GONE);
             contactExpandLess.setVisibility(View.VISIBLE);
             contact.setVisibility(View.VISIBLE);
@@ -579,6 +590,11 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         }
 
         if (TextUtils.isEmpty(contactAddressEditTxt.getText())) {
+            essentials.dismissProgressBar();
+            contactExpandMore.setVisibility(View.GONE);
+            contactExpandLess.setVisibility(View.VISIBLE);
+            contact.setVisibility(View.VISIBLE);
+            redHeader(header3);
             contactAddressLayout.setError("Please enter your residential address");
             contactAddressEditTxt.requestFocus();
             return;
@@ -606,7 +622,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
                 patientsDoc1.set(emergencyContact);
                 Snackbar.make(findViewById(R.id.rootLayout), "Profile created successfully", Snackbar.LENGTH_LONG).show();
                 new Handler().postDelayed(() -> {
-                    Intent intent = new Intent(this, SendAlert.class);
+                    Intent intent = new Intent(this, PatientActivities.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
@@ -905,6 +921,119 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
             view.setBackground(getDrawable(R.drawable.error_border_line));
         } else {
             view.setBackgroundResource(R.drawable.error_border_line);
+        }
+    }
+
+    private void infoSection(){
+        if(pInfoExpandLess.getVisibility() == View.VISIBLE){
+            pInfoExpandLess.setVisibility(View.GONE);
+            pInfoExpandMore.setVisibility(View.VISIBLE);
+            personalInfo.setVisibility(View.GONE);
+            if (!TextUtils.isEmpty(userFullNameEditTxt.getText())
+                    && !TextUtils.isEmpty(userDOBEditTxt.getText())
+                    && !TextUtils.isEmpty(userPhoneNumberEditTxt.getText())
+                    && !TextUtils.isEmpty(userAddressEditTxt.getText())
+                    && (femaleCheckbox.isChecked() || maleCheckbox.isChecked())) {
+                greenHeader(header1);
+            }
+            else {
+                redHeader(header1);
+            }
+        }
+        else {
+            pInfoExpandLess.setVisibility(View.VISIBLE);
+            pInfoExpandMore.setVisibility(View.GONE);
+            personalInfo.setVisibility(View.VISIBLE);
+            medRecExpandMore.setVisibility(View.VISIBLE);
+            medRecExpandLess.setVisibility(View.GONE);
+            medRec.setVisibility(View.GONE);
+            contactExpandMore.setVisibility(View.VISIBLE);
+            contactExpandLess.setVisibility(View.GONE);
+            contact.setVisibility(View.GONE);
+        }
+    }
+
+    private void medRecordsSection(){
+        if(medRecExpandLess.getVisibility() == View.VISIBLE){
+            medRecExpandMore.setVisibility(View.VISIBLE);
+            medRecExpandLess.setVisibility(View.GONE);
+            medRec.setVisibility(View.GONE);
+            if (!TextUtils.isEmpty(userWeightEditTxt.getText())
+                    && !TextUtils.isEmpty(userHeightEditTxt.getText())
+//                    && !TextUtils.isEmpty(bloodGroupEditTxt.getText())
+                    && bloodGroup != null) {
+                greenHeader(header2);
+            }
+            else {
+                redHeader(header2);
+            }
+        }
+        else{
+            if (!TextUtils.isEmpty(userFullNameEditTxt.getText())
+                    && !TextUtils.isEmpty(userDOBEditTxt.getText())
+                    && !TextUtils.isEmpty(userPhoneNumberEditTxt.getText())
+                    && !TextUtils.isEmpty(userAddressEditTxt.getText())
+                    && (femaleCheckbox.isChecked() || maleCheckbox.isChecked())) {
+                medRecExpandMore.setVisibility(View.GONE);
+                medRecExpandLess.setVisibility(View.VISIBLE);
+                medRec.setVisibility(View.VISIBLE);
+                personalInfo.setVisibility(View.GONE);
+                pInfoExpandLess.setVisibility(View.GONE);
+                pInfoExpandMore.setVisibility(View.VISIBLE);
+                contactExpandMore.setVisibility(View.VISIBLE);
+                contactExpandLess.setVisibility(View.GONE);
+                contact.setVisibility(View.GONE);
+                greenHeader(header1);
+            }
+            else {
+                redHeader(header1);
+                essentials.hideSoftKeyboard(this, medRecExpandMore);
+                Snackbar.make(findViewById(R.id.rootLayout), "Please fill in your personal info", Snackbar.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void contactInfoSection(){
+        if(contactExpandLess.getVisibility() == View.VISIBLE){
+            contactExpandMore.setVisibility(View.VISIBLE);
+            contactExpandLess.setVisibility(View.GONE);
+            contact.setVisibility(View.GONE);
+            submitBtn.setVisibility(View.GONE);
+            if (!TextUtils.isEmpty(contactFullNameEditTxt.getText())
+                    && !TextUtils.isEmpty(contactRelationEditTxt.getText())
+                    && !TextUtils.isEmpty(contactPhoneNumbEditTxt.getText())
+                    && !TextUtils.isEmpty(contactAddressEditTxt.getText())) {
+                doneBtn.setVisibility(View.GONE);
+                redHeader(header3);
+            }
+            else {
+                redHeader(header3);
+            }
+        }
+        else {
+            if (!TextUtils.isEmpty(userWeightEditTxt.getText())
+                    && !TextUtils.isEmpty(userHeightEditTxt.getText())
+//                    && !TextUtils.isEmpty(bloodGroupEditTxt.getText())
+                    && bloodGroup != null) {
+                contactExpandMore.setVisibility(View.GONE);
+                contactExpandLess.setVisibility(View.VISIBLE);
+                contact.setVisibility(View.VISIBLE);
+                submitBtn.setVisibility(View.GONE);
+                pInfoExpandLess.setVisibility(View.GONE);
+                pInfoExpandMore.setVisibility(View.VISIBLE);
+                personalInfo.setVisibility(View.GONE);
+                medRecExpandMore.setVisibility(View.VISIBLE);
+                medRecExpandLess.setVisibility(View.GONE);
+                medRec.setVisibility(View.GONE);
+                essentials.scrollDown(scrollView, contact);
+                greenHeader(header2);
+                redHeader(header3);
+            }
+            else {
+                redHeader(header2);
+                essentials.hideSoftKeyboard(this, medRecExpandMore);
+                Snackbar.make(findViewById(R.id.rootLayout), "Please fill in your medical records", Snackbar.LENGTH_LONG).show();
+            }
         }
     }
 }

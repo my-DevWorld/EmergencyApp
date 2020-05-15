@@ -10,6 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.emergencyalertapp.R;
+import com.example.emergencyalertapp.screens.patient.SendAlert;
+import com.example.emergencyalertapp.screens.service_provider.SPHomeScreen;
 import com.example.emergencyalertapp.utils.Essentials;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -29,12 +31,14 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Arrays;
 
 import com.example.emergencyalertapp.models.User;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 
 public class SignUpOptions extends AppCompatActivity {
@@ -55,6 +59,7 @@ public class SignUpOptions extends AppCompatActivity {
     private CallbackManager callbackManager;
     private FirebaseFirestore db;
     private DocumentReference usersDoc;
+    private CollectionReference usersCollection;
     private static final String CATEGORY = "Patient";
     private static String USER_ID;
     private static String DATE_CREATED;
@@ -77,9 +82,8 @@ public class SignUpOptions extends AppCompatActivity {
     private void setup(){
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        usersCollection = db.collection("Users");
         essentials = new Essentials();
-
-
         DATE_CREATED = essentials.getCurrentDate();
         TIMEZONE = essentials.getTimeZone();
 
@@ -97,9 +101,10 @@ public class SignUpOptions extends AppCompatActivity {
         phoneBtn = findViewById(R.id.phoneBtn);
         phoneBtn.setOnClickListener(v -> {
         Intent intent = new Intent(this, SignUpWithPhoneNumber.class);
+        intent.putExtra("From", "SignUpOptions");
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-        finish();
+//        finish();
         });
         emailBtn = findViewById(R.id.emailBtn);
         emailBtn.setOnClickListener(v -> {
@@ -172,7 +177,6 @@ public class SignUpOptions extends AppCompatActivity {
                 essentials.dismissProgressBar();
                 Snackbar.make(findViewById(R.id.rootLayout), "Google sign in failed", Snackbar.LENGTH_SHORT).show();
                 System.out.println("Google sign in failed" + e);
-                // ...
             }
         }
     }
@@ -182,17 +186,7 @@ public class SignUpOptions extends AppCompatActivity {
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        essentials.dismissProgressBar();
-                        String usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
-                        USER_ID = firebaseAuth.getUid();
-                        user = new User(USER_ID, CATEGORY, DATE_CREATED, TIMEZONE, isRecordsAvailable);
-                        usersDoc = db.document(usersDocumentPath);
-                        usersDoc.set(user);
-                        // Sign in success, update UI with the signed-in user's information
-                        Toast.makeText(SignUpOptions.this, "Sign up successful", Toast.LENGTH_SHORT).show();
-                        Intent gotoCreateProfile = new Intent(SignUpOptions.this, CreateProfile.class);
-                        startActivity(gotoCreateProfile);
-                        finish();
+                        socialiteSignUp();
                     }
                     else {
                         // If sign in fails, display a message to the user.
@@ -208,23 +202,58 @@ public class SignUpOptions extends AppCompatActivity {
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        essentials.dismissProgressBar();
-                        String usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
-                        USER_ID = firebaseAuth.getUid();
-                        user = new User(USER_ID, CATEGORY, DATE_CREATED, TIMEZONE, isRecordsAvailable);
-                        usersDoc = db.document(usersDocumentPath);
-                        usersDoc.set(user);
-                        // Sign in success, update UI with the signed-in user's information
-                        Toast.makeText(SignUpOptions.this, "Sign up successful", Toast.LENGTH_SHORT).show();
-                        Intent gotoCreateProfile = new Intent(SignUpOptions.this, CreateProfile.class);
-                        startActivity(gotoCreateProfile);
-                        finish();
+                        socialiteSignUp();
                     }
                     else {
                         // If sign in fails, display a message to the user.
                         essentials.dismissProgressBar();
                         System.out.println("--------signInWithCredential:failure------- " + task.getException());
                         Snackbar.make(findViewById(R.id.rootLayout), "Authentication Failed", Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void socialiteSignUp(){
+        essentials.dismissProgressBar();
+        usersCollection.whereEqualTo("userID", firebaseAuth.getUid())
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if(queryDocumentSnapshots.size() != 0){
+                        for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                            user = documentSnapshot.toObject(User.class);
+                        }
+                        if(user.getCategory().equals(CATEGORY)){
+                            if(user.isRecordsAvailable()) {
+                                Intent intent = new Intent(SignUpOptions.this, SendAlert.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else {
+                                Intent intent = new Intent(SignUpOptions.this, CreateProfile.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                        else {
+                            Intent intent = new Intent(SignUpOptions.this, SPHomeScreen.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                    else {
+                        essentials.dismissProgressBar();
+                        String usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
+                        USER_ID = firebaseAuth.getUid();
+                        user = new User(USER_ID, CATEGORY, DATE_CREATED, TIMEZONE, isRecordsAvailable);
+                        usersDoc = db.document(usersDocumentPath);
+                        usersDoc.set(user);
+                        Toast.makeText(SignUpOptions.this, "Sign up successful", Toast.LENGTH_SHORT).show();
+                        Intent gotoCreateProfile = new Intent(SignUpOptions.this, CreateProfile.class);
+                        startActivity(gotoCreateProfile);
+                        finish();
                     }
                 });
     }

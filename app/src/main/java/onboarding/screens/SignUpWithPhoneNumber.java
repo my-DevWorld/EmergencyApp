@@ -12,10 +12,13 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.screens.patient.SendAlert;
+import com.example.emergencyalertapp.screens.service_provider.SPHomeScreen;
 import com.example.emergencyalertapp.utils.Essentials;
+import com.facebook.login.LoginManager;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,12 +26,14 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
 
 import com.example.emergencyalertapp.models.User;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class SignUpWithPhoneNumber extends AppCompatActivity implements TextWatcher {
 
@@ -49,20 +54,25 @@ public class SignUpWithPhoneNumber extends AppCompatActivity implements TextWatc
     private boolean isRecordsAvailable = false;
     private Essentials essentials;
     private User user;
+    private CollectionReference usersCollection;
+    private String from;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up_with_phone_number);
 
+        from = getIntent().getStringExtra("From");
         setUp();
         onPhoneVerificationCallback();
     }
 
     private void setUp(){
         firebaseAuth = FirebaseAuth.getInstance();
+//        firebaseAuth.getCurrentUser().getPhoneNumber();
         firebaseUser = firebaseAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
+        usersCollection = db.collection("Users");
         essentials = new Essentials();
         USER_ID = firebaseAuth.getUid();
         DATE_CREATED = essentials.getCurrentDate();
@@ -119,7 +129,6 @@ public class SignUpWithPhoneNumber extends AppCompatActivity implements TextWatc
         callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                essentials.dismissProgressBar();
                 signInWithPhoneAuthCredential(phoneAuthCredential);
             }
 
@@ -146,16 +155,23 @@ public class SignUpWithPhoneNumber extends AppCompatActivity implements TextWatc
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(SignUpWithPhoneNumber.this, task -> {
                     if (task.isSuccessful()) {
-                        essentials.dismissProgressBar();
-                        String usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
-                        usersDoc = db.document(usersDocumentPath);
-                        usersDoc.set(user);
-                        Intent intent = new Intent(SignUpWithPhoneNumber.this, CreateProfile.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        finish();
+                        if(from.equals("SignUpOptions")){
+                            signIn();
+                        }
+                        else{
+                            logInWithPhoneNumber();
+                        }
+//                        essentials.dismissProgressBar();
+//                        String usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
+//                        usersDoc = db.document(usersDocumentPath);
+//                        usersDoc.set(user);
+//                        Intent intent = new Intent(SignUpWithPhoneNumber.this, CreateProfile.class);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        startActivity(intent);
+//                        finish();
                         // ...
-                    } else {
+                    }
+                    else {
                         essentials.dismissProgressBar();
                         if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                             // The verification code entered was invalid
@@ -164,6 +180,88 @@ public class SignUpWithPhoneNumber extends AppCompatActivity implements TextWatc
                         }
                     }
                 });
+    }
+
+    private void signIn(){
+        essentials.dismissProgressBar();
+        usersCollection.whereEqualTo("userID", firebaseAuth.getUid())
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if(queryDocumentSnapshots.size() != 0){
+                        for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                            user = documentSnapshot.toObject(User.class);
+                        }
+                        if(user.getCategory().equals(CATEGORY)){
+                            if(user.isRecordsAvailable()) {
+                                Intent intent = new Intent(SignUpWithPhoneNumber.this, SendAlert.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else {
+                                Intent intent = new Intent(SignUpWithPhoneNumber.this, CreateProfile.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                        else {
+                            Intent intent = new Intent(SignUpWithPhoneNumber.this, SPHomeScreen.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                    else {
+                        essentials.dismissProgressBar();
+                        String usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
+                        USER_ID = firebaseAuth.getUid();
+                        user = new User(USER_ID, CATEGORY, DATE_CREATED, TIMEZONE, isRecordsAvailable);
+                        usersDoc = db.document(usersDocumentPath);
+                        usersDoc.set(user);
+                        Toast.makeText(SignUpWithPhoneNumber.this, "Sign up successful", Toast.LENGTH_SHORT).show();
+                        Intent gotoCreateProfile = new Intent(SignUpWithPhoneNumber.this, CreateProfile.class);
+                        startActivity(gotoCreateProfile);
+                        finish();
+                    }
+                });
+    }
+
+    private void logInWithPhoneNumber(){
+        essentials.dismissProgressBar();
+        usersCollection.whereEqualTo("userID", firebaseAuth.getUid())
+                .get().addOnSuccessListener(queryDocumentSnapshots -> {
+            if(queryDocumentSnapshots.size() != 0){
+                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                    user = documentSnapshot.toObject(User.class);
+                }
+                if(user.getCategory().equals(CATEGORY)){
+                    if(user.isRecordsAvailable()) {
+                        Intent intent = new Intent(SignUpWithPhoneNumber.this, SendAlert.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else {
+                        Intent intent = new Intent(SignUpWithPhoneNumber.this, CreateProfile.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+                else {
+                    Intent intent = new Intent(SignUpWithPhoneNumber.this, SPHomeScreen.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+            else {
+                firebaseAuth.signOut();
+                Toast.makeText(this, "Sign in with phone not created", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     @Override
@@ -182,7 +280,7 @@ public class SignUpWithPhoneNumber extends AppCompatActivity implements TextWatc
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(this, Login.class));
+//        startActivity(new Intent(this, Login.class));
         finish();
     }
 }
