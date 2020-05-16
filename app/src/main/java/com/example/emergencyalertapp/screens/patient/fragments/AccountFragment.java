@@ -11,19 +11,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.emergencyalertapp.R;
+import com.example.emergencyalertapp.screens.patient.PatientActivities;
 import com.example.emergencyalertapp.screens.patient.activities.EmergencyContact;
 import com.example.emergencyalertapp.screens.patient.activities.MedicalRecords;
 import com.example.emergencyalertapp.screens.patient.activities.Medication;
+import com.example.emergencyalertapp.screens.patient.activities.UserAccountSetting;
 import com.example.emergencyalertapp.screens.patient.activities.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import onboarding.screens.Login;
 
 public class AccountFragment extends Fragment {
 
-    private RelativeLayout userProfileLabel, userMedicalRecordLabel, userEmergencyContactLabel, userMedicationLabel, logout;
+    private RelativeLayout userProfileLabel, userMedicalRecordLabel, userEmergencyContactLabel, userMedicationLabel, settings, logout;
+    private TextView userEmailAddress;
 
     public static AccountFragment newInstance() {
         AccountFragment fragment = new AccountFragment();
@@ -50,11 +55,16 @@ public class AccountFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        userEmailAddress = view.findViewById(R.id.userEmailAddress);
         userProfileLabel = view.findViewById(R.id.userProfileLabel);
         userMedicalRecordLabel = view.findViewById(R.id.userMedicalRecordLabel);
         userEmergencyContactLabel = view.findViewById(R.id.userEmergencyContactLabel);
         userMedicationLabel = view.findViewById(R.id.userMedicationLabel);
+        settings = view.findViewById(R.id.settings);
         logout = view.findViewById(R.id.logout);
+
+        userEmailAddress.setText(((PatientActivities)getActivity()).userEmail);
 
 
         userProfileLabel.setOnClickListener(v -> {
@@ -81,12 +91,14 @@ public class AccountFragment extends Fragment {
             startActivity(intent);
         });
 
-        logout.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(getActivity(), Login.class);
+        settings.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), UserAccountSetting.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-            getActivity().finish();
+        });
+
+        logout.setOnClickListener(v -> {
+            ((PatientActivities)getActivity()).logoutUser();
         });
     }
 

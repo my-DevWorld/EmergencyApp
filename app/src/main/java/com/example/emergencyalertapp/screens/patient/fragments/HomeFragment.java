@@ -9,12 +9,16 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.screens.patient.PatientActivities;
 
 public class HomeFragment extends Fragment {
+
+    private LinearLayout sosBtn;
 
 
     @Override
@@ -28,5 +32,11 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        sosBtn = view.findViewById(R.id.sosBtn);
+        sosBtn.setOnClickListener(v -> {
+            ((PatientActivities)getActivity()).showBottomSheet();
+        });
     }
+
 }

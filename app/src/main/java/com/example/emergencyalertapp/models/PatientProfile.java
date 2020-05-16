@@ -9,27 +9,19 @@ public class PatientProfile implements Parcelable {
     private String gender;
     private String phoneNum;
     private String residentialAddress;
-    private String weight;
-    private String height;
-    private String bloodGroup;
-    private String allergies;
+
 
     public PatientProfile() {
     }
 
     public PatientProfile(String name, String dateOfBirth,
                           String gender, String phoneNum,
-                          String residentialAddress, String weight,
-                          String height, String bloodGroup, String allergies) {
+                          String residentialAddress) {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.phoneNum = phoneNum;
         this.residentialAddress = residentialAddress;
-        this.weight = weight;
-        this.height = height;
-        this.bloodGroup = bloodGroup;
-        this.allergies = allergies;
     }
 
     protected PatientProfile(Parcel in) {
@@ -38,10 +30,6 @@ public class PatientProfile implements Parcelable {
         gender = in.readString();
         phoneNum = in.readString();
         residentialAddress = in.readString();
-        weight = in.readString();
-        height = in.readString();
-        bloodGroup = in.readString();
-        allergies = in.readString();
     }
 
     @Override
@@ -51,10 +39,6 @@ public class PatientProfile implements Parcelable {
         dest.writeString(gender);
         dest.writeString(phoneNum);
         dest.writeString(residentialAddress);
-        dest.writeString(weight);
-        dest.writeString(height);
-        dest.writeString(bloodGroup);
-        dest.writeString(allergies);
     }
 
     @Override
@@ -112,37 +96,5 @@ public class PatientProfile implements Parcelable {
 
     public void setResidentialAddress(String residentialAddress) {
         this.residentialAddress = residentialAddress;
-    }
-
-    public String getWeight() {
-        return weight;
-    }
-
-    public void setWeight(String weight) {
-        this.weight = weight;
-    }
-
-    public String getHeight() {
-        return height;
-    }
-
-    public void setHeight(String height) {
-        this.height = height;
-    }
-
-    public String getBloodGroup() {
-        return bloodGroup;
-    }
-
-    public void setBloodGroup(String bloodGroup) {
-        this.bloodGroup = bloodGroup;
-    }
-
-    public String getAllergies() {
-        return allergies;
-    }
-
-    public void setAllergies(String allergies) {
-        this.allergies = allergies;
     }
 }

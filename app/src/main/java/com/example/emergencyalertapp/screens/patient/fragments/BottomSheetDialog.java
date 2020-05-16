@@ -24,12 +24,12 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         LinearLayout cancel = view.findViewById(R.id.cancel);
 
         getAmbulance.setOnClickListener(v -> {
-            bottomSheetListener.onButtonClicked("get an ambulance");
+            bottomSheetListener.onButtonClicked("ambulance");
             dismiss();
         });
 
         getDocNurse.setOnClickListener(v -> {
-            bottomSheetListener.onButtonClicked("get a doctor/nurse");
+            bottomSheetListener.onButtonClicked("message");
             dismiss();
         });
 

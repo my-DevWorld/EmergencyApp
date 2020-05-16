@@ -45,6 +45,7 @@ public class Login extends AppCompatActivity {
     //variables
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
     private final static int RC_SIGN_IN = 123;
     private static final String EMAIL = "email";
     private static final String FB_PUBLIC_PROFILE = "public_profile";
@@ -61,7 +62,14 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null){
+            finish();
+        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
         if (firebaseUser != null){
             finish();
         }
@@ -73,6 +81,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.login);
 
         setup();
+        onRestart();
 
         createGoogleSignInRequest();
         facebookLogin();
@@ -80,6 +89,7 @@ public class Login extends AppCompatActivity {
 
     private void setup(){
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
         essentials = new Essentials();
         db = FirebaseFirestore.getInstance();
         usersCollection = db.collection("Users");
@@ -107,13 +117,14 @@ public class Login extends AppCompatActivity {
             Intent intent = new Intent(this, LoginWithEmail.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
         });
         registerHereLabel = findViewById(R.id.registerHereLabel);
         registerHereLabel.setOnClickListener(v -> {
             Intent intent = new Intent(this, SignUpOptions.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-//            finish();
+            finish();
         });
         close = findViewById(R.id.close);
         close.setOnClickListener(v -> {

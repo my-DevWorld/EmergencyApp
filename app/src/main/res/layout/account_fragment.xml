@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".screens.patient.fragments.AccountFragment"
-    android:background="@color/rootViewBg">
+    android:background="@color/rootViewBg"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -251,7 +252,6 @@
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_arrow_right"
-
                     />
             </RelativeLayout>
 
@@ -265,11 +265,57 @@
                 />
 
             <RelativeLayout
-                android:id="@+id/logout"
+                android:id="@+id/settings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:layout_below="@id/line4"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/settingsIcon"
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_electronics" />
+
+                <TextView
+                    android:id="@+id/settingsLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/settingsIcon"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Settings"
+                    android:textColor="@color/primaryTextColo"
+                    android:textSize="20sp"
+                    />
+                <ImageView
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_arrow_right"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/line5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/settings"
+                android:layout_marginTop="16dp"
+                android:background="@color/dividerColor"
+                />
+
+
+            <RelativeLayout
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_below="@id/line5"
                 android:visibility="visible">
 
                 <ImageView
@@ -291,18 +337,16 @@
                     android:textColor="@color/primaryButtonColorActive"
                     android:textSize="20sp"
                     android:textAllCaps="true"/>
-
-
             </RelativeLayout>
 
-<!--            <RelativeLayout-->
-<!--                android:id="@+id/line5"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:layout_below="@+id/logout"-->
-<!--                android:layout_marginTop="16dp"-->
-<!--                android:background="@color/dividerColor"-->
-<!--                />-->
+            <RelativeLayout
+                android:id="@+id/line6"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/settings"
+                android:layout_marginTop="16dp"
+                android:background="@color/dividerColor"
+                />
 
         </RelativeLayout>
     </LinearLayout>

@@ -99,7 +99,7 @@ public class SendAlert extends AppCompatActivity implements BottomSheetDialog.Bo
         if(text.equals("cancelled")){
             signOut();
         }
-        Snackbar.make(findViewById(R.id.sosBtn), text, Snackbar.LENGTH_SHORT).show();
+//        Snackbar.make(findViewById(R.id.sosBtn), text, Snackbar.LENGTH_SHORT).show();
     }
 }
 

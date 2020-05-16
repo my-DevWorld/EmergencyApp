@@ -3,12 +3,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.patient.fragments.HospitalFragment">
+    tools:context=".screens.patient.fragments.HospitalFragment"
+    android:background="@color/rootViewBg">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hospital" />
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="16dp"
+            android:text="Hospitals arround you"
+            android:textSize="20sp"
+            android:textColor="@color/secondaryTextColor"
+            android:fontFamily="@font/poppins_medium"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/mapView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Map View"
+                android:textSize="20sp"
+                android:textColor="@color/whiteColor"
+                android:fontFamily="@font/poppins_medium"
+                android:background="@color/primaryButtonColorActive"/>
+
+            <TextView
+                android:id="@+id/listView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/mapView"
+                android:padding="8dp"
+                android:text="List View"
+                android:textSize="20sp"
+                android:textColor="@color/primaryButtonColorActive"
+                android:fontFamily="@font/poppins_medium"
+                android:background="@color/whiteColor"/>
+        </RelativeLayout>
+
+<!--        <fragment-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:id="@+id/map"-->
+<!--            android:name="com.google.android.gms.maps.SupportMapFragment" />-->
+    </LinearLayout>
+
+
 
 </FrameLayout>

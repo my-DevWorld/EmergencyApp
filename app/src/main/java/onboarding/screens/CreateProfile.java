@@ -26,16 +26,18 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.example.emergencyalertapp.R;
+import com.example.emergencyalertapp.models.MedicalRecord;
 import com.example.emergencyalertapp.models.PatientProfile;
 import com.example.emergencyalertapp.models.EmergencyContact;
 import com.example.emergencyalertapp.screens.patient.PatientActivities;
-import com.example.emergencyalertapp.screens.patient.SendAlert;
 import com.example.emergencyalertapp.utils.DatePickerFragment;
 import com.example.emergencyalertapp.utils.Essentials;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -63,13 +65,16 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
 
     //fields
     private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
     private FirebaseFirestore db;
     private DocumentReference usersDoc;
-    private DocumentReference patientsDoc;
-    private DocumentReference patientsDoc1;
-    private String usersDocumentPath;
-    private String patientsProfileDocumentPath;
-    private String patientsMedicalRecordsDocumentPath;
+    private DocumentReference patientsDocProfile;
+    private DocumentReference patientsDocMedicalRecord;
+    private DocumentReference patientsDocEmergencyContact;
+    private String usersDocumentPath = "";
+    private String patientsProfileDocumentPath = "";
+    private String patientsMedicalRecordDocumentPath = "";
+    private String patientsMedicalRecordsDocumentPath = "";
     private Essentials essentials;
     private String userName;
     private String userDateOfBirth;
@@ -94,11 +99,14 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
     }
 
     private void setup() {
-        firebaseAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
-        usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
-        patientsProfileDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/Profile/data");
-        patientsMedicalRecordsDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/EmergencyContact/data");
+        if(firebaseAuth != null){
+            firebaseAuth = FirebaseAuth.getInstance();
+            firebaseUser = firebaseAuth.getCurrentUser();
+            usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
+            patientsProfileDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/Profile/data");
+            patientsMedicalRecordDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/MedicalRecord/data");
+            patientsMedicalRecordsDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/EmergencyContact/data");
+        }
         scrollView = findViewById(R.id.scrollView);
         essentials = new Essentials();
 
@@ -604,22 +612,27 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         }
 
         PatientProfile patientProfile = new PatientProfile(userName, userDateOfBirth,
-                userGender, userPhoneNumber, userResidentialAddress, userWeight, userHeight, bloodGroup, userAllergies);
+                userGender, userPhoneNumber, userResidentialAddress);
+        MedicalRecord medicalRecord = new MedicalRecord(userWeight, userHeight, bloodGroup, userAllergies);
         EmergencyContact emergencyContact = new EmergencyContact(nameOfEmergencyContact, relationship,
                 userEmergencyContactPhoneNumb, userEmergencyContactResidentialAddress);
-        createUserProfile(patientProfile, emergencyContact);
+        createUserProfile(patientProfile, medicalRecord, emergencyContact);
 
     }
 
-    private void createUserProfile(PatientProfile patientProfile, EmergencyContact emergencyContact) {
+    private void createUserProfile(PatientProfile patientProfile, MedicalRecord medicalRecord, EmergencyContact emergencyContact) {
+        db = FirebaseFirestore.getInstance();
+//        usersDoc = db.document("Users/8Wh5ermYtARLcITIiavPdzpsEix2");
         usersDoc = db.document(usersDocumentPath);
-        patientsDoc = db.document(patientsProfileDocumentPath);
-        patientsDoc1 = db.document(patientsMedicalRecordsDocumentPath);
+        patientsDocProfile = db.document(patientsProfileDocumentPath);
+        patientsDocMedicalRecord = db.document(patientsMedicalRecordDocumentPath);
+        patientsDocEmergencyContact = db.document(patientsMedicalRecordsDocumentPath);
         usersDoc.update("recordsAvailable", true).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 essentials.dismissProgressBar();
-                patientsDoc.set(patientProfile);
-                patientsDoc1.set(emergencyContact);
+                patientsDocProfile.set(patientProfile);
+                patientsDocMedicalRecord.set(medicalRecord);
+                patientsDocEmergencyContact.set(emergencyContact);
                 Snackbar.make(findViewById(R.id.rootLayout), "Profile created successfully", Snackbar.LENGTH_LONG).show();
                 new Handler().postDelayed(() -> {
                     Intent intent = new Intent(this, PatientActivities.class);
