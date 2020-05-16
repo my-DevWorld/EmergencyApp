@@ -52,13 +52,16 @@
                 android:background="@color/whiteColor"/>
         </RelativeLayout>
 
-<!--        <fragment-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:id="@+id/map"-->
-<!--            android:name="com.google.android.gms.maps.SupportMapFragment" />-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:id="@+id/map_container">
+
+            <com.google.android.gms.maps.MapView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/google_map" />
+        </RelativeLayout>
     </LinearLayout>
-
-
-
 </FrameLayout>

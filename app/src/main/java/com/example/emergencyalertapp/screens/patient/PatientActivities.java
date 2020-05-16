@@ -1,23 +1,21 @@
 package com.example.emergencyalertapp.screens.patient;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.adapters.ViewPagerAdapter;
@@ -40,7 +38,6 @@ import static com.example.emergencyalertapp.screens.patient.Constants.PERMISSION
 import static com.example.emergencyalertapp.screens.patient.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
 
 public class PatientActivities extends AppCompatActivity implements BottomSheetDialog.BottomSheetListener{
-
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private HomeFragment homeFragment;
@@ -62,19 +59,6 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
         setContentView(R.layout.patient_activities);
 
         setup();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(checkMapServices()){
-            if(mLocationPermissionGranted){
-                getLocationPermission();
-            }
-            else{
-//                getChatrooms();
-            }
-        }
     }
 
     private void setup(){
@@ -196,11 +180,9 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("This application requires GPS to work properly, do you want to enable it?")
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        Intent enableGpsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivityForResult(enableGpsIntent, PERMISSIONS_REQUEST_ENABLE_GPS);
-                    }
+                .setPositiveButton("Yes", (dialog, id) -> {
+                    Intent enableGpsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivityForResult(enableGpsIntent, PERMISSIONS_REQUEST_ENABLE_GPS);
                 });
         final AlertDialog alert = builder.create();
         alert.show();
@@ -208,7 +190,6 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
 
     public boolean isMapsEnabled(){
         final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
-
         if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
             buildAlertMessageNoGps();
             return false;
@@ -235,29 +216,24 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
     }
 
     public boolean isServicesOK(){
-
         int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(PatientActivities.this);
-
         if(available == ConnectionResult.SUCCESS){
             //everything is fine and the user can make map requests
-//            Log.d(TAG, "isServicesOK: Google Play Services is working");
             return true;
         }
         else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
             //an error occured but we can resolve it
-//            Log.d(TAG, "isServicesOK: an error occured but we can fix it");
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(PatientActivities.this, available, ERROR_DIALOG_REQUEST);
             dialog.show();
-        }else{
+        }
+        else{
             Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
         }
         return false;
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         mLocationPermissionGranted = false;
         switch (requestCode) {
             case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
@@ -273,7 +249,6 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        Log.d(TAG, "onActivityResult: called.");
         switch (requestCode) {
             case PERMISSIONS_REQUEST_ENABLE_GPS: {
                 if(!mLocationPermissionGranted){
@@ -287,6 +262,18 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(checkMapServices()){
+            if(mLocationPermissionGranted){
+                getLocationPermission();
+            }
+            else{
+//                getChatrooms();
+            }
+        }
+    }
 }
 
 
