@@ -1,9 +1,11 @@
 package com.example.emergencyalertapp.screens.patient;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
@@ -19,18 +21,32 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.adapters.ViewPagerAdapter;
+import com.example.emergencyalertapp.models.User;
+import com.example.emergencyalertapp.screens.SplashScreen;
 import com.example.emergencyalertapp.screens.patient.fragments.AccountFragment;
 import com.example.emergencyalertapp.screens.patient.fragments.BottomSheetDialog;
 import com.example.emergencyalertapp.screens.patient.fragments.DoctorsAndNurses;
 import com.example.emergencyalertapp.screens.patient.fragments.HomeFragment;
 import com.example.emergencyalertapp.screens.patient.fragments.HospitalFragment;
+import com.example.emergencyalertapp.screens.service_provider.SPHomeScreen;
+import com.example.emergencyalertapp.utils.CheckNetworkConnectivity;
+import com.example.emergencyalertapp.utils.UserClient;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import onboarding.screens.CreateProfile;
 import onboarding.screens.Login;
 
 import static com.example.emergencyalertapp.screens.patient.Constants.ERROR_DIALOG_REQUEST;
@@ -47,6 +63,10 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
     public String userEmail;
     private BottomSheetDialog bottomSheetDialog;
     private boolean mLocationPermissionGranted = false;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private FirebaseFirestore db;
+    private CollectionReference usersCollection;
+    private User user;
 
     private Toolbar toolbar;
     private ViewPager viewPager;
@@ -59,13 +79,14 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
         setContentView(R.layout.patient_activities);
 
         setup();
+        getAuthenticatedUser();
     }
 
     private void setup(){
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         userEmail = firebaseUser.getEmail();
-        System.out.println("User email: " + firebaseUser.getEmail());
+//        System.out.println("User email: " + firebaseUser.getEmail());
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Emergency Alert");
@@ -124,6 +145,7 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
 //        badgeDrawable.setVisible(true);
 //        badgeDrawable.setNumber(12);
         bottomSheetDialog = new BottomSheetDialog();
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     }
 
     @Override
@@ -207,6 +229,7 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
+            getLastKnownLocation();
 //            getChatrooms();
         } else {
             ActivityCompat.requestPermissions(this,
@@ -251,15 +274,59 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case PERMISSIONS_REQUEST_ENABLE_GPS: {
-                if(!mLocationPermissionGranted){
-                    getLocationPermission();
+                if(mLocationPermissionGranted){
+//                    getChatrooms();
+                    getLastKnownLocation();
+                    getAuthenticatedUser();
                 }
                 else{
-//                    getChatrooms();
+                    getLocationPermission();
                 }
             }
         }
+    }
 
+    private void getLastKnownLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mFusedLocationClient.getLastLocation().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Location location = task.getResult();
+                if(location != null){
+                    GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+                    System.out.println(">>>>>>>>>>>>>>>> " + geoPoint.getLatitude() + " / " + geoPoint.getLongitude());
+                }
+            }
+        });
+
+    }
+
+    private void getAuthenticatedUser(){
+        db = FirebaseFirestore.getInstance();
+        usersCollection = db.collection("Users");
+        if (CheckNetworkConnectivity.getInstance(this).isOnline()) {
+            firebaseAuth = FirebaseAuth.getInstance();
+            db = FirebaseFirestore.getInstance();
+            usersCollection = db.collection("Users");
+            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+            if (firebaseUser == null) {
+                startActivity(new Intent(this, Login.class));
+                finish();
+            } else {
+                usersCollection.whereEqualTo("userID", firebaseAuth.getUid())
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                user = documentSnapshot.toObject(User.class);
+                                ((UserClient)getApplicationContext()).setUser(user);
+                            }
+                        });
+            }
+
+        } else {
+            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -267,15 +334,16 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
         super.onResume();
         if(checkMapServices()){
             if(mLocationPermissionGranted){
-                getLocationPermission();
+//                getChatrooms();
+                getLastKnownLocation();
             }
             else{
-//                getChatrooms();
+                getLocationPermission();
             }
         }
     }
 }
-
+creating-a-singleton-user-object-start
 
 
 

@@ -77,7 +77,7 @@ public class SignUpWithPhoneNumber extends AppCompatActivity implements TextWatc
         USER_ID = firebaseAuth.getUid();
         DATE_CREATED = essentials.getCurrentDate();
         TIMEZONE = essentials.getTimeZone();
-        user = new User(USER_ID, CATEGORY, DATE_CREATED, TIMEZONE, isRecordsAvailable);
+        user = new User(null, USER_ID, null ,CATEGORY, DATE_CREATED, TIMEZONE, null ,isRecordsAvailable, null);
 
         close =findViewById(R.id.close);
         close.setOnClickListener(v -> {
@@ -216,7 +216,7 @@ public class SignUpWithPhoneNumber extends AppCompatActivity implements TextWatc
                         essentials.dismissProgressBar();
                         String usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
                         USER_ID = firebaseAuth.getUid();
-                        user = new User(USER_ID, CATEGORY, DATE_CREATED, TIMEZONE, isRecordsAvailable);
+                        user = new User(null, USER_ID, null ,CATEGORY, DATE_CREATED, TIMEZONE, null ,isRecordsAvailable, null);
                         usersDoc = db.document(usersDocumentPath);
                         usersDoc.set(user);
                         Toast.makeText(SignUpWithPhoneNumber.this, "Sign up successful", Toast.LENGTH_SHORT).show();

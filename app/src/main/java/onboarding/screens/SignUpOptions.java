@@ -30,6 +30,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -50,6 +51,7 @@ public class SignUpOptions extends AppCompatActivity {
     //variables
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
     private final static int RC_SIGN_IN = 123;
     private ProgressDialog progressDialog;
     private static final String EMAIL = "email";
@@ -186,7 +188,8 @@ public class SignUpOptions extends AppCompatActivity {
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        socialiteSignUp();
+                        firebaseUser = firebaseAuth.getCurrentUser();
+                        socialiteSignUp(firebaseUser);
                     }
                     else {
                         // If sign in fails, display a message to the user.
@@ -202,7 +205,8 @@ public class SignUpOptions extends AppCompatActivity {
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        socialiteSignUp();
+                        firebaseUser = firebaseAuth.getCurrentUser();
+                        socialiteSignUp(firebaseUser);
                     }
                     else {
                         // If sign in fails, display a message to the user.
@@ -213,7 +217,7 @@ public class SignUpOptions extends AppCompatActivity {
                 });
     }
 
-    private void socialiteSignUp(){
+    private void socialiteSignUp(FirebaseUser firebaseUser){
         essentials.dismissProgressBar();
         usersCollection.whereEqualTo("userID", firebaseAuth.getUid())
                 .get()
@@ -247,7 +251,7 @@ public class SignUpOptions extends AppCompatActivity {
                         essentials.dismissProgressBar();
                         String usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
                         USER_ID = firebaseAuth.getUid();
-                        user = new User(USER_ID, CATEGORY, DATE_CREATED, TIMEZONE, isRecordsAvailable);
+                        User user = new User(firebaseUser.getEmail(), USER_ID, null ,CATEGORY, DATE_CREATED, TIMEZONE, null ,isRecordsAvailable, null);
                         usersDoc = db.document(usersDocumentPath);
                         usersDoc.set(user);
                         Toast.makeText(SignUpOptions.this, "Sign up successful", Toast.LENGTH_SHORT).show();

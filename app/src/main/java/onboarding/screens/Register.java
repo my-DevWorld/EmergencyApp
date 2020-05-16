@@ -12,6 +12,7 @@ import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.utils.Essentials;
@@ -30,7 +31,7 @@ public class Register extends AppCompatActivity {
     //widgets
     private EditText userEmailReg, userPasswordReg;
     private TextInputLayout userEmailRegLayout, userPasswordRegLayout;
-    private Button btnRegister;
+    private RelativeLayout btnRegister;
     private ImageView close;
 
     //member fields
@@ -122,7 +123,7 @@ public class Register extends AppCompatActivity {
                     DATE_CREATED = essentials.getCurrentDate();
                     TIMEZONE = essentials.getTimeZone();
 
-                    User user = new User(USER_ID, CATEGORY, DATE_CREATED, TIMEZONE, isRecordsAvailable);
+                    User user = new User(email, USER_ID, null ,CATEGORY, DATE_CREATED, TIMEZONE, null ,isRecordsAvailable, null);
 
                     usersDoc = db.document(usersDocumentPath);
 //                    patientsDoc = db.document(patientDocumentPath);
