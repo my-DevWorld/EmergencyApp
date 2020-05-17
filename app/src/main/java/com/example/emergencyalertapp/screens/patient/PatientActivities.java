@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,22 +24,17 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.adapters.ViewPagerAdapter;
 import com.example.emergencyalertapp.models.User;
-import com.example.emergencyalertapp.screens.SplashScreen;
 import com.example.emergencyalertapp.screens.patient.fragments.AccountFragment;
 import com.example.emergencyalertapp.screens.patient.fragments.BottomSheetDialog;
 import com.example.emergencyalertapp.screens.patient.fragments.DoctorsAndNurses;
 import com.example.emergencyalertapp.screens.patient.fragments.HomeFragment;
 import com.example.emergencyalertapp.screens.patient.fragments.HospitalFragment;
-import com.example.emergencyalertapp.screens.service_provider.SPHomeScreen;
 import com.example.emergencyalertapp.utils.CheckNetworkConnectivity;
 import com.example.emergencyalertapp.utils.UserClient;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,12 +43,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import onboarding.screens.CreateProfile;
 import onboarding.screens.Login;
 
 import static com.example.emergencyalertapp.screens.patient.Constants.ERROR_DIALOG_REQUEST;
 import static com.example.emergencyalertapp.screens.patient.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 import static com.example.emergencyalertapp.screens.patient.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
+import static com.example.emergencyalertapp.screens.patient.Constants.MAKE_PHONE_CALL_REQUEST_CODE;
+import static com.example.emergencyalertapp.screens.patient.Constants.SEND_SMS_REQUEST_CODE;
 
 public class PatientActivities extends AppCompatActivity implements BottomSheetDialog.BottomSheetListener{
     private FirebaseAuth firebaseAuth;
@@ -171,10 +169,12 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
     @Override
     public void onButtonClicked(String text) {
         if(text.equals("ambulance")){
-            Snackbar.make(findViewById(R.id.rootLayout), text, Snackbar.LENGTH_SHORT).show();
+            makePhoneCall();
+//            Snackbar.make(findViewById(R.id.rootLayout), text, Snackbar.LENGTH_SHORT).show();
         }
         else if(text.equals("message")){
-            Snackbar.make(findViewById(R.id.rootLayout), text, Snackbar.LENGTH_SHORT).show();
+            sendSMS();
+//            Snackbar.make(findViewById(R.id.rootLayout), text, Snackbar.LENGTH_SHORT).show();
         }
         else {
             bottomSheetDialog.dismiss();
@@ -302,6 +302,33 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
 
     }
 
+    private void makePhoneCall() {
+        if (ContextCompat.checkSelfPermission(PatientActivities.this,
+                Manifest.permission.CALL_PHONE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(PatientActivities.this,
+                    new String[]{Manifest.permission.CALL_PHONE}, MAKE_PHONE_CALL_REQUEST_CODE);
+
+        } else {
+            String dial = "tel:" + getString(R.string.ambulance_service_number);
+            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
+        }
+    }
+
+    private void sendSMS(){
+        if(ContextCompat.checkSelfPermission(PatientActivities.this,
+                Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(PatientActivities.this,
+                    new String[]{Manifest.permission.SEND_SMS}, SEND_SMS_REQUEST_CODE);
+        }
+        else {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage("+233264449268", null, "the text goes here", null, null);
+            Toast.makeText(this, "Alert message sent.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void getAuthenticatedUser(){
         db = FirebaseFirestore.getInstance();
         usersCollection = db.collection("Users");
@@ -343,7 +370,7 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
         }
     }
 }
-creating-a-singleton-user-object-start
+
 
 
 
