@@ -65,6 +65,7 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
     private FirebaseFirestore db;
     private CollectionReference usersCollection;
     private User user;
+    public Location location;
 
     private Toolbar toolbar;
     private ViewPager viewPager;
@@ -292,7 +293,7 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
         }
         mFusedLocationClient.getLastLocation().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Location location = task.getResult();
+                location = task.getResult();
                 if(location != null){
                     GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
                     System.out.println(">>>>>>>>>>>>>>>> " + geoPoint.getLatitude() + " / " + geoPoint.getLongitude());

@@ -16,12 +16,14 @@
     <string name="create_profile">Create Profile</string>
 
 
-    <string name="client_ID">894602325408-bv5m1mddcd4sj51nrfc5ifqvdtngtmt2.apps.googleusercontent.com</string>
-    <string name="client_Secret">x6wgPjaMqUagLd2lbPT-qLYG</string>
-    <string name="api_key">AIzaSyBfLyy0V4iFmayVIP8AnbnP2IZsn-yPPIA</string>
+    <string name="client_ID" translatable="false">894602325408-bv5m1mddcd4sj51nrfc5ifqvdtngtmt2.apps.googleusercontent.com</string>
+    <string name="client_Secret" translatable="false">x6wgPjaMqUagLd2lbPT-qLYG</string>
+    <string name="api_key" translatable="false">AIzaSyBfLyy0V4iFmayVIP8AnbnP2IZsn-yPPIA</string>
 
-    <string name="facebook_app_id">304407400521322</string>
-    <string name="fb_login_protocol_scheme">fb304407400521322</string>
+    <string name="facebook_app_id" translatable="false">304407400521322</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb304407400521322</string>
+
+
     <string name="log_in">Log In</string>
     <string name="resend_verification">Resend verification</string>
     <string name="forgot_password">Forgot password?</string>
@@ -50,10 +52,7 @@
     <string name="relation">Relation</string>
     <string name="done">Done</string>
     <string name="submit">Submit</string>
-    <string name="ambulance_service_number">193</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ambulance_service_number">112</string>
     <string name="tap_on_button_to_make_a_request">Tap on button "\n" to make a request…</string>
 
 </resources>
