@@ -6,13 +6,11 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.emergencyalertapp.R;
-import com.example.emergencyalertapp.models.User;
+import com.example.emergencyalertapp.models.patient.User;
 import com.example.emergencyalertapp.screens.patient.PatientActivities;
-import com.example.emergencyalertapp.screens.patient.SendAlert;
 import com.example.emergencyalertapp.screens.service_provider.SPHomeScreen;
 import com.example.emergencyalertapp.utils.CheckNetworkConnectivity;
 import com.google.android.gms.common.ConnectionResult;

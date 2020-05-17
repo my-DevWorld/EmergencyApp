@@ -38,7 +38,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Arrays;
 
-import com.example.emergencyalertapp.models.User;
+import com.example.emergencyalertapp.models.patient.User;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 

@@ -13,9 +13,9 @@ import com.example.emergencyalertapp.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DoctorsAndNurses extends Fragment {
+public class DoctorsAndNursesFragment extends Fragment {
 
-    public DoctorsAndNurses() {
+    public DoctorsAndNursesFragment() {
         // Required empty public constructor
     }
 

@@ -18,7 +18,6 @@ import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.screens.patient.SendAlert;
 import com.example.emergencyalertapp.screens.service_provider.SPHomeScreen;
 import com.example.emergencyalertapp.utils.Essentials;
-import com.facebook.login.LoginManager;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +31,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
 
-import com.example.emergencyalertapp.models.User;
+import com.example.emergencyalertapp.models.patient.User;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class SignUpWithPhoneNumber extends AppCompatActivity implements TextWatcher {

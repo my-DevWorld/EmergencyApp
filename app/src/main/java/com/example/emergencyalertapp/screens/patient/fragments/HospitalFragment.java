@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.emergencyalertapp.R;
+import com.example.emergencyalertapp.models.Hospital;
 import com.example.emergencyalertapp.screens.patient.PatientActivities;
 import com.example.emergencyalertapp.screens.patient.adapters.CustomInfoWindowAdapter;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -31,6 +32,9 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.GeoPoint;
+
+import java.util.ArrayList;
 
 import static com.example.emergencyalertapp.screens.patient.Constants.DEFAULT_ZOOM;
 import static com.example.emergencyalertapp.screens.patient.Constants.MAPVIEW_BUNDLE_KEY;
@@ -41,6 +45,10 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private GoogleMap map;
     private LatLngBounds mMapBoundary;
+    private ArrayList<LatLng> latLngs;
+    private ArrayList<MarkerOptions> markerOptions;
+    private ArrayList<String> titles;
+    private ArrayList<String> locations;
 
 
 
@@ -116,29 +124,39 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
                 location.addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
                         Location currentLocation = (Location) task.getResult();
-                        double bottomBoundary = currentLocation.getLatitude() - .1;
-                        double leftBoundary = currentLocation.getLongitude() - .1;
-                        double topBoundary = currentLocation.getLatitude() + .1;
-                        double rightBoundary = currentLocation.getLongitude() + .1;
-                        mMapBoundary = new LatLngBounds(
-                                new LatLng(bottomBoundary, leftBoundary),
-                                new LatLng(topBoundary, rightBoundary)
-                        );
-
-                        map.setInfoWindowAdapter(new CustomInfoWindowAdapter(getActivity()));
-                        MarkerOptions options = new MarkerOptions()
-                                .position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()))
-                                .title("Hospital name")
-                                .snippet("location here");
-                        map.addMarker(options);//.showInfoWindow()
-
+                        LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                        String markerTitle = "";
+                        String markerSnippet = "";
+//                        MarkerOptions myCurrentLocation = new MarkerOptions()
+//                                .position(latLng)
+//                                .title(null)
+//                                .snippet(null);
+//                        map.addMarker(myCurrentLocation);
                         moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM);
+                        getHospitalLocation();
                     }
                 });
     }
 
     private void moveCamera(LatLng latLng, float zoom){
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+    }
+
+    private void getHospitalLocation(){
+        map.setInfoWindowAdapter(new CustomInfoWindowAdapter(getActivity()));
+        latLngs = new ArrayList<>();
+        titles = new ArrayList<>();
+        locations = new ArrayList<>();
+        markerOptions = new ArrayList<>();
+        for(Hospital hospital : ((PatientActivities)getActivity()).hospitals){
+            latLngs.add(new LatLng(hospital.getGeoLocation().getLatitude(), hospital.getGeoLocation().getLongitude()));
+            titles.add(hospital.getHospitalName());
+            locations.add(hospital.getRegion());
+        }
+        for(int i = 0; i < latLngs.size(); i++){
+            markerOptions.add(new MarkerOptions().position(latLngs.get(i)).title(titles.get(i)).snippet(locations.get(i)));
+            map.addMarker(markerOptions.get(i));
+        }
     }
 
     @Override

@@ -26,9 +26,9 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.example.emergencyalertapp.R;
-import com.example.emergencyalertapp.models.MedicalRecord;
-import com.example.emergencyalertapp.models.PatientProfile;
-import com.example.emergencyalertapp.models.EmergencyContact;
+import com.example.emergencyalertapp.models.patient.MedicalRecord;
+import com.example.emergencyalertapp.models.patient.PatientProfile;
+import com.example.emergencyalertapp.models.patient.EmergencyContact;
 import com.example.emergencyalertapp.screens.patient.PatientActivities;
 import com.example.emergencyalertapp.utils.DatePickerFragment;
 import com.example.emergencyalertapp.utils.Essentials;
@@ -37,7 +37,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 

@@ -20,7 +20,7 @@
             android:maxLines="1"
             tools:text="Hospital Name"
             android:textColor="@color/primaryTextColo"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:fontFamily="@font/poppins_semibold"
             android:layout_gravity="center_horizontal"
             />
@@ -31,7 +31,7 @@
             android:ellipsize="end"
             android:maxLines="10"
             tools:text="Hospital location Name"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textColor="@color/secondaryTextColor"
             android:id="@+id/snippet"
             android:fontFamily="@font/poppins_medium"

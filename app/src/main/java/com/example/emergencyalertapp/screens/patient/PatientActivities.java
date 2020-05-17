@@ -9,11 +9,13 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,10 +25,11 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.adapters.ViewPagerAdapter;
-import com.example.emergencyalertapp.models.User;
+import com.example.emergencyalertapp.models.Hospital;
+import com.example.emergencyalertapp.models.patient.User;
 import com.example.emergencyalertapp.screens.patient.fragments.AccountFragment;
 import com.example.emergencyalertapp.screens.patient.fragments.BottomSheetDialog;
-import com.example.emergencyalertapp.screens.patient.fragments.DoctorsAndNurses;
+import com.example.emergencyalertapp.screens.patient.fragments.DoctorsAndNursesFragment;
 import com.example.emergencyalertapp.screens.patient.fragments.HomeFragment;
 import com.example.emergencyalertapp.screens.patient.fragments.HospitalFragment;
 import com.example.emergencyalertapp.utils.CheckNetworkConnectivity;
@@ -35,13 +38,19 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 import onboarding.screens.Login;
 
@@ -52,21 +61,27 @@ import static com.example.emergencyalertapp.screens.patient.Constants.MAKE_PHONE
 import static com.example.emergencyalertapp.screens.patient.Constants.SEND_SMS_REQUEST_CODE;
 
 public class PatientActivities extends AppCompatActivity implements BottomSheetDialog.BottomSheetListener{
+
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private FirebaseFirestore db;
+    private CollectionReference usersCollection;
+    private CollectionReference hospitalCollection;
+
     private HomeFragment homeFragment;
     private HospitalFragment hospitalFragment;
     private AccountFragment accountFragment;
-    private DoctorsAndNurses doctorsAndNurses;
+    private DoctorsAndNursesFragment doctorsAndNursesFragment;
+
     public String userEmail;
     private BottomSheetDialog bottomSheetDialog;
     private boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationClient;
-    private FirebaseFirestore db;
-    private CollectionReference usersCollection;
     private User user;
     public Location location;
+    public ArrayList<Hospital> hospitals;
 
+    //widgets
     private Toolbar toolbar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -84,6 +99,8 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
     private void setup(){
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+        hospitalCollection = db.collection("Hospitals and Clinics");
         userEmail = firebaseUser.getEmail();
 //        System.out.println("User email: " + firebaseUser.getEmail());
 
@@ -99,13 +116,13 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
         tabLayout.setupWithViewPager(viewPager);
 
         homeFragment = new HomeFragment();
-        doctorsAndNurses = new DoctorsAndNurses();
+        doctorsAndNursesFragment = new DoctorsAndNursesFragment();
         hospitalFragment = new HospitalFragment();
         accountFragment = new AccountFragment();
 
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), 0);
         viewPagerAdapter.addFragment(homeFragment);
-        viewPagerAdapter.addFragment(doctorsAndNurses);
+        viewPagerAdapter.addFragment(doctorsAndNursesFragment);
         viewPagerAdapter.addFragment(hospitalFragment);
         viewPagerAdapter.addFragment(accountFragment);
         viewPager.setAdapter(viewPagerAdapter);
@@ -266,7 +283,15 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mLocationPermissionGranted = true;
                 }
+                break;
             }
+            case MAKE_PHONE_CALL_REQUEST_CODE:
+                makePhoneCall();
+                break;
+
+            case SEND_SMS_REQUEST_CODE:
+                sendSMS();
+                break;
         }
     }
 
@@ -274,7 +299,7 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case PERMISSIONS_REQUEST_ENABLE_GPS: {
+            case PERMISSIONS_REQUEST_ENABLE_GPS:
                 if(mLocationPermissionGranted){
 //                    getChatrooms();
                     getLastKnownLocation();
@@ -283,7 +308,7 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
                 else{
                     getLocationPermission();
                 }
-            }
+                break;
         }
     }
 
@@ -331,11 +356,10 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
     }
 
     private void getAuthenticatedUser(){
-        db = FirebaseFirestore.getInstance();
-        usersCollection = db.collection("Users");
+//        db = FirebaseFirestore.getInstance();
+//        usersCollection = db.collection("Users");
         if (CheckNetworkConnectivity.getInstance(this).isOnline()) {
             firebaseAuth = FirebaseAuth.getInstance();
-            db = FirebaseFirestore.getInstance();
             usersCollection = db.collection("Users");
             FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
             if (firebaseUser == null) {
@@ -347,14 +371,27 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
                         .addOnSuccessListener(queryDocumentSnapshots -> {
                             for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                                 user = documentSnapshot.toObject(User.class);
-                                ((UserClient)getApplicationContext()).setUser(user);
                             }
+                            ((UserClient)getApplicationContext()).setUser(user);
+                            getHospitals();
                         });
             }
 
         } else {
             Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void getHospitals(){
+        hospitals = new ArrayList<>();
+        hospitalCollection.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                hospitals.add(documentSnapshot.toObject(Hospital.class));
+            }
+            new Handler().postDelayed(() -> {
+                System.out.println(">>>>>>>>>>>>>>> Hospitals are ready... " + hospitals.toString());
+            },1000);
+        });
     }
 
     @Override
@@ -369,6 +406,22 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
                 getLocationPermission();
             }
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        hospitalCollection.addSnapshotListener(this, (queryDocumentSnapshots, e) -> {
+            if(e != null){
+                return;
+            }
+            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                hospitals.add(documentSnapshot.toObject(Hospital.class));
+            }
+            new Handler().postDelayed(() -> {
+                System.out.println(">>>>>>>>>>>>>>> Hospitals are ready... " + hospitals.toString());
+            },1000);
+        });
     }
 }
 
