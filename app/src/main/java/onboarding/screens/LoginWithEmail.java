@@ -236,19 +236,13 @@ public class LoginWithEmail extends AppCompatActivity {
         if(firebaseUser != null){
             if(firebaseUser.getEmail().equals(userEmailLogin.getText().toString())){
                 essentials.startProgressLoader(this, "Sending...");
-                firebaseUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        essentials.dismissProgressBar();
-                        Snackbar.make(findViewById(R.id.rootLayout), "Verification link sent.", Snackbar.LENGTH_LONG).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        essentials.dismissProgressBar();
-                        Snackbar.make(findViewById(R.id.rootLayout), e.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
-                        Log.d(TAG, "onFailure: " + e.getMessage());
-                    }
+                firebaseUser.sendEmailVerification().addOnSuccessListener(aVoid -> {
+                    essentials.dismissProgressBar();
+                    Snackbar.make(findViewById(R.id.rootLayout), "Verification link sent to this email.", Snackbar.LENGTH_LONG).show();
+                }).addOnFailureListener(e -> {
+                    essentials.dismissProgressBar();
+                    Snackbar.make(findViewById(R.id.rootLayout), e.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
+                    Log.d(TAG, "onFailure: " + e.getMessage());
                 });
             }
             else {

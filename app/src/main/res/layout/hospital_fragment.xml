@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/rootViewBg"
     tools:context=".screens.patient.fragments.HospitalFragment"
-    android:background="@color/rootViewBg">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,46 +23,77 @@
             android:textColor="@color/secondaryTextColor"
             android:fontFamily="@font/poppins_medium"/>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
+            android:orientation="horizontal"
             >
             <TextView
                 android:id="@+id/mapView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="50"
                 android:padding="8dp"
                 android:text="Map View"
                 android:textSize="20sp"
                 android:textColor="@color/whiteColor"
                 android:fontFamily="@font/poppins_medium"
-                android:background="@color/primaryButtonColorActive"/>
+                android:background="@color/primaryButtonColorActive"
+                android:gravity="center_horizontal"/>
 
             <TextView
                 android:id="@+id/listView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/mapView"
+                android:layout_weight="50"
                 android:padding="8dp"
                 android:text="List View"
                 android:textSize="20sp"
                 android:textColor="@color/primaryButtonColorActive"
                 android:fontFamily="@font/poppins_medium"
-                android:background="@color/whiteColor"/>
-        </RelativeLayout>
+                android:background="@color/whiteColor"
+                android:gravity="center_horizontal"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/backIconColor"
+            android:elevation="3.5dp"
+            />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:id="@+id/map_container">
+            android:id="@+id/map_container"
+            >
 
             <com.google.android.gms.maps.MapView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="4dp"
                 android:id="@+id/google_map" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/list_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/hospital_item"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="14dp"
+                android:elevation="4dp"
+                />
+
         </RelativeLayout>
     </LinearLayout>
 </FrameLayout>

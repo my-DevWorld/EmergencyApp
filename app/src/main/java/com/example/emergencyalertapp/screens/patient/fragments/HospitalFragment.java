@@ -2,20 +2,27 @@ package com.example.emergencyalertapp.screens.patient.fragments;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.emergencyalertapp.R;
+import com.example.emergencyalertapp.adapters.HospitalAdapter;
 import com.example.emergencyalertapp.models.Hospital;
 import com.example.emergencyalertapp.screens.patient.PatientActivities;
 import com.example.emergencyalertapp.screens.patient.adapters.CustomInfoWindowAdapter;
@@ -25,14 +32,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
 
@@ -41,16 +43,18 @@ import static com.example.emergencyalertapp.screens.patient.Constants.MAPVIEW_BU
 
 public class HospitalFragment extends Fragment implements OnMapReadyCallback {
 
+    //widgets
+    private TextView mapView, listView;
+    private RelativeLayout map_container, list_container;
+    private RecyclerView recycler_view;
+
     private MapView mMapView;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private GoogleMap map;
-    private LatLngBounds mMapBoundary;
     private ArrayList<LatLng> latLngs;
     private ArrayList<MarkerOptions> markerOptions;
     private ArrayList<String> titles;
     private ArrayList<String> locations;
-
-
 
     public HospitalFragment() {}
 
@@ -74,6 +78,47 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState);
 
         mMapView = view.findViewById(R.id.google_map);
+        recycler_view = view.findViewById(R.id.recycler_view);
+        recycler_view.setLayoutManager(new LinearLayoutManager(getContext()));
+        recycler_view.setHasFixedSize(true);
+        mapView = view.findViewById(R.id.mapView);
+        listView = view.findViewById(R.id.listView);
+        map_container = view.findViewById(R.id.map_container);
+        list_container = view.findViewById(R.id.list_container);
+        list_container.setVisibility(View.GONE);
+
+        listView.setOnClickListener(v -> {
+            list_container.setVisibility(View.VISIBLE);
+            YoYo.with(Techniques.SlideOutLeft)
+                    .duration(250)
+                    .delay(900)
+                    .playOn(map_container);
+            map_container.setVisibility(View.GONE);
+
+            YoYo.with(Techniques.SlideInRight)
+                    .duration(250)
+                    .playOn(list_container);
+            activeView(list_container, listView, mapView);
+
+            listView.setClickable(false);
+            mapView.setClickable(true);
+        });
+
+        mapView.setOnClickListener(v -> {
+            map_container.setVisibility(View.VISIBLE);
+            YoYo.with(Techniques.SlideInLeft)
+                    .duration(250)
+                    .playOn(map_container);
+
+            YoYo.with(Techniques.SlideOutRight)
+                    .duration(250)
+                    .delay(900)
+                    .playOn(list_container);
+            activeView(map_container, mapView, listView);
+            listView.setClickable(true);
+            mapView.setClickable(false);
+        });
+
         initGoogleMap(savedInstanceState);
     }
 
@@ -115,7 +160,7 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
         getDeviceLocation();
         map.getUiSettings().setZoomGesturesEnabled(true);
         map.getUiSettings().setZoomControlsEnabled(true);
-        map.getUiSettings().setRotateGesturesEnabled(true);
+        map.getUiSettings().setRotateGesturesEnabled(false);
     }
 
     private void getDeviceLocation(){
@@ -156,6 +201,44 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
         for(int i = 0; i < latLngs.size(); i++){
             markerOptions.add(new MarkerOptions().position(latLngs.get(i)).title(titles.get(i)).snippet(locations.get(i)));
             map.addMarker(markerOptions.get(i));
+        }
+
+        HospitalAdapter hospitalAdapter = new HospitalAdapter(getContext(), ((PatientActivities)getActivity()).hospitals);
+        recycler_view.setAdapter(hospitalAdapter);
+    }
+
+    private void activeView(RelativeLayout relativeLayout ,TextView textView1, TextView textView2){
+        if(relativeLayout.getVisibility() == View.VISIBLE){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                textView1.setTextColor(getActivity().getColor(R.color.whiteColor));
+                textView1.setBackgroundColor(getActivity().getColor(R.color.primaryButtonColorActive));
+
+                textView2.setTextColor(getActivity().getColor(R.color.primaryButtonColorActive));
+                textView2.setBackgroundColor(getActivity().getColor(R.color.whiteColor));
+            }
+            else {
+                textView1.setTextColor(getResources().getColor(R.color.whiteColor));
+                textView1.setBackgroundColor(getResources().getColor(R.color.primaryButtonColorActive));
+
+                textView2.setTextColor(getResources().getColor(R.color.primaryButtonColorActive));
+                textView2.setBackgroundColor(getResources().getColor(R.color.whiteColor));
+            }
+        }
+        else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                textView1.setTextColor(getActivity().getColor(R.color.primaryButtonColorActive));
+                textView1.setBackgroundColor(getActivity().getColor(R.color.whiteColor));
+
+                textView2.setTextColor(getActivity().getColor(R.color.whiteColor));
+                textView2.setBackgroundColor(getActivity().getColor(R.color.primaryButtonColorActive));
+            }
+            else {
+                textView1.setTextColor(getResources().getColor(R.color.primaryButtonColorActive));
+                textView1.setBackgroundColor(getResources().getColor(R.color.whiteColor));
+
+                textView2.setTextColor(getResources().getColor(R.color.whiteColor));
+                textView2.setBackgroundColor(getResources().getColor(R.color.primaryButtonColorActive));
+            }
         }
     }
 

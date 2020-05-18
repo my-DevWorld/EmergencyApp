@@ -391,9 +391,7 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
             for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                 hospitals.add(documentSnapshot.toObject(Hospital.class));
             }
-            new Handler().postDelayed(() -> {
-                System.out.println(">>>>>>>>>>>>>>> Hospitals are ready... " + hospitals.toString());
-            },900);
+            new Handler().postDelayed(() -> System.out.println(">>>>>>>>>>>>>>> Hospitals are ready... " + hospitals.toString()),900);
         });
     }
 

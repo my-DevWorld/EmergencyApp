@@ -108,7 +108,6 @@ public class Register extends AppCompatActivity {
 
     private void signUp() {
         essentials.startProgressLoader(this, "Registering...");
-
         String email = userEmailReg.getText().toString().trim();
         String password = userPasswordReg.getText().toString().trim();
         firebaseAuth.createUserWithEmailAndPassword(email, password)
@@ -116,8 +115,8 @@ public class Register extends AppCompatActivity {
                     firebaseUser = firebaseAuth.getCurrentUser();
                     String usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
                     USER_ID = firebaseAuth.getUid();
-                    DATE_CREATED = essentials.getCurrentDate();
-                    TIMEZONE = essentials.getTimeZone();
+//                    DATE_CREATED = essentials.getCurrentDate();
+//                    TIMEZONE = essentials.getTimeZone();
 
                     User user = new User(email, USER_ID, null ,CATEGORY, null ,isRecordsAvailable, null);
 
@@ -136,13 +135,14 @@ public class Register extends AppCompatActivity {
                                         }).show();
                             })
                                     .addOnFailureListener(e -> {
-                                        Snackbar.make(findViewById(R.id.rootLayout), "Account created, please log in", Snackbar.LENGTH_LONG).show();
+                                        Snackbar.make(findViewById(R.id.rootLayout), "Account created, please log in.", Snackbar.LENGTH_LONG).show();
                                         Log.d(TAG, "onFailure: " + e.getMessage());
                                     });
                         }
                         else {
                             essentials.dismissProgressBar();
-                            Snackbar.make(findViewById(R.id.rootLayout), "Verification link sent to this email address.", Snackbar.LENGTH_INDEFINITE)
+                            FirebaseAuth.getInstance().signOut();
+                            Snackbar.make(findViewById(R.id.rootLayout), "Account created, please log in.", Snackbar.LENGTH_INDEFINITE)
                                     .setAction("OK", v -> {
                                         Intent intent = new Intent(Register.this, LoginWithEmail.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

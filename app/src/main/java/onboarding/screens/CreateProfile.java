@@ -625,10 +625,10 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         patientsDocEmergencyContact = db.document(patientsMedicalRecordsDocumentPath);
         usersDoc.update("recordsAvailable", true).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
-                essentials.dismissProgressBar();
                 patientsDocProfile.set(patientProfile);
                 patientsDocMedicalRecord.set(medicalRecord);
                 patientsDocEmergencyContact.set(emergencyContact);
+                essentials.dismissProgressBar();
                 Snackbar.make(findViewById(R.id.rootLayout), "Profile created successfully", Snackbar.LENGTH_LONG).show();
                 new Handler().postDelayed(() -> {
                     Intent intent = new Intent(this, PatientActivities.class);
