@@ -58,7 +58,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
     private LinearLayout personalInfo, medRec, contact, genderLayout;
     private RelativeLayout header1, header2, header3;
     private CheckBox femaleCheckbox, maleCheckbox;
-    private Button submitBtn, doneBtn;
+    private RelativeLayout submitBtn, doneBtn;
     private NestedScrollView scrollView;
     private Spinner bloodGroupSpinner;
 
@@ -70,10 +70,10 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
     private DocumentReference patientsDocProfile;
     private DocumentReference patientsDocMedicalRecord;
     private DocumentReference patientsDocEmergencyContact;
-    private String usersDocumentPath = "";
-    private String patientsProfileDocumentPath = "";
-    private String patientsMedicalRecordDocumentPath = "";
-    private String patientsMedicalRecordsDocumentPath = "";
+    private String usersDocumentPath;
+    private String patientsProfileDocumentPath;
+    private String patientsMedicalRecordDocumentPath;
+    private String patientsMedicalRecordsDocumentPath;
     private Essentials essentials;
     private String userName;
     private String userDateOfBirth;
@@ -84,7 +84,6 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
     private String userHeight;
     private String bloodGroup;
     private String userAllergies;
-    private String userEmergencyContactName;
     private String nameOfEmergencyContact;
     private String relationship;
     private String userEmergencyContactPhoneNumb;
@@ -98,14 +97,13 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
     }
 
     private void setup() {
-        if(firebaseAuth != null){
-            firebaseAuth = FirebaseAuth.getInstance();
-            firebaseUser = firebaseAuth.getCurrentUser();
-            usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
-            patientsProfileDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/Profile/data");
-            patientsMedicalRecordDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/MedicalRecord/data");
-            patientsMedicalRecordsDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/EmergencyContact/data");
-        }
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+        usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
+        patientsProfileDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/Profile/data");
+        patientsMedicalRecordDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/MedicalRecord/data");
+        patientsMedicalRecordsDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/EmergencyContact/data");
         scrollView = findViewById(R.id.scrollView);
         essentials = new Essentials();
 
@@ -196,6 +194,8 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         contactPhoneNumbEditTxt.addTextChangedListener(contactPhoneNumbTextWatcher);
         contactAddressEditTxt = findViewById(R.id.contactAddress);
         contactAddressEditTxt.addTextChangedListener(contactAddressTextWatcher);
+
+        submitBtn = findViewById(R.id.submitBtn);
 
         contactFullNameEditTxt.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
@@ -339,7 +339,6 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
             }
         });
 
-        submitBtn = findViewById(R.id.submitBtn);
         submitBtn.setOnClickListener(v -> {
             essentials.startProgressLoader(this, "creating profile...");
             formValidation();
@@ -620,8 +619,6 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
     }
 
     private void createUserProfile(PatientProfile patientProfile, MedicalRecord medicalRecord, EmergencyContact emergencyContact) {
-        db = FirebaseFirestore.getInstance();
-//        usersDoc = db.document("Users/8Wh5ermYtARLcITIiavPdzpsEix2");
         usersDoc = db.document(usersDocumentPath);
         patientsDocProfile = db.document(patientsProfileDocumentPath);
         patientsDocMedicalRecord = db.document(patientsMedicalRecordDocumentPath);
@@ -686,18 +683,11 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
     public void onBackPressed() {
         FirebaseAuth.getInstance().signOut();
         super.onBackPressed();
-    }
-
-    @Override
-    protected void onStop() {
-        FirebaseAuth.getInstance().signOut();
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        FirebaseAuth.getInstance().signOut();
-        super.onDestroy();
+        Intent intent = new Intent(CreateProfile.this, LoginWithEmail.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        finish();
     }
 
     @Override

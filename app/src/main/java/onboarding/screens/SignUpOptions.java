@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.emergencyalertapp.R;
+import com.example.emergencyalertapp.screens.patient.PatientActivities;
 import com.example.emergencyalertapp.screens.patient.SendAlert;
 import com.example.emergencyalertapp.screens.service_provider.SPHomeScreen;
 import com.example.emergencyalertapp.utils.Essentials;
@@ -228,7 +229,7 @@ public class SignUpOptions extends AppCompatActivity {
                         }
                         if(user.getCategory().equals(CATEGORY)){
                             if(user.isRecordsAvailable()) {
-                                Intent intent = new Intent(SignUpOptions.this, SendAlert.class);
+                                Intent intent = new Intent(SignUpOptions.this, PatientActivities.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                                 finish();
@@ -251,7 +252,7 @@ public class SignUpOptions extends AppCompatActivity {
                         essentials.dismissProgressBar();
                         String usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
                         USER_ID = firebaseAuth.getUid();
-                        User user = new User(firebaseUser.getEmail(), USER_ID, null ,CATEGORY, DATE_CREATED, TIMEZONE, null ,isRecordsAvailable, null);
+                        User user = new User(firebaseUser.getEmail(), USER_ID, null ,CATEGORY, null ,isRecordsAvailable, null);
                         usersDoc = db.document(usersDocumentPath);
                         usersDoc.set(user);
                         Toast.makeText(SignUpOptions.this, "Sign up successful", Toast.LENGTH_SHORT).show();
@@ -260,6 +261,16 @@ public class SignUpOptions extends AppCompatActivity {
                         finish();
                     }
                 });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(SignUpOptions.this, Login.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        finish();
     }
 }
 

@@ -384,13 +384,16 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
 
     private void getHospitals(){
         hospitals = new ArrayList<>();
-        hospitalCollection.get().addOnSuccessListener(queryDocumentSnapshots -> {
+        hospitalCollection.addSnapshotListener(this, (queryDocumentSnapshots, e) -> {
+            if(e != null){
+                return;
+            }
             for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                 hospitals.add(documentSnapshot.toObject(Hospital.class));
             }
             new Handler().postDelayed(() -> {
                 System.out.println(">>>>>>>>>>>>>>> Hospitals are ready... " + hospitals.toString());
-            },1000);
+            },900);
         });
     }
 
@@ -406,22 +409,6 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
                 getLocationPermission();
             }
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        hospitalCollection.addSnapshotListener(this, (queryDocumentSnapshots, e) -> {
-            if(e != null){
-                return;
-            }
-            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                hospitals.add(documentSnapshot.toObject(Hospital.class));
-            }
-            new Handler().postDelayed(() -> {
-                System.out.println(">>>>>>>>>>>>>>> Hospitals are ready... " + hospitals.toString());
-            },1000);
-        });
     }
 }
 

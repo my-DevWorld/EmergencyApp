@@ -647,26 +647,34 @@
                                 android:textSize="16sp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <Button
+                        <RelativeLayout
                             android:id="@+id/doneBtn"
-                            android:layout_width="wrap_content"
+                            android:layout_width="150dp"
                             android:layout_height="46dp"
                             android:layout_marginTop="8dp"
                             android:background="@drawable/email_login_btn_bg"
-                            android:text="@string/done"
-                            android:textSize="18sp"
-                            android:textColor="@color/whiteColor"
-                            android:fontFamily="@font/poppins_medium"
-                            android:textAllCaps="false"
                             android:gravity="center"
                             android:layout_gravity="end"
+                            android:elevation="1.45dp"
                             android:visibility="gone"
-                            />
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:text="@string/done"
+                                android:textSize="18sp"
+                                android:textColor="@color/whiteColor"
+                                android:fontFamily="@font/poppins_medium"
+                                android:layout_centerVertical="true"
+                                />
+                        </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <Button
+            <RelativeLayout
                 android:id="@+id/submitBtn"
                 android:layout_width="150dp"
                 android:layout_height="54dp"
@@ -675,15 +683,23 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/submit_btn_bg"
-                android:text="@string/submit"
-                android:textSize="18sp"
-                android:textColor="@color/whiteColor"
-                android:fontFamily="@font/poppins_medium"
-                android:textAllCaps="false"
                 android:gravity="center"
                 android:layout_gravity="center_horizontal"
+                android:elevation="1.45dp"
                 android:visibility="gone"
-                />
+                >
+<!--                android:background="@drawable/email_login_btn_bg"-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/submit"
+                    android:textSize="18sp"
+                    android:textColor="@color/whiteColor"
+                    android:fontFamily="@font/poppins_medium"
+                    android:layout_centerVertical="true"
+                    />
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"

@@ -7,5 +7,5 @@ public class Constants {
     public static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
     public static final int MAKE_PHONE_CALL_REQUEST_CODE = 193;
     public static final int SEND_SMS_REQUEST_CODE = 195;
-    public static final float DEFAULT_ZOOM = 15f;
+    public static final float DEFAULT_ZOOM = 17f;
 }

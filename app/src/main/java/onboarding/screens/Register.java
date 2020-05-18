@@ -114,18 +114,14 @@ public class Register extends AppCompatActivity {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
                     firebaseUser = firebaseAuth.getCurrentUser();
-
                     String usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
-//                    String patientDocumentPath = "Patients/".concat(firebaseAuth.getUid());
-
                     USER_ID = firebaseAuth.getUid();
                     DATE_CREATED = essentials.getCurrentDate();
                     TIMEZONE = essentials.getTimeZone();
 
-                    User user = new User(email, USER_ID, null ,CATEGORY, DATE_CREATED, TIMEZONE, null ,isRecordsAvailable, null);
+                    User user = new User(email, USER_ID, null ,CATEGORY, null ,isRecordsAvailable, null);
 
                     usersDoc = db.document(usersDocumentPath);
-//                    patientsDoc = db.document(patientDocumentPath);
                     usersDoc.set(user).addOnCompleteListener(task -> {
                         if(task.isSuccessful()){
                             firebaseUser.sendEmailVerification().addOnSuccessListener(aVoid -> {
@@ -155,13 +151,6 @@ public class Register extends AppCompatActivity {
                                     }).show();
                         }
                     });
-//                    if(!patientRef1.getPath().isEmpty()){
-//                        System.out.println(">>>>>>>>>>>>>>>>>>>>> Path created: " + usersDoc + " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-//                        System.out.println(">>>>>>>>>>>>>>>>>>>>> Path created: " + patientRef1.getParent().getPath() + " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-//                        System.out.println(">>>>>>>>>>>>>>>>>>>>> Document path created: " + patientRef1.getParent().getParent().getPath() + " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-//                        System.out.println(">>>>>>>>>>>>>>>>>>>>> Date created: " + dateFormat.format(currentDate).concat(" " + timeZone.getID()) + " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-//
-//                    }
                 })
                 .addOnFailureListener(e -> {
                     essentials.dismissProgressBar();
@@ -200,10 +189,15 @@ public class Register extends AppCompatActivity {
         signUp();
     }
 
-//    public static void hideSoftKeyboard(Activity activity, View view) {
-//        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
-//    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(Register.this, SignUpOptions.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        finish();
+    }
 }
 
 

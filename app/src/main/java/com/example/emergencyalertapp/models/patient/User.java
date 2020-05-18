@@ -12,8 +12,6 @@ public class User implements Parcelable {
     private String userID;
     private String username;
     private String category;
-    private String dateCreated;
-    private String timeZone;
     private String avatar;
     private boolean recordsAvailable;
     private @ServerTimestamp Date timeStamp;
@@ -23,14 +21,11 @@ public class User implements Parcelable {
 
     public User(String email, String userID,
                 String username, String category,
-                String dateCreated, String timeZone,
                 String avatar, boolean recordsAvailable, Date timeStamp) {
         this.email = email;
         this.userID = userID;
         this.username = username;
         this.category = category;
-        this.dateCreated = dateCreated;
-        this.timeZone = timeZone;
         this.avatar = avatar;
         this.recordsAvailable = recordsAvailable;
         this.timeStamp = timeStamp;
@@ -42,8 +37,6 @@ public class User implements Parcelable {
         userID = in.readString();
         username = in.readString();
         category = in.readString();
-        dateCreated = in.readString();
-        timeZone = in.readString();
         avatar = in.readString();
         recordsAvailable = in.readByte() != 0;
     }
@@ -54,8 +47,6 @@ public class User implements Parcelable {
         dest.writeString(userID);
         dest.writeString(username);
         dest.writeString(category);
-        dest.writeString(dateCreated);
-        dest.writeString(timeZone);
         dest.writeString(avatar);
         dest.writeByte((byte) (recordsAvailable ? 1 : 0));
     }
@@ -109,22 +100,6 @@ public class User implements Parcelable {
         this.category = category;
     }
 
-    public String getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public String getTimeZone() {
-        return timeZone;
-    }
-
-    public void setTimeZone(String timeZone) {
-        this.timeZone = timeZone;
-    }
-
     public String getAvatar() {
         return avatar;
     }
@@ -156,8 +131,6 @@ public class User implements Parcelable {
                 ", userID='" + userID + '\'' +
                 ", username='" + username + '\'' +
                 ", category='" + category + '\'' +
-                ", dateCreated='" + dateCreated + '\'' +
-                ", timeZone='" + timeZone + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", recordsAvailable=" + recordsAvailable +
                 ", timeStamp=" + timeStamp +
