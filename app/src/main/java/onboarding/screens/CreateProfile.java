@@ -88,6 +88,8 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
     private String relationship;
     private String userEmergencyContactPhoneNumb;
     private String userEmergencyContactResidentialAddress;
+    String userFirstName;
+    String userLastName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -407,6 +409,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
     }
 
     private void formValidation() {
+        String[] userFullNameSplit;
         if (TextUtils.isEmpty(userFullNameEditTxt.getText())) {
             essentials.dismissProgressBar();
             personalInfo.setVisibility(View.VISIBLE);
@@ -419,8 +422,8 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         }
 
         if (!TextUtils.isEmpty(userFullNameEditTxt.getText())) {
-            String[] fullNameSplit = userFullNameEditTxt.getText().toString().trim().split("\\s+");
-            if (fullNameSplit.length == 1) {
+            userFullNameSplit = userFullNameEditTxt.getText().toString().trim().split("\\s+");
+            if (userFullNameSplit.length == 1) {
                 essentials.dismissProgressBar();
                 personalInfo.setVisibility(View.VISIBLE);
                 pInfoExpandLess.setVisibility(View.VISIBLE);
@@ -432,6 +435,8 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
             }
             else {
                 userName = userFullNameEditTxt.getText().toString().trim();
+                userFirstName = userFullNameSplit[0];
+                userLastName = userFullNameSplit[1];
             }
         }
 
@@ -619,6 +624,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
     }
 
     private void createUserProfile(PatientProfile patientProfile, MedicalRecord medicalRecord, EmergencyContact emergencyContact) {
+        String userName = userFirstName.substring(0,1).concat("_").concat(userLastName);
         usersDoc = db.document(usersDocumentPath);
         patientsDocProfile = db.document(patientsProfileDocumentPath);
         patientsDocMedicalRecord = db.document(patientsMedicalRecordDocumentPath);
@@ -628,6 +634,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
                 patientsDocProfile.set(patientProfile);
                 patientsDocMedicalRecord.set(medicalRecord);
                 patientsDocEmergencyContact.set(emergencyContact);
+                usersDoc.update("username", userName);
                 essentials.dismissProgressBar();
                 Snackbar.make(findViewById(R.id.rootLayout), "Profile created successfully", Snackbar.LENGTH_LONG).show();
                 new Handler().postDelayed(() -> {

@@ -74,6 +74,7 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
     private DoctorsAndNursesFragment doctorsAndNursesFragment;
 
     public String userEmail;
+    public String userName;
     private BottomSheetDialog bottomSheetDialog;
     private boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -374,6 +375,7 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
                             }
                             ((UserClient)getApplicationContext()).setUser(user);
                             getHospitals();
+                            ((UserClient)getApplicationContext()).getUser().getUsername();
                         });
             }
 

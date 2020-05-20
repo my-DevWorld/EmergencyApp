@@ -34,7 +34,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_ambulance"
+            android:src="@drawable/ic_emergency_alert_app_logo"
             android:layout_centerHorizontal="true"
             />
         <TextView

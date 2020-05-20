@@ -20,6 +20,7 @@ import com.example.emergencyalertapp.screens.patient.activities.MedicalRecords;
 import com.example.emergencyalertapp.screens.patient.activities.Medication;
 import com.example.emergencyalertapp.screens.patient.activities.UserAccountSetting;
 import com.example.emergencyalertapp.screens.patient.activities.UserProfile;
+import com.example.emergencyalertapp.utils.UserClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -28,7 +29,7 @@ import onboarding.screens.Login;
 public class AccountFragment extends Fragment {
 
     private RelativeLayout userProfileLabel, userMedicalRecordLabel, userEmergencyContactLabel, userMedicationLabel, settings, logout;
-    private TextView userEmailAddress;
+    private TextView userEmailAddress, user_name;
 
     public static AccountFragment newInstance() {
         AccountFragment fragment = new AccountFragment();
@@ -57,6 +58,7 @@ public class AccountFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         userEmailAddress = view.findViewById(R.id.userEmailAddress);
+        user_name = view.findViewById(R.id.user_name);
         userProfileLabel = view.findViewById(R.id.userProfileLabel);
         userMedicalRecordLabel = view.findViewById(R.id.userMedicalRecordLabel);
         userEmergencyContactLabel = view.findViewById(R.id.userEmergencyContactLabel);
@@ -65,6 +67,7 @@ public class AccountFragment extends Fragment {
         logout = view.findViewById(R.id.logout);
 
         userEmailAddress.setText(((PatientActivities)getActivity()).userEmail);
+        user_name.setText(((UserClient)getActivity().getApplicationContext()).getUser().getUsername());
 
 
         userProfileLabel.setOnClickListener(v -> {

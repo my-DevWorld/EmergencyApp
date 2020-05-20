@@ -28,8 +28,8 @@ import com.example.emergencyalertapp.models.patient.User;
 public class Register extends AppCompatActivity {
 
     //widgets
-    private EditText userEmailReg, userPasswordReg;
-    private TextInputLayout userEmailRegLayout, userPasswordRegLayout;
+    private EditText userEmailReg, userPasswordReg,userConfirmPasswordReg;
+    private TextInputLayout userEmailRegLayout, userPasswordRegLayout, userConfirmPasswordRegLayout;
     private RelativeLayout btnRegister;
     private ImageView close;
 
@@ -64,6 +64,7 @@ public class Register extends AppCompatActivity {
 
         userEmailRegLayout = findViewById(R.id.userEmailRegLayout);
         userPasswordRegLayout = findViewById(R.id.userPasswordRegLayout);
+        userConfirmPasswordRegLayout = findViewById(R.id.userConfirmPasswordRegLayout);
         close = findViewById(R.id.close);
         close.setOnClickListener(v -> {
             onBackPressed();
@@ -99,6 +100,23 @@ public class Register extends AppCompatActivity {
                 }
             }
         });
+
+        userConfirmPasswordReg = findViewById(R.id.userConfirmPasswordReg);
+        userConfirmPasswordReg.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s != null) {
+                    userConfirmPasswordRegLayout.setError(null);
+                }
+            }
+        });
+
         btnRegister = findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(v -> {
             essentials.hideSoftKeyboard(this, btnRegister);
@@ -169,20 +187,46 @@ public class Register extends AppCompatActivity {
     private void validateForm() {
         if (TextUtils.isEmpty(userEmailReg.getText())) {
             userEmailRegLayout.setError("Please enter your email address");
+            userEmailRegLayout.setEndIconActivated(false);
+            userEmailReg.requestFocus();
             return;
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(userEmailReg.getText().toString()).matches()) {
             userEmailRegLayout.setError("Please enter a valid email address");
+            userEmailRegLayout.setEndIconActivated(false);
+            userEmailReg.requestFocus();
             return;
         }
         if (TextUtils.isEmpty(userPasswordReg.getText().toString())) {
             userPasswordRegLayout.setError("Please enter your password");
+            userPasswordRegLayout.setEndIconActivated(false);
+            userPasswordReg.requestFocus();
             return;
         }
+
         if (!TextUtils.isEmpty(userPasswordReg.getText().toString())) {
             String passwordCount = userPasswordReg.getText().toString();
             if (passwordCount.length() < 6) {
                 userPasswordRegLayout.setError("Password must be at least 6 characters");
+                userPasswordRegLayout.setEndIconActivated(false);
+                userPasswordReg.requestFocus();
+                return;
+            }
+        }
+
+        if (TextUtils.isEmpty(userConfirmPasswordReg.getText().toString())) {
+            userConfirmPasswordRegLayout.setError("Please enter your password again");
+            userConfirmPasswordRegLayout.setEndIconActivated(false);
+            userConfirmPasswordReg.requestFocus();
+            return;
+        }
+
+        if(!TextUtils.isEmpty(userPasswordReg.getText().toString())
+                && !TextUtils.isEmpty(userConfirmPasswordReg.getText().toString())){
+            if(!userPasswordReg.getText().toString().trim().equals(userConfirmPasswordReg.getText().toString())){
+                userConfirmPasswordRegLayout.setError("Password do not match");
+                userConfirmPasswordRegLayout.setEndIconActivated(false);
+                userConfirmPasswordReg.requestFocus();
                 return;
             }
         }

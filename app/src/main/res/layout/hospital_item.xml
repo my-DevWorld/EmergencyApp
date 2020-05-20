@@ -35,8 +35,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 tools:text="Hospital Name"
-                android:textSize="20dp"
-                android:textColor="@color/primaryTextColo"
+                android:textSize="20sp"
+                android:textColor="@color/primaryButtonColorActive"
                 android:fontFamily="@font/poppins_medium"/>
 
             <TextView
@@ -45,8 +45,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 tools:text="Specialty"
-                android:textSize="16dp"
-                android:textColor="@color/secondaryTextColor"
+                android:textSize="18sp"
+                android:textColor="@color/primaryTextColo"
                 android:fontFamily="@font/poppins_regular"/>
 
             <TextView
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 tools:text="Location"
-                android:textSize="12dp"
+                android:textSize="16sp"
                 android:textColor="@color/secondaryTextColor"
                 android:fontFamily="@font/poppins_regular"/>
         </LinearLayout>

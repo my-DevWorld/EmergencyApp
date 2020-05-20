@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/rootLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -17,10 +18,10 @@
         >
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_ambulance"
+            android:src="@drawable/ic_emergency_alert_app_logo"
             android:layout_centerHorizontal="true"
             />
         <TextView
@@ -35,4 +36,16 @@
             android:layout_centerHorizontal="true"
             />
     </RelativeLayout>
+    <TextView
+        android:id="@+id/hospital_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp"
+        android:text="QodeHub LLC"
+        android:textSize="18sp"
+        android:textColor="@color/orangeColor"
+        android:fontFamily="@font/poppins_semibold"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

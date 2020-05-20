@@ -193,18 +193,20 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
         titles = new ArrayList<>();
         locations = new ArrayList<>();
         markerOptions = new ArrayList<>();
-        for(Hospital hospital : ((PatientActivities)getActivity()).hospitals){
-            latLngs.add(new LatLng(hospital.getGeoLocation().getLatitude(), hospital.getGeoLocation().getLongitude()));
-            titles.add(hospital.getHospitalName());
-            locations.add(hospital.getRegion());
-        }
-        for(int i = 0; i < latLngs.size(); i++){
-            markerOptions.add(new MarkerOptions().position(latLngs.get(i)).title(titles.get(i)).snippet(locations.get(i)));
-            map.addMarker(markerOptions.get(i));
-        }
+        if(((PatientActivities)getActivity()).hospitals != null){
+            for(Hospital hospital : ((PatientActivities)getActivity()).hospitals){
+                latLngs.add(new LatLng(hospital.getGeoLocation().getLatitude(), hospital.getGeoLocation().getLongitude()));
+                titles.add(hospital.getHospitalName());
+                locations.add(hospital.getRegion());
+            }
+            for(int i = 0; i < latLngs.size(); i++){
+                markerOptions.add(new MarkerOptions().position(latLngs.get(i)).title(titles.get(i)).snippet(locations.get(i)));
+                map.addMarker(markerOptions.get(i));
+            }
 
-        HospitalAdapter hospitalAdapter = new HospitalAdapter(getContext(), ((PatientActivities)getActivity()).hospitals);
-        recycler_view.setAdapter(hospitalAdapter);
+            HospitalAdapter hospitalAdapter = new HospitalAdapter(getContext(), ((PatientActivities)getActivity()).hospitals);
+            recycler_view.setAdapter(hospitalAdapter);
+        }
     }
 
     private void activeView(RelativeLayout relativeLayout ,TextView textView1, TextView textView2){

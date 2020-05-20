@@ -213,12 +213,7 @@ public class LoginWithEmail extends AppCompatActivity {
                         }
                         else {
                             Snackbar.make(findViewById(R.id.rootLayout), "Something went wrong, please check email address and try again.", Snackbar.LENGTH_LONG)
-                                    .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    resetPassword();
-                                }
-                            }).show();
+                                    .setAction("RETRY", v -> resetPassword()).show();
                         }
                     });
         }
