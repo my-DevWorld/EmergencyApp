@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginStart="16dp"
-            android:text="Hospitals arround you"
+            android:text="@string/hospitals_arround_you"
             android:textSize="20sp"
             android:textColor="@color/secondaryTextColor"
             android:fontFamily="@font/poppins_medium"/>

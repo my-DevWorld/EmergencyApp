@@ -1,4 +1,4 @@
-package com.example.emergencyalertapp.screens.patient.adapters;
+package com.example.emergencyalertapp.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

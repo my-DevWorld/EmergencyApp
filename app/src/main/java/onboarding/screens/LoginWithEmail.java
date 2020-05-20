@@ -1,6 +1,5 @@
 package onboarding.screens;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -20,8 +19,6 @@ import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.screens.patient.PatientActivities;
 import com.example.emergencyalertapp.screens.service_provider.SPHomeScreen;
 import com.example.emergencyalertapp.utils.Essentials;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +29,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.Objects;
 
-import com.example.emergencyalertapp.models.patient.User;
+import com.example.emergencyalertapp.models.User;
 
 public class LoginWithEmail extends AppCompatActivity {
 

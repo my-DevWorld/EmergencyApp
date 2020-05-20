@@ -31,7 +31,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
 
-import com.example.emergencyalertapp.models.patient.User;
+import com.example.emergencyalertapp.models.User;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class SignUpWithPhoneNumber extends AppCompatActivity implements TextWatcher {

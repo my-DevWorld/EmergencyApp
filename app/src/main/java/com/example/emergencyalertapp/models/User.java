@@ -1,4 +1,4 @@
-package com.example.emergencyalertapp.models.patient;
+package com.example.emergencyalertapp.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

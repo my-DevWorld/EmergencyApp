@@ -2,7 +2,7 @@ package com.example.emergencyalertapp.utils;
 
 import android.app.Application;
 
-import com.example.emergencyalertapp.models.patient.User;
+import com.example.emergencyalertapp.models.User;
 
 public class UserClient extends Application {
     private User user = null;

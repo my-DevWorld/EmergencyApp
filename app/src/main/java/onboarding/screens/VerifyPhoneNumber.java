@@ -25,7 +25,7 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import com.example.emergencyalertapp.models.patient.User;
+import com.example.emergencyalertapp.models.User;
 
 public class VerifyPhoneNumber extends AppCompatActivity implements TextWatcher {
 

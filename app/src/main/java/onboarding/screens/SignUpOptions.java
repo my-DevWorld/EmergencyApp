@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.screens.patient.PatientActivities;
-import com.example.emergencyalertapp.screens.patient.SendAlert;
 import com.example.emergencyalertapp.screens.service_provider.SPHomeScreen;
 import com.example.emergencyalertapp.utils.Essentials;
 import com.facebook.AccessToken;
@@ -39,7 +38,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Arrays;
 
-import com.example.emergencyalertapp.models.patient.User;
+import com.example.emergencyalertapp.models.User;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 

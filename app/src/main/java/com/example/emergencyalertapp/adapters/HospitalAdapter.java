@@ -36,7 +36,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
     public void onBindViewHolder(@NonNull HospitalViewHolder holder, int position) {
         Hospital hospital = hospitals.get(position);
         holder.hospital_name.setText(hospital.getHospitalName());
-        holder.hospital_specialty.setText(hospital.getSpecialty());
+        holder.hospital_specialty.setText(hospital.getSpecialty().concat(" Hospital"));
         holder.hospital_location.setText(hospital.getRegion());
     }
 

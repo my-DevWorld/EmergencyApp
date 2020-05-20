@@ -16,7 +16,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -73,7 +72,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
     private String usersDocumentPath;
     private String patientsProfileDocumentPath;
     private String patientsMedicalRecordDocumentPath;
-    private String patientsMedicalRecordsDocumentPath;
+    private String patientsEmergencyContactDocumentPath;
     private Essentials essentials;
     private String userName;
     private String userDateOfBirth;
@@ -105,7 +104,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
         patientsProfileDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/Profile/data");
         patientsMedicalRecordDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/MedicalRecord/data");
-        patientsMedicalRecordsDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/EmergencyContact/data");
+        patientsEmergencyContactDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/EmergencyContact");
         scrollView = findViewById(R.id.scrollView);
         essentials = new Essentials();
 
@@ -628,7 +627,8 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         usersDoc = db.document(usersDocumentPath);
         patientsDocProfile = db.document(patientsProfileDocumentPath);
         patientsDocMedicalRecord = db.document(patientsMedicalRecordDocumentPath);
-        patientsDocEmergencyContact = db.document(patientsMedicalRecordsDocumentPath);
+//        patientsDocEmergencyContact = db.collection("Patients").document(firebaseAuth.getUid()).collection("EmergencyContact").document();
+        patientsDocEmergencyContact = db.collection(patientsEmergencyContactDocumentPath).document();
         usersDoc.update("recordsAvailable", true).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 patientsDocProfile.set(patientProfile);

@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.widget.RelativeLayout;
 
 import com.example.emergencyalertapp.R;
-import com.example.emergencyalertapp.models.patient.User;
+import com.example.emergencyalertapp.models.User;
 import com.example.emergencyalertapp.screens.patient.fragments.BottomSheetDialog;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;

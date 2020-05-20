@@ -14,7 +14,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +24,7 @@ import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.adapters.HospitalAdapter;
 import com.example.emergencyalertapp.models.Hospital;
 import com.example.emergencyalertapp.screens.patient.PatientActivities;
-import com.example.emergencyalertapp.screens.patient.adapters.CustomInfoWindowAdapter;
+import com.example.emergencyalertapp.adapters.CustomInfoWindowAdapter;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -120,6 +119,8 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
         });
 
         initGoogleMap(savedInstanceState);
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: " + ((PatientActivities)getActivity()).serviceProviders.toString());
+
     }
 
     private void initGoogleMap(Bundle savedInstanceState){
@@ -169,15 +170,18 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
                 location.addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
                         Location currentLocation = (Location) task.getResult();
-                        LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                        String markerTitle = "";
-                        String markerSnippet = "";
+                        if(currentLocation != null){
+                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM);
+                        }
+
+//                        LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+//                        String markerTitle = "";
+//                        String markerSnippet = "";
 //                        MarkerOptions myCurrentLocation = new MarkerOptions()
 //                                .position(latLng)
 //                                .title(null)
 //                                .snippet(null);
 //                        map.addMarker(myCurrentLocation);
-                        moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM);
                         getHospitalLocation();
                     }
                 });
@@ -204,7 +208,8 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
                 map.addMarker(markerOptions.get(i));
             }
 
-            HospitalAdapter hospitalAdapter = new HospitalAdapter(getContext(), ((PatientActivities)getActivity()).hospitals);
+            HospitalAdapter hospitalAdapter = new HospitalAdapter(getContext(),
+                    ((PatientActivities)getActivity()).hospitals);
             recycler_view.setAdapter(hospitalAdapter);
         }
     }
