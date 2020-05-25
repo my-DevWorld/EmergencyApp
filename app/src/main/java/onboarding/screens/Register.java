@@ -136,7 +136,7 @@ public class Register extends AppCompatActivity {
 //                    DATE_CREATED = essentials.getCurrentDate();
 //                    TIMEZONE = essentials.getTimeZone();
 
-                    User user = new User(email, USER_ID, null ,CATEGORY, null ,isRecordsAvailable, null);
+                    User user = new User(email, USER_ID, null, null ,CATEGORY, null ,isRecordsAvailable, null);
 
                     usersDoc = db.document(usersDocumentPath);
                     usersDoc.set(user).addOnCompleteListener(task -> {

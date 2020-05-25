@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:color="@color/forgotPassword"
+        android:drawable="@color/forgotPassword"
+        android:state_selected="true" />
+
+    <item android:color="@color/primaryButtonColorDeActive"
+        android:drawable="@color/whiteColor" />
+</selector>

@@ -13,28 +13,27 @@ import androidx.annotation.Nullable;
 import com.example.emergencyalertapp.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-public class BottomSheetDialog extends BottomSheetDialogFragment {
+public class SendAlertBottomSheetDialog extends BottomSheetDialogFragment {
     private BottomSheetListener bottomSheetListener;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.bottom_sheet, container, false);
+        View view = inflater.inflate(R.layout.send_alert_bottom_sheet, container, false);
         LinearLayout getAmbulance = view.findViewById(R.id.getAmbulance);
         LinearLayout getDocNurse = view.findViewById(R.id.getDocNurse);
         LinearLayout cancel = view.findViewById(R.id.cancel);
 
         getAmbulance.setOnClickListener(v -> {
-            bottomSheetListener.onButtonClicked("ambulance");
+            bottomSheetListener.onSendAlertButtonClicked("ambulance");
             dismiss();
         });
 
         getDocNurse.setOnClickListener(v -> {
-            bottomSheetListener.onButtonClicked("message");
+            bottomSheetListener.onSendAlertButtonClicked("message");
             dismiss();
         });
 
         cancel.setOnClickListener(v -> {
-            bottomSheetListener.onButtonClicked("cancelled");
             dismiss();
         });
 
@@ -42,7 +41,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     }
 
     public interface BottomSheetListener {
-        void onButtonClicked(String text);
+        void onSendAlertButtonClicked(String text);
     }
     @Override
     public void onAttach(Context context) {

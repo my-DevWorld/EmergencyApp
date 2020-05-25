@@ -84,4 +84,14 @@ public class MedicalRecord implements Parcelable {
     public void setAllergies(String allergies) {
         this.allergies = allergies;
     }
+
+    @Override
+    public String toString() {
+        return "MedicalRecord{" +
+                "weight='" + weight + '\'' +
+                ", height='" + height + '\'' +
+                ", bloodGroup='" + bloodGroup + '\'' +
+                ", allergies='" + allergies + '\'' +
+                '}';
+    }
 }

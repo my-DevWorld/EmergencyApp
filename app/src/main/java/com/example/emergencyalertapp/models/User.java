@@ -11,6 +11,7 @@ public class User implements Parcelable {
     private String email;
     private String userID;
     private String username;
+    private String fullName;
     private String category;
     private String avatar;
     private boolean recordsAvailable;
@@ -20,11 +21,12 @@ public class User implements Parcelable {
     }
 
     public User(String email, String userID,
-                String username, String category,
+                String username, String fullName, String category,
                 String avatar, boolean recordsAvailable, Date timeStamp) {
         this.email = email;
         this.userID = userID;
         this.username = username;
+        this.fullName = fullName;
         this.category = category;
         this.avatar = avatar;
         this.recordsAvailable = recordsAvailable;
@@ -36,6 +38,7 @@ public class User implements Parcelable {
         email = in.readString();
         userID = in.readString();
         username = in.readString();
+        fullName = in.readString();
         category = in.readString();
         avatar = in.readString();
         recordsAvailable = in.readByte() != 0;
@@ -46,6 +49,7 @@ public class User implements Parcelable {
         dest.writeString(email);
         dest.writeString(userID);
         dest.writeString(username);
+        dest.writeString(fullName);
         dest.writeString(category);
         dest.writeString(avatar);
         dest.writeByte((byte) (recordsAvailable ? 1 : 0));
@@ -92,6 +96,14 @@ public class User implements Parcelable {
         this.username = username;
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
     public String getCategory() {
         return category;
     }
@@ -130,6 +142,7 @@ public class User implements Parcelable {
                 "email='" + email + '\'' +
                 ", userID='" + userID + '\'' +
                 ", username='" + username + '\'' +
+                ", username='" + fullName + '\'' +
                 ", category='" + category + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", recordsAvailable=" + recordsAvailable +

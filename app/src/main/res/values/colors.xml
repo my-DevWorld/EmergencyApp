@@ -14,6 +14,7 @@
     <color name="primaryButtonColorDeActive">#876F6D</color>
     <color name="buttonNonDeActive">#99ECE9E9</color>
     <color name="forgotPassword">#6747CD</color>
+    <color name="forgotPassword60">#99D7CCF8</color>
     <color name="editTextBg">#F3F3FA</color>
     <color name="greenBtn">#36DE7C</color>
     <color name="orangeColor">#FF7F12</color>

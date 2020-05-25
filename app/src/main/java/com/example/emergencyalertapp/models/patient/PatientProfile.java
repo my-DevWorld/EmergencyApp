@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class PatientProfile implements Parcelable {
-    private String name;
+    private String fullName;
     private String dateOfBirth;
     private String gender;
     private String phoneNum;
@@ -14,10 +14,10 @@ public class PatientProfile implements Parcelable {
     public PatientProfile() {
     }
 
-    public PatientProfile(String name, String dateOfBirth,
+    public PatientProfile(String fullName, String dateOfBirth,
                           String gender, String phoneNum,
                           String residentialAddress) {
-        this.name = name;
+        this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.phoneNum = phoneNum;
@@ -25,7 +25,7 @@ public class PatientProfile implements Parcelable {
     }
 
     protected PatientProfile(Parcel in) {
-        name = in.readString();
+        fullName = in.readString();
         dateOfBirth = in.readString();
         gender = in.readString();
         phoneNum = in.readString();
@@ -34,7 +34,7 @@ public class PatientProfile implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
+        dest.writeString(fullName);
         dest.writeString(dateOfBirth);
         dest.writeString(gender);
         dest.writeString(phoneNum);
@@ -58,12 +58,12 @@ public class PatientProfile implements Parcelable {
         }
     };
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getDateOfBirth() {
@@ -96,5 +96,16 @@ public class PatientProfile implements Parcelable {
 
     public void setResidentialAddress(String residentialAddress) {
         this.residentialAddress = residentialAddress;
+    }
+
+    @Override
+    public String toString() {
+        return "PatientProfile{" +
+                "fullName='" + fullName + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", gender='" + gender + '\'' +
+                ", phoneNum='" + phoneNum + '\'' +
+                ", residentialAddress='" + residentialAddress + '\'' +
+                '}';
     }
 }

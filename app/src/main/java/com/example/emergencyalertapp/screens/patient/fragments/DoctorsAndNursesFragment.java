@@ -12,15 +12,38 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.adapters.ServiceProviderAdapter;
+import com.example.emergencyalertapp.models.patient.MedicalRecord;
+import com.example.emergencyalertapp.models.patient.PatientProfile;
+import com.example.emergencyalertapp.models.service_providers.PatientDetails;
+import com.example.emergencyalertapp.models.service_providers.ServiceProvider;
 import com.example.emergencyalertapp.screens.patient.PatientActivities;
+import com.example.emergencyalertapp.utils.SharedPreference;
+import com.example.emergencyalertapp.utils.UserClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
-public class DoctorsAndNursesFragment extends Fragment {
+public class DoctorsAndNursesFragment extends Fragment implements ServiceProviderAdapter.GetServiceProviderDetails, DocNurseDetailsBottomSheetDialog.BottomSheetListener {
 
     private RecyclerView recycler_view;
+    private DocNurseDetailsBottomSheetDialog docNurseDetailsBottomSheetDialog;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
+    private DocumentReference medicalRecords;
+    private DocumentReference profile;
+    private DocumentReference addServiceProvider;
+    private DocumentReference addEmergencyContact;
+    private PatientProfile patientProfile;
+    private MedicalRecord medicalRecord;
+    private int numberOfContact;
 
     public DoctorsAndNursesFragment() {}
 
@@ -43,6 +66,9 @@ public class DoctorsAndNursesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
         recycler_view = view.findViewById(R.id.recycler_view);
         recycler_view.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler_view.setHasFixedSize(true);
@@ -50,11 +76,95 @@ public class DoctorsAndNursesFragment extends Fragment {
         new Handler().postDelayed(() -> {
             if(((PatientActivities)getActivity()).serviceProviders != null) {
                 ServiceProviderAdapter serviceProviderAdapter = new ServiceProviderAdapter(getContext(),
-                        ((PatientActivities) getActivity()).serviceProviders);
+                        ((PatientActivities) getActivity()).serviceProviders, this);
                 recycler_view.setAdapter(serviceProviderAdapter);
             }
-        }, 1000);
-//        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: " + ((PatientActivities)getActivity()).serviceProviders.toString())
+        }, 900);
+    }
+
+    @Override
+    public void onServiceProviderClicked(ServiceProvider serviceProvider) {
+        docNurseDetailsBottomSheetDialog = new DocNurseDetailsBottomSheetDialog(serviceProvider, this);
+        docNurseDetailsBottomSheetDialog.show(getFragmentManager(), "Doc_Nurse BottomSheetDialog");
+    }
+
+    @Override
+    public void viewServiceProviderDetailsClicked(ServiceProvider serviceProvider) {
+        numberOfContact = Integer.parseInt(SharedPreference.getInstance(getContext()).getNumberOnContact());
+        if(numberOfContact <= 3){
+            profile = db.collection("Patients").document(firebaseAuth.getUid()).collection("Profile").document("data");
+            profile.get().addOnSuccessListener(documentSnapshot -> {
+                patientProfile = documentSnapshot.toObject(PatientProfile.class);
+                System.out.println(">>>>>>>>> Service Provider >>>>>>>>>>>>>>>>>>>: " + patientProfile.toString());
+            });
+            medicalRecords = db.collection("Patients").document(firebaseAuth.getUid()).collection("MedicalRecord").document("data");
+            medicalRecords.get().addOnSuccessListener(documentSnapshot -> {
+                medicalRecord = documentSnapshot.toObject(MedicalRecord.class);
+                System.out.println(">>>>>>>>> Service Provider >>>>>>>>>>>>>>>>>>>: " + medicalRecord.toString());
+            });
+            new Handler().postDelayed(() -> {
+                PatientDetails patientDetails = new PatientDetails();
+                patientDetails.setUserName(((UserClient)getActivity().getApplicationContext()).getUser().getUsername());
+                patientDetails.setFullName(((UserClient)getActivity().getApplicationContext()).getUser().getFullName());
+                if(medicalRecord.getAllergies() != null && !medicalRecord.getAllergies().isEmpty()){
+                    patientDetails.setAllergies(medicalRecord.getAllergies());
+                }
+                else {
+                    patientDetails.setAllergies(null);
+                }
+                patientDetails.setBloodType(medicalRecord.getBloodGroup());
+                patientDetails.setHeight(medicalRecord.getHeight());
+                patientDetails.setWeight(medicalRecord.getWeight());
+                patientDetails.setOnMedication(false);
+                patientDetails.setTreatment(null);
+                patientDetails.setPatientPhoneNum(patientProfile.getPhoneNum());
+                patientDetails.setPatientResAddress(patientProfile.getResidentialAddress());
+
+                addServiceProvider(serviceProvider.getUserID(), serviceProvider.getFullName(),
+                        ((UserClient)getActivity().getApplicationContext()).getUser().getFullName(), patientDetails, serviceProvider);
+
+                System.out.println(">>>>>>>>> Service Provider >>>>>>>>>>>>>>>>>>>: " + patientDetails.toString());
+            }, 1200);
+        }
+        else {
+            Toast.makeText(getContext(), "Emergency contact limit reached.", Toast.LENGTH_SHORT).show();
+
+        }
+
+
+//        System.out.println(">>>>>>>>> Service Provider >>>>>>>>>>>>>>>>>>>: " + serviceProvider.getUserID());
+//        ((UserClient)getActivity().getApplicationContext()).getUser().getUsername();
+//                System.out.println(">>>>>>>>> Service Provider >>>>>>>>>>>>>>>>>>>: " + firebaseAuth.getUid());
+    }
+
+    private void addServiceProvider(String spID, String spName, String patientName, PatientDetails patientDetails, ServiceProvider serviceProvider){
+        addServiceProvider = db.collection("Service Providers").document(spID)
+                .collection("patients").document(patientName);
+        addServiceProvider.set(patientDetails).addOnSuccessListener(aVoid -> {
+            updateEmergencyContactList(serviceProvider, spName);
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Something went wrong, please try again later", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void updateEmergencyContactList(ServiceProvider serviceProvider, String spName){
+        addEmergencyContact = db.collection("Patients").document(firebaseAuth.getUid())
+                .collection("EmergencyContact").document(spName);
+        addEmergencyContact.set(serviceProvider).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    SharedPreference.getInstance(getContext()).setNumberOnContact("2");
+                    Toast.makeText(getContext(), "Add to contact list", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getContext(), "Could not add to contact list", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
 

@@ -28,7 +28,8 @@ import com.example.emergencyalertapp.models.Hospital;
 import com.example.emergencyalertapp.models.User;
 import com.example.emergencyalertapp.models.service_providers.ServiceProvider;
 import com.example.emergencyalertapp.screens.patient.fragments.AccountFragment;
-import com.example.emergencyalertapp.screens.patient.fragments.BottomSheetDialog;
+import com.example.emergencyalertapp.screens.patient.fragments.DocNurseDetailsBottomSheetDialog;
+import com.example.emergencyalertapp.screens.patient.fragments.SendAlertBottomSheetDialog;
 import com.example.emergencyalertapp.screens.patient.fragments.DoctorsAndNursesFragment;
 import com.example.emergencyalertapp.screens.patient.fragments.HomeFragment;
 import com.example.emergencyalertapp.screens.patient.fragments.HospitalFragment;
@@ -50,13 +51,13 @@ import java.util.ArrayList;
 
 import onboarding.screens.Login;
 
-import static com.example.emergencyalertapp.screens.patient.Constants.ERROR_DIALOG_REQUEST;
-import static com.example.emergencyalertapp.screens.patient.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
-import static com.example.emergencyalertapp.screens.patient.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
-import static com.example.emergencyalertapp.screens.patient.Constants.MAKE_PHONE_CALL_REQUEST_CODE;
-import static com.example.emergencyalertapp.screens.patient.Constants.SEND_SMS_REQUEST_CODE;
+import static com.example.emergencyalertapp.Constants.ERROR_DIALOG_REQUEST;
+import static com.example.emergencyalertapp.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
+import static com.example.emergencyalertapp.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
+import static com.example.emergencyalertapp.Constants.MAKE_PHONE_CALL_REQUEST_CODE;
+import static com.example.emergencyalertapp.Constants.SEND_SMS_REQUEST_CODE;
 
-public class PatientActivities extends AppCompatActivity implements BottomSheetDialog.BottomSheetListener{
+public class PatientActivities extends AppCompatActivity implements SendAlertBottomSheetDialog.BottomSheetListener {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
@@ -71,8 +72,8 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
     private DoctorsAndNursesFragment doctorsAndNursesFragment;
 
     public String userEmail;
-    public String userName;
-    private BottomSheetDialog bottomSheetDialog;
+    private SendAlertBottomSheetDialog sendAlertBottomSheetDialog;
+//    private DocNurseDetailsBottomSheetDialog docNurseDetailsBottomSheetDialog;
     private boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationClient;
     private User user;
@@ -102,7 +103,6 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
         hospitalCollection = db.collection("Hospitals and Clinics");
         serviceProviderCollection = db.collection("Service Providers");
         userEmail = firebaseUser.getEmail();
-//        System.out.println("User email: " + firebaseUser.getEmail());
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Emergency Alert");
@@ -137,7 +137,6 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) {
                     toolbar.setVisibility(View.VISIBLE);
-
                 }
                 else if (tab.getPosition() == 1) {
                     toolbar.setVisibility(View.GONE);
@@ -160,7 +159,8 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
 //        BadgeDrawable badgeDrawable = tabLayout.getTabAt(0).getOrCreateBadge();
 //        badgeDrawable.setVisible(true);
 //        badgeDrawable.setNumber(12);
-        bottomSheetDialog = new BottomSheetDialog();
+        sendAlertBottomSheetDialog = new SendAlertBottomSheetDialog();
+//        docNurseDetailsBottomSheetDialog = new DocNurseDetailsBottomSheetDialog();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     }
 
@@ -180,22 +180,30 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
         }
     }
 
-    public void showBottomSheet(){
-        bottomSheetDialog.show(getSupportFragmentManager(), "BottomSheet");
+    public void sendAlertShowBottomSheet(){
+        sendAlertBottomSheetDialog.show(getSupportFragmentManager(), "BottomSheet");
+    }
+
+    public void showDocNurseDetailsBottomSheet() {
+//        docNurseDetailsBottomSheetDialog.show(getSupportFragmentManager(), "Doc_Nurse BottomSheetDialog");
     }
 
     @Override
-    public void onButtonClicked(String text) {
-        if(text.equals("ambulance")){
+    public void onSendAlertButtonClicked(String text) {
+        if (text.equals("ambulance")) {
             makePhoneCall();
         }
-        else if(text.equals("message")){
+        else {
             sendSMS();
         }
-        else {
-            bottomSheetDialog.dismiss();
-        }
     }
+
+
+//
+//    @Override
+//    public void viewServiceProviderDetailsClicked(String text) {
+//
+//    }
 
     public void logoutUser(){
         firebaseAuth.signOut();
@@ -384,11 +392,10 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
             if(e != null){
                 return;
             }
+            hospitals.clear();
             for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                hospitals.clear();
                 hospitals.add(documentSnapshot.toObject(Hospital.class));
             }
-            new Handler().postDelayed(() -> System.out.println(">>>>>>>>>>>>>>> Hospitals are ready... " + hospitals.toString()),900);
         });
     }
 
@@ -398,11 +405,11 @@ public class PatientActivities extends AppCompatActivity implements BottomSheetD
             if(e != null){
                 return;
             }
+            serviceProviders.clear();
             for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                serviceProviders.clear();
+
                 serviceProviders.add(documentSnapshot.toObject(ServiceProvider.class));
             }
-            new Handler().postDelayed(() -> System.out.println(">>>>>>>>>>>>>>> Service Providers are ready... " + serviceProviders.toString()),900);
         });
     }
 

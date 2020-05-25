@@ -251,7 +251,7 @@ public class SignUpOptions extends AppCompatActivity {
                         essentials.dismissProgressBar();
                         String usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
                         USER_ID = firebaseAuth.getUid();
-                        User user = new User(firebaseUser.getEmail(), USER_ID, null ,CATEGORY, null ,isRecordsAvailable, null);
+                        User user = new User(firebaseUser.getEmail(), USER_ID, null, null ,CATEGORY, null ,isRecordsAvailable, null);
                         usersDoc = db.document(usersDocumentPath);
                         usersDoc.set(user);
                         Toast.makeText(SignUpOptions.this, "Sign up successful", Toast.LENGTH_SHORT).show();

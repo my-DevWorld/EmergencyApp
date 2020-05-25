@@ -1,4 +1,4 @@
-package com.example.emergencyalertapp.screens.patient;
+package com.example.emergencyalertapp;
 
 public class Constants {
     public static final int ERROR_DIALOG_REQUEST = 9001;

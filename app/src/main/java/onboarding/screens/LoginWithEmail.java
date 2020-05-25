@@ -43,11 +43,11 @@ public class LoginWithEmail extends AppCompatActivity {
     //member fields
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private FirebaseFirestore db;
+    private CollectionReference usersCollection;
     private static final String TAG = "LoginWithEmail";
     private static final String CATEGORY = "Patient";
     private static final String CATEGORY2 = "Service Provider";
-    private FirebaseFirestore db;
-    private CollectionReference usersCollection;
     private User user;
     private Essentials essentials;
 

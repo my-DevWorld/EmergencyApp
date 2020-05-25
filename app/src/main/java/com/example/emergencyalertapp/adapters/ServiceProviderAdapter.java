@@ -18,10 +18,12 @@ import java.util.ArrayList;
 public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProviderAdapter.ServiceProviderAdapterViewHolder> {
     private Context context;
     private ArrayList<ServiceProvider> serviceProviders;
+    private GetServiceProviderDetails getServiceProviderDetails;
 
-    public ServiceProviderAdapter(Context context, ArrayList<ServiceProvider> serviceProviders) {
+    public ServiceProviderAdapter(Context context, ArrayList<ServiceProvider> serviceProviders, GetServiceProviderDetails getServiceProviderDetails) {
         this.context = context;
         this.serviceProviders = serviceProviders;
+        this.getServiceProviderDetails = getServiceProviderDetails;
     }
 
     @NonNull
@@ -37,12 +39,14 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
         ServiceProvider serviceProvider = serviceProviders.get(position);
         holder.provider_name.setText(serviceProvider.getFullName());
         holder.service_type.setText(serviceProvider.getServiceType());
+        holder.itemView.setOnClickListener(v -> {
+            getServiceProviderDetails.onServiceProviderClicked(serviceProvider);
+        });
     }
 
     @Override
     public int getItemCount() {
         return serviceProviders.size();
-//        return 0;
     }
 
     public class ServiceProviderAdapterViewHolder extends RecyclerView.ViewHolder {
@@ -55,4 +59,13 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
             service_type = itemView.findViewById(R.id.service_type);
         }
     }
+
+    public interface GetServiceProviderDetails{
+        void onServiceProviderClicked(ServiceProvider serviceProvider);
+    }
 }
+
+
+
+
+

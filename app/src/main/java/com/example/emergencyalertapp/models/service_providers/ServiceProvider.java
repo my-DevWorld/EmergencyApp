@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class ServiceProvider implements Parcelable {
+    private String userID;
     private String fullName;
     private String email;
     private String gender;
@@ -31,6 +32,7 @@ public class ServiceProvider implements Parcelable {
     }
 
     protected ServiceProvider(Parcel in) {
+        userID = in.readString();
         fullName = in.readString();
         email = in.readString();
         gender = in.readString();
@@ -43,6 +45,7 @@ public class ServiceProvider implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(userID);
         dest.writeString(fullName);
         dest.writeString(email);
         dest.writeString(gender);
@@ -69,6 +72,14 @@ public class ServiceProvider implements Parcelable {
             return new ServiceProvider[size];
         }
     };
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
 
     public String getFullName() {
         return fullName;
@@ -137,7 +148,8 @@ public class ServiceProvider implements Parcelable {
     @Override
     public String toString() {
         return "ServiceProvider{" +
-                "fullName='" + fullName + '\'' +
+                "userID='" + userID + '\'' +
+                ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 ", gender='" + gender + '\'' +
                 ", phoneNum='" + phoneNum + '\'' +

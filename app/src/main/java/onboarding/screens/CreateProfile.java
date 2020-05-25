@@ -74,7 +74,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
     private String patientsMedicalRecordDocumentPath;
     private String patientsEmergencyContactDocumentPath;
     private Essentials essentials;
-    private String userName;
+    private String fullName;
     private String userDateOfBirth;
     private String userGender = "";
     private String userPhoneNumber;
@@ -104,7 +104,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
         patientsProfileDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/Profile/data");
         patientsMedicalRecordDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/MedicalRecord/data");
-        patientsEmergencyContactDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/EmergencyContact");
+        patientsEmergencyContactDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/EmergencyContact/firstContact");
         scrollView = findViewById(R.id.scrollView);
         essentials = new Essentials();
 
@@ -433,7 +433,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
                 return;
             }
             else {
-                userName = userFullNameEditTxt.getText().toString().trim();
+                fullName = userFullNameEditTxt.getText().toString().trim();
                 userFirstName = userFullNameSplit[0];
                 userLastName = userFullNameSplit[1];
             }
@@ -613,7 +613,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
             userEmergencyContactResidentialAddress = contactAddressEditTxt.getText().toString().trim();
         }
 
-        PatientProfile patientProfile = new PatientProfile(userName, userDateOfBirth,
+        PatientProfile patientProfile = new PatientProfile(fullName, userDateOfBirth,
                 userGender, userPhoneNumber, userResidentialAddress);
         MedicalRecord medicalRecord = new MedicalRecord(userWeight, userHeight, bloodGroup, userAllergies);
         EmergencyContact emergencyContact = new EmergencyContact(nameOfEmergencyContact, relationship,
@@ -634,6 +634,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
                 patientsDocProfile.set(patientProfile);
                 patientsDocMedicalRecord.set(medicalRecord);
                 patientsDocEmergencyContact.set(emergencyContact);
+                usersDoc.update("fullName", fullName);
                 usersDoc.update("username", userName);
                 essentials.dismissProgressBar();
                 Snackbar.make(findViewById(R.id.rootLayout), "Profile created successfully", Snackbar.LENGTH_LONG).show();

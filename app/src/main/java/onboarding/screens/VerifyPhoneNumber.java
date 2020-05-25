@@ -64,7 +64,7 @@ public class VerifyPhoneNumber extends AppCompatActivity implements TextWatcher 
         USER_ID = firebaseAuth.getUid();
         DATE_CREATED = essentials.getCurrentDate();
         TIMEZONE = essentials.getTimeZone();
-        user = new User(null, USER_ID, null ,CATEGORY, null ,isRecordsAvailable, null);
+        user = new User(null, USER_ID, null, null ,CATEGORY, null ,isRecordsAvailable, null);
 
 
         user_optNumLayout = findViewById(R.id.user_optNumLayout);

@@ -37,8 +37,8 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 
-import static com.example.emergencyalertapp.screens.patient.Constants.DEFAULT_ZOOM;
-import static com.example.emergencyalertapp.screens.patient.Constants.MAPVIEW_BUNDLE_KEY;
+import static com.example.emergencyalertapp.Constants.DEFAULT_ZOOM;
+import static com.example.emergencyalertapp.Constants.MAPVIEW_BUNDLE_KEY;
 
 public class HospitalFragment extends Fragment implements OnMapReadyCallback {
 
@@ -119,8 +119,6 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
         });
 
         initGoogleMap(savedInstanceState);
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: " + ((PatientActivities)getActivity()).serviceProviders.toString());
-
     }
 
     private void initGoogleMap(Bundle savedInstanceState){

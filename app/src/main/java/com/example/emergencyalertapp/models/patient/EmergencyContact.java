@@ -82,4 +82,14 @@ public class EmergencyContact implements Parcelable{
     public void setContactResidentialAddress(String contactResidentialAddress) {
         this.contactResidentialAddress = contactResidentialAddress;
     }
+
+    @Override
+    public String toString() {
+        return "EmergencyContact{" +
+                "contactName='" + contactName + '\'' +
+                ", contactRelationship='" + contactRelationship + '\'' +
+                ", contactPhoneNumb='" + contactPhoneNumb + '\'' +
+                ", contactResidentialAddress='" + contactResidentialAddress + '\'' +
+                '}';
+    }
 }

@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.screens.patient.PatientActivities;
@@ -35,7 +33,7 @@ public class HomeFragment extends Fragment {
 
         sosBtn = view.findViewById(R.id.sosBtn);
         sosBtn.setOnClickListener(v -> {
-            ((PatientActivities)getActivity()).showBottomSheet();
+            ((PatientActivities)getActivity()).sendAlertShowBottomSheet();
         });
     }
 

@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.models.User;
-import com.example.emergencyalertapp.screens.patient.fragments.BottomSheetDialog;
+import com.example.emergencyalertapp.screens.patient.fragments.SendAlertBottomSheetDialog;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -23,7 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import onboarding.screens.Login;
 
-public class SendAlert extends AppCompatActivity implements BottomSheetDialog.BottomSheetListener{
+public class SendAlert extends AppCompatActivity implements SendAlertBottomSheetDialog.BottomSheetListener{
 
     private RelativeLayout emailBtn;
 
@@ -67,8 +67,8 @@ public class SendAlert extends AppCompatActivity implements BottomSheetDialog.Bo
     }
 
     private void showBottomSheet(){
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
-        bottomSheetDialog.show(getSupportFragmentManager(), "BottomSheet");
+        SendAlertBottomSheetDialog sendAlertBottomSheetDialog = new SendAlertBottomSheetDialog();
+        sendAlertBottomSheetDialog.show(getSupportFragmentManager(), "BottomSheet");
     }
 
     private void signOut() {
@@ -93,12 +93,17 @@ public class SendAlert extends AppCompatActivity implements BottomSheetDialog.Bo
                 });
     }
 
+//    @Override
+//    public void onButtonClicked(String text) {
+//        if(text.equals("cancelled")){
+//            signOut();
+//        }
+////        Snackbar.make(findViewById(R.id.sosBtn), text, Snackbar.LENGTH_SHORT).show();
+//    }
+
     @Override
-    public void onButtonClicked(String text) {
-        if(text.equals("cancelled")){
-            signOut();
-        }
-//        Snackbar.make(findViewById(R.id.sosBtn), text, Snackbar.LENGTH_SHORT).show();
+    public void onSendAlertButtonClicked(String text) {
+
     }
 }
 

@@ -213,7 +213,7 @@ public class SignUpWithPhoneNumber extends AppCompatActivity implements TextWatc
                         essentials.dismissProgressBar();
                         String usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
                         USER_ID = firebaseAuth.getUid();
-                        user = new User(null, USER_ID, null ,CATEGORY, null ,isRecordsAvailable, null);
+                        user = new User(null, USER_ID, null, null ,CATEGORY, null ,isRecordsAvailable, null);
                         usersDoc = db.document(usersDocumentPath);
                         usersDoc.set(user);
                         Toast.makeText(SignUpWithPhoneNumber.this, "Sign up successful", Toast.LENGTH_SHORT).show();
