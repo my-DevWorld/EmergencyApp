@@ -54,12 +54,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/actionBar" />
 
+    <com.badoualy.stepperindicator.StepperIndicator
+        android:id="@+id/stepIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="55dp"
+        app:stpi_stepCount="3"
+        app:stpi_indicatorColor="@color/greenBtn"
+        app:stpi_circleColor="@color/primaryButtonColorActive"
+        app:stpi_lineColor="@color/primaryButtonColorActive"
+        app:stpi_lineDoneColor="@color/greenBtn"
+
+        app:layout_constraintTop_toBottomOf="@+id/label1"
+        />
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@+id/label1"
+        app:layout_constraintTop_toBottomOf="@+id/stepIndicator"
         >
         <LinearLayout
             android:layout_width="match_parent"

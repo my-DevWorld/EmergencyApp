@@ -9,36 +9,153 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
+        android:layout_marginTop="24dp"
         android:orientation="vertical"
         >
-        <RelativeLayout
-            android:id="@+id/logout"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
             android:gravity="center"
-            android:visibility="visible">
-
+            android:orientation="vertical"
+            >
             <ImageView
-                android:id="@+id/logoutIcon"
-                android:layout_width="37dp"
-                android:layout_height="37dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_logout" />
-
-            <TextView
-                android:id="@+id/logoutLabel"
+                android:id="@+id/userImage"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
+                android:src="@drawable/ic_account"
+                />
+            <LinearLayout
+                android:id="@+id/wrapper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/logoutIcon"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="16dp"
-                android:fontFamily="@font/poppins_semibold"
-                android:text="Logout"
-                android:textColor="@color/primaryButtonColorActive"
-                android:textSize="20sp"
-                android:textAllCaps="true"/>
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Champion Developer"
+                    android:textSize="14sp"
+                    android:textColor="@color/primaryTextColo"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_gravity="center"
+                    />
+                <TextView
+                    android:id="@+id/userEmailAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="jondoe@emergencyalert.app"
+                    android:textSize="14sp"
+                    android:textColor="@color/primaryTextColo"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_gravity="center"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="24dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="24dp"
+            android:background="@drawable/white_bg"
+            android:elevation="5dp"
+            >
+
+            <RelativeLayout
+                android:id="@+id/userProfileLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/profileLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Update Profile"
+                    android:textColor="@color/primaryTextColo"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_arrow_right"
+
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/userProfileLabel"
+                android:layout_marginTop="16dp"
+                android:background="@color/dividerColor"/>
+
+            <RelativeLayout
+                android:id="@+id/userMedicalRecordLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_below="@id/line1">
+
+                <TextView
+                    android:id="@+id/mdLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Manage Patients"
+                    android:textColor="@color/primaryTextColo"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_arrow_right"
+
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/userMedicalRecordLabel"
+                android:layout_marginTop="16dp"
+                android:background="@color/dividerColor"/>
+            <RelativeLayout
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_below="@id/line2"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/logoutLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="Logout"
+                    android:textColor="@color/primaryButtonColorActive"
+                    android:textSize="20sp"
+                    android:textAllCaps="true"/>
+            </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
 </FrameLayout>

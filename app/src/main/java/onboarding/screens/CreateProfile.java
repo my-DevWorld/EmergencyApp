@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
+import com.badoualy.stepperindicator.StepperIndicator;
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.models.patient.MedicalRecord;
 import com.example.emergencyalertapp.models.patient.PatientProfile;
@@ -60,6 +61,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
     private RelativeLayout submitBtn, doneBtn;
     private NestedScrollView scrollView;
     private Spinner bloodGroupSpinner;
+    private StepperIndicator indicator;
 
     //fields
     private FirebaseAuth firebaseAuth;
@@ -98,6 +100,8 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
     }
 
     private void setup() {
+        indicator = findViewById(R.id.stepIndicator);
+        indicator.setCurrentStep(0);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
@@ -356,6 +360,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
                 contact.setVisibility(View.GONE);
                 submitBtn.setVisibility(View.VISIBLE);
                 greenHeader(header3);
+                indicator.setCurrentStep(3);
             } else {
                 redHeader(header3);
                 Snackbar.make(findViewById(R.id.rootLayout), "Please complete form", Snackbar.LENGTH_LONG).show();
@@ -627,7 +632,6 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         usersDoc = db.document(usersDocumentPath);
         patientsDocProfile = db.document(patientsProfileDocumentPath);
         patientsDocMedicalRecord = db.document(patientsMedicalRecordDocumentPath);
-//        patientsDocEmergencyContact = db.collection("Patients").document(firebaseAuth.getUid()).collection("EmergencyContact").document();
         patientsDocEmergencyContact = db.collection(patientsEmergencyContactDocumentPath).document();
         usersDoc.update("recordsAvailable", true).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
@@ -945,6 +949,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
                     && !TextUtils.isEmpty(userAddressEditTxt.getText())
                     && (femaleCheckbox.isChecked() || maleCheckbox.isChecked())) {
                 greenHeader(header1);
+                indicator.setCurrentStep(0);
             }
             else {
                 redHeader(header1);
@@ -973,6 +978,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
 //                    && !TextUtils.isEmpty(bloodGroupEditTxt.getText())
                     && bloodGroup != null) {
                 greenHeader(header2);
+                indicator.setCurrentStep(1);
             }
             else {
                 redHeader(header2);
@@ -994,6 +1000,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
                 contactExpandLess.setVisibility(View.GONE);
                 contact.setVisibility(View.GONE);
                 greenHeader(header1);
+                indicator.setCurrentStep(1);
             }
             else {
                 redHeader(header1);
@@ -1015,6 +1022,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
                     && !TextUtils.isEmpty(contactAddressEditTxt.getText())) {
                 doneBtn.setVisibility(View.GONE);
                 redHeader(header3);
+                indicator.setCurrentStep(2);
             }
             else {
                 redHeader(header3);
@@ -1038,6 +1046,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
                 essentials.scrollDown(scrollView, contact);
                 greenHeader(header2);
                 redHeader(header3);
+                indicator.setCurrentStep(2);
             }
             else {
                 redHeader(header2);
