@@ -3,6 +3,7 @@ package com.example.emergencyalertapp.screens.patient;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -228,7 +229,7 @@ public class PatientActivities extends AppCompatActivity implements SendAlertBot
                 .setCancelable(false)
                 .setPositiveButton("Yes", (dialog, id) -> {
                     Intent enableGpsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivityForResult(enableGpsIntent, PERMISSIONS_REQUEST_ENABLE_GPS);
+                    PatientActivities.this.startActivityForResult(enableGpsIntent, PERMISSIONS_REQUEST_ENABLE_GPS);
                 });
         final AlertDialog alert = builder.create();
         alert.show();

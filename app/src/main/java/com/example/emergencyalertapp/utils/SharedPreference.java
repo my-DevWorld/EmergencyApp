@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
+import com.example.emergencyalertapp.models.service_providers.ServiceProvider;
+
 public class SharedPreference {
     public interface Key{
         String NAME = "EmergencyAlert";
         String NUMBER_OF_CONTACT = "number-of-contacts";
+        String SERVICE_PROVIDER = "service-provider";
     }
 
     private SharedPreferences sharedPreferences;

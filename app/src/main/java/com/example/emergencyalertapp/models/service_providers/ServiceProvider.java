@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 public class ServiceProvider implements Parcelable {
     private String userID;
+    private String username;
     private String fullName;
     private String email;
     private String gender;
@@ -17,10 +18,13 @@ public class ServiceProvider implements Parcelable {
     public ServiceProvider() {
     }
 
-    public ServiceProvider(String fullName, String email,
+    public ServiceProvider(String userID, String username,
+                           String fullName, String email,
                            String gender, String phoneNum,
                            String residentialAddress, String serviceType,
                            String hospital, String speciality) {
+        this.userID = username;
+        this.username = username;
         this.fullName = fullName;
         this.email = email;
         this.gender = gender;
@@ -33,6 +37,7 @@ public class ServiceProvider implements Parcelable {
 
     protected ServiceProvider(Parcel in) {
         userID = in.readString();
+        username = in.readString();
         fullName = in.readString();
         email = in.readString();
         gender = in.readString();
@@ -46,6 +51,7 @@ public class ServiceProvider implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(userID);
+        dest.writeString(username);
         dest.writeString(fullName);
         dest.writeString(email);
         dest.writeString(gender);
@@ -79,6 +85,14 @@ public class ServiceProvider implements Parcelable {
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFullName() {
@@ -149,6 +163,7 @@ public class ServiceProvider implements Parcelable {
     public String toString() {
         return "ServiceProvider{" +
                 "userID='" + userID + '\'' +
+                ", username='" + username + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 ", gender='" + gender + '\'' +
@@ -160,17 +175,6 @@ public class ServiceProvider implements Parcelable {
                 '}';
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

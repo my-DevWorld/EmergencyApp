@@ -57,5 +57,13 @@
     <string name="repeat_password">Repeat Password</string>
     <string name="find_doctors_and_nurses_arround_you">Doctors and Nurses"\n"around you.</string>
     <string name="hospitals_arround_you">Hospitals arround you.</string>
+    <string name="profile">Profile</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="manage_patients">Manage Patients</string>
+    <string name="add_to_contact_list">Add to contact list</string>
+    <string name="username">Username</string>
+    <string name="place_of_work">Place of work</string>
+    <string name="doctor_or_nurse">Doctor or Nurse</string>
+    <string name="speciality">Speciality</string>
 
 </resources>

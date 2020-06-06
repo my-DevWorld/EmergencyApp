@@ -17,6 +17,11 @@ import android.widget.Toast;
 
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.models.User;
+import com.example.emergencyalertapp.screens.SplashScreen;
+import com.example.emergencyalertapp.screens.patient.PatientActivities;
+import com.example.emergencyalertapp.screens.service_provider.SPHomeScreen;
+import com.example.emergencyalertapp.screens.service_provider.activities.ManagePatient;
+import com.example.emergencyalertapp.screens.service_provider.activities.Profile;
 import com.example.emergencyalertapp.utils.CheckNetworkConnectivity;
 import com.example.emergencyalertapp.utils.UserClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,10 +32,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import onboarding.screens.Login;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     //widget
-    private RelativeLayout logout;
+    private RelativeLayout logout, userProfileLabel, managePatientsLabel;
     private TextView user_name, userEmailAddress;
 
     //fields
@@ -67,8 +72,12 @@ public class ProfileFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
         user_name = view.findViewById(R.id.user_name);
         userEmailAddress = view.findViewById(R.id.userEmailAddress);
+        userProfileLabel = view.findViewById(R.id.userProfileLabel);
+        userProfileLabel.setOnClickListener(this);
+        managePatientsLabel = view.findViewById(R.id.managePatientsLabel);
+        managePatientsLabel.setOnClickListener(this);
 
-        getAuthenticatedUser();
+//        getAuthenticatedUser();
 
         logout = view.findViewById(R.id.logout);
         logout.setOnClickListener(v -> {
@@ -78,39 +87,66 @@ public class ProfileFragment extends Fragment {
             startActivity(intent);
             getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
-
-        new Handler().postDelayed(() -> {
-            user_name.setText(((UserClient)getActivity().getApplicationContext()).getUser().getUsername());
-            userEmailAddress.setText(((UserClient)getActivity().getApplicationContext()).getUser().getEmail());
-            System.out.println(">>>>>>>>>>>>> User fullname: " +
-                    ((UserClient)getActivity().getApplicationContext()).getUser().getEmail());
-        }, 700);
-
+        setFields();
     }
 
-    private void getAuthenticatedUser(){
-        if (CheckNetworkConnectivity.getInstance(getActivity()).isOnline()) {
-            firebaseAuth = FirebaseAuth.getInstance();
-            usersCollection = db.collection("Users");
-            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-            if (firebaseUser == null) {
-                startActivity(new Intent(getContext(), Login.class));
-                getActivity().finish();
-            } else {
-                usersCollection.whereEqualTo("userID", firebaseAuth.getUid())
-                        .get()
-                        .addOnSuccessListener(queryDocumentSnapshots -> {
-                            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                                user = documentSnapshot.toObject(User.class);
-                            }
-                            ((UserClient)getActivity().getApplicationContext()).setUser(user);
+//    private void getAuthenticatedUser(){
+//        if (CheckNetworkConnectivity.getInstance(getActivity()).isOnline()) {
+//            firebaseAuth = FirebaseAuth.getInstance();
+//            usersCollection = db.collection("Users");
+//            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+//            if (firebaseUser == null) {
+//                startActivity(new Intent(getContext(), Login.class));
+//                getActivity().finish();
+//            } else {
+//                usersCollection.whereEqualTo("userID", firebaseAuth.getUid())
+//                        .get()
+//                        .addOnSuccessListener(queryDocumentSnapshots -> {
+//                            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+//                                user = documentSnapshot.toObject(User.class);
+//                            }
+//                            ((UserClient)getActivity().getApplicationContext()).setUser(user);
+//
+//                        });
+//            }
+//
+//        } else {
+//            Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
-                        });
+    private void setFields(){
+        new Handler().postDelayed(() -> {
+            if(((UserClient)getActivity().getApplicationContext()).getUser() != null){
+                user_name.setText(((UserClient)getActivity().getApplicationContext()).getUser().getUsername());
+                userEmailAddress.setText(((UserClient)getActivity().getApplicationContext()).getUser().getEmail());
+                System.out.println(">>>>>>>>>>>>> User fullname: " +
+                        ((UserClient)getActivity().getApplicationContext()).getUser().getEmail());
             }
+        }, 500);
+    }
 
-        } else {
-            Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_SHORT).show();
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.userProfileLabel:
+                Intent intent = new Intent(getActivity(), Profile.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
+            case R.id.managePatientsLabel:
+                Intent intent1 = new Intent(getActivity(), ManagePatient.class);
+                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent1.putExtra("Patient Details", ((SPHomeScreen)getActivity()).patientDetails);
+                startActivity(intent1);
+                break;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setFields();
     }
 }
 

@@ -21,6 +21,10 @@
         <item name="android:textSize">24dp</item>
     </style>
 
+<!--    <style name="MyStyle" parent="Theme.AppCompat.NoActionBar">-->
+<!--        <item name="editTextStyle"></item>-->
+<!--    </style>-->
+
 <!--    <style name="AppTheme.NoActionBar">-->
 <!--        <item name="windowActionBar">false</item>-->
 <!--        <item name="windowNoTitle">true</item>-->

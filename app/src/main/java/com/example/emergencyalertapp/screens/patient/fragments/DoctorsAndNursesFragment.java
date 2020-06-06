@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.example.emergencyalertapp.models.patient.PatientProfile;
 import com.example.emergencyalertapp.models.service_providers.PatientDetails;
 import com.example.emergencyalertapp.models.service_providers.ServiceProvider;
 import com.example.emergencyalertapp.screens.patient.PatientActivities;
+import com.example.emergencyalertapp.utils.Essentials;
 import com.example.emergencyalertapp.utils.SharedPreference;
 import com.example.emergencyalertapp.utils.UserClient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,6 +46,7 @@ public class DoctorsAndNursesFragment extends Fragment implements ServiceProvide
     private PatientProfile patientProfile;
     private MedicalRecord medicalRecord;
     private int numberOfContact;
+    private Essentials essentials = new Essentials();
 
     public DoctorsAndNursesFragment() {}
 
@@ -95,22 +98,26 @@ public class DoctorsAndNursesFragment extends Fragment implements ServiceProvide
             profile = db.collection("Patients").document(firebaseAuth.getUid()).collection("Profile").document("data");
             profile.get().addOnSuccessListener(documentSnapshot -> {
                 patientProfile = documentSnapshot.toObject(PatientProfile.class);
-                System.out.println(">>>>>>>>> Service Provider >>>>>>>>>>>>>>>>>>>: " + patientProfile.toString());
+                System.out.println(">>>>>>>>> Patient Profile >>>>>>>>>>>>>>>>>>>: " + patientProfile.toString());
             });
             medicalRecords = db.collection("Patients").document(firebaseAuth.getUid()).collection("MedicalRecord").document("data");
             medicalRecords.get().addOnSuccessListener(documentSnapshot -> {
                 medicalRecord = documentSnapshot.toObject(MedicalRecord.class);
-                System.out.println(">>>>>>>>> Service Provider >>>>>>>>>>>>>>>>>>>: " + medicalRecord.toString());
+                System.out.println(">>>>>>>>> Patient MedRecord >>>>>>>>>>>>>>>>>>>: " + medicalRecord.toString());
             });
+            essentials.startProgressLoader(getContext(), "Adding to contact...");
+
             new Handler().postDelayed(() -> {
                 PatientDetails patientDetails = new PatientDetails();
+                patientDetails.setPatientID(firebaseAuth.getUid());
                 patientDetails.setUserName(((UserClient)getActivity().getApplicationContext()).getUser().getUsername());
                 patientDetails.setFullName(((UserClient)getActivity().getApplicationContext()).getUser().getFullName());
-                if(medicalRecord.getAllergies() != null && !medicalRecord.getAllergies().isEmpty()){
-                    patientDetails.setAllergies(medicalRecord.getAllergies());
+                String medRecord = medicalRecord.getAllergies();
+                if(medRecord == null){
+                    patientDetails.setAllergies(null);
                 }
                 else {
-                    patientDetails.setAllergies(null);
+                    patientDetails.setAllergies(medRecord);
                 }
                 patientDetails.setBloodType(medicalRecord.getBloodGroup());
                 patientDetails.setHeight(medicalRecord.getHeight());
@@ -123,18 +130,12 @@ public class DoctorsAndNursesFragment extends Fragment implements ServiceProvide
                 addServiceProvider(serviceProvider.getUserID(), serviceProvider.getFullName(),
                         ((UserClient)getActivity().getApplicationContext()).getUser().getFullName(), patientDetails, serviceProvider);
 
-                System.out.println(">>>>>>>>> Service Provider >>>>>>>>>>>>>>>>>>>: " + patientDetails.toString());
-            }, 1200);
+            }, 3500);
         }
         else {
             Toast.makeText(getContext(), "Emergency contact limit reached.", Toast.LENGTH_SHORT).show();
 
         }
-
-
-//        System.out.println(">>>>>>>>> Service Provider >>>>>>>>>>>>>>>>>>>: " + serviceProvider.getUserID());
-//        ((UserClient)getActivity().getApplicationContext()).getUser().getUsername();
-//                System.out.println(">>>>>>>>> Service Provider >>>>>>>>>>>>>>>>>>>: " + firebaseAuth.getUid());
     }
 
     private void addServiceProvider(String spID, String spName, String patientName, PatientDetails patientDetails, ServiceProvider serviceProvider){
@@ -145,6 +146,7 @@ public class DoctorsAndNursesFragment extends Fragment implements ServiceProvide
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                essentials.dismissProgressBar();
                 Toast.makeText(getContext(), "Something went wrong, please try again later", Toast.LENGTH_SHORT).show();
             }
         });
@@ -158,9 +160,11 @@ public class DoctorsAndNursesFragment extends Fragment implements ServiceProvide
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     SharedPreference.getInstance(getContext()).setNumberOnContact("2");
-                    Toast.makeText(getContext(), "Add to contact list", Toast.LENGTH_SHORT).show();
+                    essentials.dismissProgressBar();
+                    Toast.makeText(getContext(), "Added to contact list", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    essentials.dismissProgressBar();
                     Toast.makeText(getContext(), "Could not add to contact list", Toast.LENGTH_SHORT).show();
                 }
             }

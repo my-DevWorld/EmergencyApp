@@ -32,7 +32,7 @@ public class DocNurseDetailsBottomSheetDialog extends BottomSheetDialogFragment 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.doc_and_nurse_details_bottom_sheet_dialog, container, false);
         ServiceProvider sProvider = serviceProvider;
-        ImageView cancel = view.findViewById(R.id.cancel);
+//        ImageView cancel = view.findViewById(R.id.cancel);
         TextView doc_nurse_serviceType = view.findViewById(R.id.doc_nurse_serviceType);
         TextView doc_nurse_name = view.findViewById(R.id.doc_nurse_name);
         TextView doc_nurse_email = view.findViewById(R.id.doc_nurse_email);
@@ -55,9 +55,9 @@ public class DocNurseDetailsBottomSheetDialog extends BottomSheetDialogFragment 
             dismiss();
         });
 
-        cancel.setOnClickListener(v -> {
-            dismiss();
-        });
+//        cancel.setOnClickListener(v -> {
+//            dismiss();
+//        });
 
         return view;
     }

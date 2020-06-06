@@ -10,16 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.emergencyalertapp.R;
+import com.example.emergencyalertapp.models.service_providers.PatientDetails;
 
 import java.util.ArrayList;
 
 public class PatientDetailsAdapter extends RecyclerView.Adapter<PatientDetailsAdapter.PatientDetailsViewHolder> {
 
     private Context context;
-    private ArrayList<com.example.emergencyalertapp.models.service_providers.PatientDetails> patientDetails;
+    private ArrayList<PatientDetails> patientDetails;
     private OnPatientDetailsListener onPatientDetailsListener;
 
-    public PatientDetailsAdapter(Context context, ArrayList<com.example.emergencyalertapp.models.service_providers.PatientDetails> patientDetails, OnPatientDetailsListener onPatientDetailsListener) {
+    public PatientDetailsAdapter(Context context, ArrayList<PatientDetails> patientDetails, OnPatientDetailsListener onPatientDetailsListener) {
         this.context = context;
         this.patientDetails = patientDetails;
         this.onPatientDetailsListener = onPatientDetailsListener;
@@ -34,7 +35,7 @@ public class PatientDetailsAdapter extends RecyclerView.Adapter<PatientDetailsAd
 
     @Override
     public void onBindViewHolder(@NonNull PatientDetailsViewHolder holder, int position) {
-        com.example.emergencyalertapp.models.service_providers.PatientDetails patientDetails = this.patientDetails.get(position);
+        PatientDetails patientDetails = this.patientDetails.get(position);
         holder.provider_name.setText(patientDetails.getFullName());
         holder.service_type.setVisibility(View.GONE);
 
@@ -49,7 +50,6 @@ public class PatientDetailsAdapter extends RecyclerView.Adapter<PatientDetailsAd
     }
 
     public class PatientDetailsViewHolder extends RecyclerView.ViewHolder {
-
         private TextView provider_name, service_type;
 
         public PatientDetailsViewHolder(@NonNull View itemView) {
@@ -60,6 +60,6 @@ public class PatientDetailsAdapter extends RecyclerView.Adapter<PatientDetailsAd
     }
 
     public interface OnPatientDetailsListener{
-        void getPatientDetailsClicked(com.example.emergencyalertapp.models.service_providers.PatientDetails patientDetails);
+        void getPatientDetailsClicked(PatientDetails patientDetails);
     }
 }

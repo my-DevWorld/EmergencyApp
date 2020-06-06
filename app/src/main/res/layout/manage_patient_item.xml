@@ -38,18 +38,18 @@
                 tools:text="Name"
                 android:textSize="18sp"
                 android:textColor="@color/primaryTextColo"
-                android:fontFamily="@font/poppins_medium"/>
+                android:fontFamily="@font/poppins_medium"
+                />
 
-            <TextView
-                android:id="@+id/service_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/delete_Patient"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="24dp"
-                tools:text="Specialty"
-                android:textSize="16sp"
-                android:textColor="@color/secondaryTextColor"
-                android:fontFamily="@font/poppins_regular"/>
+                android:src="@drawable/ic_delete"
+                android:layout_gravity="center_vertical"
+                />
         </RelativeLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

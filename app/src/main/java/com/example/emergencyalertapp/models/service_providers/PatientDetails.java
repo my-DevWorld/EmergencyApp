@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class PatientDetails implements Parcelable {
+    private String patientID;
     private String userName;
     private String fullName;
     private String allergies;
@@ -18,11 +19,12 @@ public class PatientDetails implements Parcelable {
     public PatientDetails() {
     }
 
-    public PatientDetails(String userName, String fullName,
+    public PatientDetails(String patientID, String userName, String fullName,
                           String allergies, String bloodType,
                           String height, String weight,
                           boolean onMedication, String treatment,
                           String patientPhoneNum, String patientResAddress) {
+        this.patientID = patientID;
         this.userName = userName;
         this.fullName = fullName;
         this.allergies = allergies;
@@ -37,6 +39,7 @@ public class PatientDetails implements Parcelable {
 
 
     protected PatientDetails(Parcel in) {
+        patientID = in.readString();
         userName = in.readString();
         fullName = in.readString();
         allergies = in.readString();
@@ -51,6 +54,7 @@ public class PatientDetails implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(patientID);
         dest.writeString(userName);
         dest.writeString(fullName);
         dest.writeString(allergies);
@@ -79,6 +83,14 @@ public class PatientDetails implements Parcelable {
             return new PatientDetails[size];
         }
     };
+
+    public String getPatientID() {
+        return patientID;
+    }
+
+    public void setPatientID(String patientID) {
+        this.patientID = patientID;
+    }
 
     public String getUserName() {
         return userName;
@@ -163,6 +175,7 @@ public class PatientDetails implements Parcelable {
     @Override
     public String toString() {
         return "PatientContact{" +
+                "patientID='" + patientID + '\'' +
                 "userName='" + userName + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", allergies='" + allergies + '\'' +

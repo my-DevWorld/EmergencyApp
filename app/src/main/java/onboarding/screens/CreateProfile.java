@@ -108,7 +108,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
         patientsProfileDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/Profile/data");
         patientsMedicalRecordDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/MedicalRecord/data");
-        patientsEmergencyContactDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/EmergencyContact/firstContact");
+        patientsEmergencyContactDocumentPath = "Patients/".concat(firebaseAuth.getUid()).concat("/EmergencyContact/Primary Contact");
         scrollView = findViewById(R.id.scrollView);
         essentials = new Essentials();
 

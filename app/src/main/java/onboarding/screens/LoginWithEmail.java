@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -16,9 +17,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.emergencyalertapp.R;
+import com.example.emergencyalertapp.models.service_providers.ServiceProvider;
 import com.example.emergencyalertapp.screens.patient.PatientActivities;
 import com.example.emergencyalertapp.screens.service_provider.SPHomeScreen;
 import com.example.emergencyalertapp.utils.Essentials;
+import com.example.emergencyalertapp.utils.UserClient;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,7 +50,6 @@ public class LoginWithEmail extends AppCompatActivity {
     private CollectionReference usersCollection;
     private static final String TAG = "LoginWithEmail";
     private static final String CATEGORY = "Patient";
-    private static final String CATEGORY2 = "Service Provider";
     private User user;
     private Essentials essentials;
 
@@ -252,6 +254,20 @@ public class LoginWithEmail extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         finish();
     }
+
+//    private void getServiceProviderDetails(){
+//        getServiceProvider = db.collection("Service Providers")
+//                .document(firebaseUser.getUid());
+//        getServiceProvider.addSnapshotListener(this, (documentSnapshot, e) -> {
+//            if(e != null){
+//                return;
+//            }
+//            provider = documentSnapshot.toObject(ServiceProvider.class);
+//            new Handler().postDelayed(() -> {
+//                System.out.println("?????????????????????????????? " + provider.toString());
+//            },400);
+//        });
+//    }
 }
 
 

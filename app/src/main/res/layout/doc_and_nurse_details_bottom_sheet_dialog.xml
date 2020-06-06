@@ -6,16 +6,16 @@
     android:paddingBottom="16dp"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/circular_bg"
-        android:padding="4dp"
-        android:src="@drawable/ic_close"
-        android:visibility="gone"/>
+<!--    <ImageView-->
+<!--        android:id="@+id/cancel"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:background="@drawable/circular_bg"-->
+<!--        android:padding="4dp"-->
+<!--        android:src="@drawable/ic_close"-->
+<!--        android:visibility="gone"/>-->
 
     <ImageView
         android:id="@+id/sp_image"
@@ -35,7 +35,7 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         tools:text="Doctor"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textColor="@color/forgotPassword"
         android:fontFamily="@font/poppins_bold_italic"
         />
@@ -57,8 +57,8 @@
         android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
         android:gravity="center"
-        android:text="Name"
-        android:textSize="18sp"
+        tools:text="Name"
+        android:textSize="16sp"
         android:textColor="@color/primaryTextColo"
         android:fontFamily="@font/poppins_medium"
         />
@@ -71,8 +71,8 @@
         android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
         android:gravity="center"
-        android:text="Email"
-        android:textSize="18sp"
+        tools:text="Email"
+        android:textSize="16sp"
         android:textColor="@color/primaryTextColo"
         android:fontFamily="@font/poppins_medium"
         />
@@ -85,8 +85,8 @@
         android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
         android:gravity="center"
-        android:text="Phone No."
-        android:textSize="18sp"
+        tools:text="Phone No."
+        android:textSize="16sp"
         android:textColor="@color/primaryTextColo"
         android:fontFamily="@font/poppins_medium"
         />
@@ -99,8 +99,8 @@
         android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
         android:gravity="center"
-        android:text="Residential Addres"
-        android:textSize="18sp"
+        tools:text="Residential Addres"
+        android:textSize="16sp"
         android:textColor="@color/primaryTextColo"
         android:fontFamily="@font/poppins_medium"
         />
@@ -113,8 +113,8 @@
         android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
         android:gravity="center"
-        android:text="Doctor at: "
-        android:textSize="18sp"
+        tools:text="Doctor at: "
+        android:textSize="16sp"
         android:textColor="@color/primaryTextColo"
         android:fontFamily="@font/poppins_medium"
         />
@@ -127,8 +127,8 @@
         android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
         android:gravity="center"
-        android:text="Speciality"
-        android:textSize="18sp"
+        tools:text="Speciality"
+        android:textSize="16sp"
         android:textColor="@color/primaryTextColo"
         android:fontFamily="@font/poppins_medium"
         />
@@ -142,13 +142,12 @@
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:text="Add to contact list"
+        android:text="@string/add_to_contact_list"
         android:textSize="18sp"
         android:textColor="@color/whiteColor"
         android:fontFamily="@font/poppins_medium"
         android:background="@drawable/add_doc_nurse_bg"
         />
-
 </LinearLayout>
 
 

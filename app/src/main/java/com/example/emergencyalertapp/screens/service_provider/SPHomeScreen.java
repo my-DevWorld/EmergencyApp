@@ -10,14 +10,19 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.adapters.ViewPagerAdapter;
+import com.example.emergencyalertapp.models.User;
 import com.example.emergencyalertapp.models.service_providers.PatientDetails;
 import com.example.emergencyalertapp.screens.service_provider.fragments.HomeFragment;
 import com.example.emergencyalertapp.screens.service_provider.fragments.ProfileFragment;
+import com.example.emergencyalertapp.utils.CheckNetworkConnectivity;
+import com.example.emergencyalertapp.utils.UserClient;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -34,6 +39,8 @@ public class SPHomeScreen extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     private CollectionReference getPatientsCollection;
+    private CollectionReference usersCollection;
+    private User user;
     public ArrayList<PatientDetails> patientDetails;
 
     //widgets
@@ -47,15 +54,8 @@ public class SPHomeScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.s_p_home_screen);
 
-//        TextView textView = findViewById(R.id.id);
-//        textView.setOnClickListener(v -> {
-//            FirebaseAuth.getInstance().signOut();
-//            Intent intent = new Intent(SPHomeScreen.this, Login.class);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            startActivity(intent);
-//            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-//        });
         setup();
+        getAuthenticatedUser();
     }
 
     private void setup(){
@@ -71,8 +71,6 @@ public class SPHomeScreen extends AppCompatActivity {
         toolbar.setTitleTextColor(ContextCompat.getColor(SPHomeScreen.this, R.color.forgotPassword));
 
         tabLayout = findViewById(R.id.tab_layout);
-//        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.forgotPassword));
-//        tabLayout.setBackgroundColor(getResources().getColor(R.color.whiteColor));
         viewPager = findViewById(R.id.view_pager);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -108,7 +106,41 @@ public class SPHomeScreen extends AppCompatActivity {
         getPatients();
     }
 
-    private void getPatients(){
+    @Override
+    public void onBackPressed() {
+        if(viewPager.getCurrentItem() == 0){
+            super.finish();
+        }
+        else {
+            viewPager.setCurrentItem(0);
+        }
+    }
+
+    private void getAuthenticatedUser(){
+        if (CheckNetworkConnectivity.getInstance(this).isOnline()) {
+            usersCollection = db.collection("Users");
+            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+            if (firebaseUser == null) {
+                startActivity(new Intent(this, Login.class));
+                finish();
+            } else {
+                usersCollection.whereEqualTo("userID", firebaseAuth.getUid())
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                user = documentSnapshot.toObject(User.class);
+                            }
+                            ((UserClient)this.getApplicationContext()).setUser(user);
+
+                        });
+            }
+
+        } else {
+            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void getPatients(){
         patientDetails = new ArrayList<>();
         getPatientsCollection.addSnapshotListener(this, (queryDocumentSnapshots, e) -> {
             if(e != null){
