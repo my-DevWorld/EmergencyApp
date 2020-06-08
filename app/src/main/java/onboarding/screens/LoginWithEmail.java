@@ -121,20 +121,24 @@ public class LoginWithEmail extends AppCompatActivity {
     private void validateForm(){
         if(TextUtils.isEmpty(userEmailLogin.getText())){
             userEmailRegLayout.setError("Enter your email address");
+            userEmailRegLayout.setEndIconActivated(false);
             return;
         }
         if(!Patterns.EMAIL_ADDRESS.matcher(userEmailLogin.getText().toString()).matches()){
             userEmailRegLayout.setError("Enter a valid email address");
+            userEmailRegLayout.setEndIconActivated(false);
             return;
         }
         if(TextUtils.isEmpty(userPasswordLogin.getText().toString())){
             userPasswordRegLayout.setError("Enter your password");
+            userPasswordRegLayout.setEndIconActivated(false);
             return;
         }
         if(!TextUtils.isEmpty(userPasswordLogin.getText().toString())){
             String passwordCount = userPasswordLogin.getText().toString();
             if(passwordCount.length() < 6){
                 userPasswordRegLayout.setError("Password must be at least 6 characters");
+                userPasswordRegLayout.setEndIconActivated(false);
                 return;
             }
         }
@@ -149,13 +153,13 @@ public class LoginWithEmail extends AppCompatActivity {
                 .addOnSuccessListener(authResult -> {
                     firebaseUser = firebaseAuth.getCurrentUser();
                     if(firebaseUser.isEmailVerified()){
-                        essentials.dismissProgressBar();
                         usersCollection.whereEqualTo("userID", firebaseAuth.getUid())
                                 .get()
                                 .addOnSuccessListener(queryDocumentSnapshots -> {
                                     for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                                         user = documentSnapshot.toObject(User.class);
                                     }
+                                    essentials.dismissProgressBar();
                                     if(user.getCategory().equals(CATEGORY)){
                                         if(user.isRecordsAvailable()) {
                                             Intent intent = new Intent(LoginWithEmail.this, PatientActivities.class);

@@ -22,6 +22,7 @@ import com.example.emergencyalertapp.screens.patient.PatientActivities;
 import com.example.emergencyalertapp.screens.service_provider.SPHomeScreen;
 import com.example.emergencyalertapp.screens.service_provider.activities.ManagePatient;
 import com.example.emergencyalertapp.screens.service_provider.activities.Profile;
+import com.example.emergencyalertapp.screens.service_provider.activities.ResetPassword;
 import com.example.emergencyalertapp.utils.CheckNetworkConnectivity;
 import com.example.emergencyalertapp.utils.UserClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,7 +36,7 @@ import onboarding.screens.Login;
 public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     //widget
-    private RelativeLayout logout, userProfileLabel, managePatientsLabel;
+    private RelativeLayout logout, userProfileLabel, managePatientsLabel, changePasswordLabel;
     private TextView user_name, userEmailAddress;
 
     //fields
@@ -76,6 +77,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         userProfileLabel.setOnClickListener(this);
         managePatientsLabel = view.findViewById(R.id.managePatientsLabel);
         managePatientsLabel.setOnClickListener(this);
+        changePasswordLabel = view.findViewById(R.id.changePasswordLabel);
+        changePasswordLabel.setOnClickListener(this);
 
 //        getAuthenticatedUser();
 
@@ -139,6 +142,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent1.putExtra("Patient Details", ((SPHomeScreen)getActivity()).patientDetails);
                 startActivity(intent1);
+                break;
+            case R.id.changePasswordLabel:
+                Intent intent2 = new Intent(getActivity(), ResetPassword.class);
+                intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent2);
                 break;
         }
     }

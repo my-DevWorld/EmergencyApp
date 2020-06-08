@@ -65,5 +65,9 @@
     <string name="place_of_work">Place of work</string>
     <string name="doctor_or_nurse">Doctor or Nurse</string>
     <string name="speciality">Speciality</string>
+    <string name="change_password">Change Password</string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
 
 </resources>

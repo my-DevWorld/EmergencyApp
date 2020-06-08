@@ -14,6 +14,7 @@ import com.example.emergencyalertapp.utils.Essentials;
 import com.example.emergencyalertapp.utils.UserClient;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -26,6 +27,7 @@ public class Profile extends AppCompatActivity {
 
     //fields
     private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
     private FirebaseFirestore db;
     private DocumentReference getServiceProvider;
     private DocumentReference usersDoc;
@@ -45,6 +47,7 @@ public class Profile extends AppCompatActivity {
 
     private void setup(){
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
         getServiceProvider = db.collection("Service Providers").document(((UserClient)this.getApplicationContext()).getUser().getUserID());
         usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
@@ -114,6 +117,11 @@ public class Profile extends AppCompatActivity {
                 essentials.hideSoftKeyboard(this, ok);
             }
         });
+
+
+
+
+//        firebaseUser.updatePassword()
     }
 }
 
