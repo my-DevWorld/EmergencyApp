@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.models.service_providers.ServiceProvider;
@@ -35,6 +39,7 @@ public class Profile extends AppCompatActivity {
     private String serviceProvider;
     private ServiceProvider provider;
     private Essentials essentials;
+    private boolean txtchanged = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +54,13 @@ public class Profile extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
-        getServiceProvider = db.collection("Service Providers").document(((UserClient)this.getApplicationContext()).getUser().getUserID());
+        getServiceProvider = db.collection("Service Providers")
+                .document(((UserClient)this.getApplicationContext()).getUser().getUserID());
         usersDocumentPath = "Users/".concat(firebaseAuth.getUid());
         essentials = new Essentials();
-//        serviceProvider = "Service Providers".concat(((UserClient)this.getApplicationContext()).getUser().getUserID());
         rootLayout = findViewById(R.id.rootLayout);
         ok = findViewById(R.id.ok);
         ok.setOnClickListener(v -> {
-//            essentials.startProgressLoader(this, "Updating profile...");
             updateUser();
         });
         back = findViewById(R.id.back);
@@ -74,6 +78,56 @@ public class Profile extends AppCompatActivity {
         doc_or_nurser = findViewById(R.id.doc_or_nurser);
         speciality = findViewById(R.id.speciality);
 
+        userName.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                if(ok.getVisibility() == View.GONE){
+                    ok.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        fullName.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                if(ok.getVisibility() == View.GONE){
+                    ok.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        placeOfWork.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                if(ok.getVisibility() == View.GONE){
+                    ok.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        phoneNum.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                if(ok.getVisibility() == View.GONE){
+                    ok.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        residentialAddress.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                if(ok.getVisibility() == View.GONE){
+                    ok.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        doc_or_nurser.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                if(ok.getVisibility() == View.GONE){
+                    ok.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        speciality.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                if(ok.getVisibility() == View.GONE){
+                    ok.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         getServiceProviderDetails();
     }
 
@@ -85,7 +139,6 @@ public class Profile extends AppCompatActivity {
             provider = documentSnapshot.toObject(ServiceProvider.class);
             new Handler().postDelayed(() -> {
                 updateFields(provider);
-                System.out.println("?????????????????????????????? " + provider.toString());
                 },100);
         });
     }
@@ -105,7 +158,9 @@ public class Profile extends AppCompatActivity {
         usersDoc = db.document(usersDocumentPath);
         usersDoc.update("username", userName.getText().toString().trim()).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
+                ok.setVisibility(View.GONE);
                 getServiceProvider.update("username", userName.getText().toString().trim());
+                usersDoc.update("fullName", fullName.getText().toString().trim());
                 getServiceProvider.update("fullName", fullName.getText().toString().trim());
                 getServiceProvider.update("hospital", placeOfWork.getText().toString().trim());
                 getServiceProvider.update("phoneNum", phoneNum.getText().toString().trim());
@@ -115,24 +170,14 @@ public class Profile extends AppCompatActivity {
                 ((UserClient)this.getApplicationContext()).getUser().setUsername(userName.getText().toString().trim());
                 rootLayout.requestFocus();
                 essentials.hideSoftKeyboard(this, ok);
+                Toast.makeText(this, "Update successful", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this, "Profile updating failed", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-
-//        firebaseUser.updatePassword()
     }
 }
-
-
-
-
-
-
-
-
-
 
 
 

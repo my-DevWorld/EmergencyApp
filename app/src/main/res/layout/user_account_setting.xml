@@ -1,19 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".screens.patient.activities.UserAccountSetting">
 
-    <TextView
+    <RelativeLayout
+        android:id="@+id/actionBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="50dp"
-        android:text="Seetings Activity"
-        android:textSize="35sp"
-        />
+        android:layout_height="@dimen/dp_56"
+        android:gravity="center_vertical"
+        android:elevation="@dimen/dp_3"
+        >
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_4"
+            android:padding="@dimen/dp_8"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_back"
+            android:layout_centerVertical="true"
+            android:visibility="visible"
+            />
+
+        <TextView
+            android:id="@+id/loginLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/back"
+            android:layout_marginStart="@dimen/dp_36"
+            android:text="@string/settings"
+            android:textSize="@dimen/sp_20"
+            android:textColor="@color/primaryTextColo"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+
+

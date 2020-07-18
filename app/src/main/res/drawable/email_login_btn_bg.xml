@@ -3,14 +3,14 @@
     <item android:state_enabled="false">
         <shape>
             <solid android:color="@color/primaryButtonColorDeActive"/>
-            <corners android:radius="7dp"/>
+            <corners android:radius="@dimen/dp_7"/>
         </shape>
     </item>
 
     <item>
         <shape>
             <solid android:color="@color/primaryButtonColorActive"/>
-            <corners android:radius="7dp"/>
+            <corners android:radius="@dimen/dp_7"/>
         </shape>
     </item>
 </selector>

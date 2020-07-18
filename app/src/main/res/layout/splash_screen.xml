@@ -14,12 +14,12 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="@dimen/dp_200"
         >
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
+            android:layout_width="@dimen/dp_130"
+            android:layout_height="@dimen/dp_130"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_emergency_alert_app_logo"
             android:layout_centerHorizontal="true"
@@ -29,10 +29,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/logo"
             android:text="@string/emergency_alert"
-            android:textSize="24sp"
+            android:textSize="@dimen/sp_24"
             android:textColor="@color/colorPrimary"
             android:fontFamily="@font/adobe_heiti_std_regular"
-            android:padding="4dp"
+            android:padding="@dimen/dp_4"
             android:layout_centerHorizontal="true"
             />
     </RelativeLayout>
@@ -43,9 +43,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="20dp"
-        android:text="QodeHub LLC"
-        android:textSize="18sp"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:text="@string/qodehub_llc"
+        android:textSize="@dimen/sp_18"
         android:textColor="@color/orangeColor"
-        android:fontFamily="@font/poppins_semibold"/>
+        android:fontFamily="@font/poppins_semi_bold"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

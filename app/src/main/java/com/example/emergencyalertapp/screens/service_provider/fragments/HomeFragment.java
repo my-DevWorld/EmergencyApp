@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,13 +19,16 @@ import android.widget.Toast;
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.adapters.PatientDetailsAdapter;
 import com.example.emergencyalertapp.models.service_providers.PatientDetails;
+import com.example.emergencyalertapp.screens.patient.PatientActivities;
 import com.example.emergencyalertapp.screens.service_provider.SPHomeScreen;
 
 
-public class HomeFragment extends Fragment implements PatientDetailsAdapter.OnPatientDetailsListener {
+public class HomeFragment extends Fragment implements PatientDetailsAdapter.OnPatientDetailsListener, FullScreenDia.Callback {
 
     private RecyclerView recycler_view;
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    private FullScreenDia fullScreenDia;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -84,13 +88,21 @@ public class HomeFragment extends Fragment implements PatientDetailsAdapter.OnPa
 
     @Override
     public void getPatientDetailsClicked(PatientDetails patientDetails) {
-        Toast.makeText(getContext(), "Display patient details", Toast.LENGTH_SHORT).show();
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: " + patientDetails.toString());
+
+        fullScreenDia = new FullScreenDia(patientDetails, this);
+        fullScreenDia.show(getFragmentManager(), "tag");
     }
 
     @Override
     public void onResume() {
         super.onResume();
         populateData();
+    }
+
+    @Override
+    public void onActionClick(String name) {
+
     }
 }
 

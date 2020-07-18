@@ -13,9 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.emergencyalertapp.R;
+import com.example.emergencyalertapp.adapters.PatientDetailsAdapter;
 import com.example.emergencyalertapp.adapters.ViewPagerAdapter;
 import com.example.emergencyalertapp.models.User;
 import com.example.emergencyalertapp.models.service_providers.PatientDetails;
+import com.example.emergencyalertapp.screens.service_provider.fragments.FullScreenDia;
 import com.example.emergencyalertapp.screens.service_provider.fragments.HomeFragment;
 import com.example.emergencyalertapp.screens.service_provider.fragments.ProfileFragment;
 import com.example.emergencyalertapp.utils.CheckNetworkConnectivity;
@@ -42,6 +44,7 @@ public class SPHomeScreen extends AppCompatActivity {
     private CollectionReference usersCollection;
     private User user;
     public ArrayList<PatientDetails> patientDetails;
+    private FullScreenDia fullScreenDia;
 
     //widgets
     private Toolbar toolbar;
@@ -151,7 +154,6 @@ public class SPHomeScreen extends AppCompatActivity {
                 patientDetails.add(documentSnapshot.toObject(PatientDetails.class));
             }
             new Handler().postDelayed(() -> System.out.println(">>>>>>>>>>>>>>> Patients are ready... " + patientDetails.toString()),90);
-
         });
     }
 }

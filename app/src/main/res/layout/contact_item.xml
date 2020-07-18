@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingTop="@dimen/dp_12"
+        android:paddingEnd="@dimen/dp_12">
+
+        <TextView
+            android:id="@+id/contact_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:gravity="center_vertical"
+            tools:text="Jon Doe"
+            android:textColor="@color/primaryTextColo"
+            android:textSize="@dimen/dp_16" />
+
+        <TextView
+            android:id="@+id/contact_item_relation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contact_item_name"
+            android:fontFamily="@font/poppins_regular"
+            android:gravity="center_vertical"
+            tools:text="Brother"
+            android:textColor="@color/primaryTextColo"
+            android:textSize="@dimen/dp_16" />
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginStart="12dp"-->
+<!--            android:fontFamily="@font/poppins_italic"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:text="Primary contact"-->
+<!--            android:textColor="@color/primaryTextColo"-->
+<!--            android:textSize="16sp" />-->
+
+        <TextView
+            android:id="@+id/contact_item_phoneNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contact_item_relation"
+            android:fontFamily="@font/poppins_regular"
+            android:gravity="center_vertical"
+            tools:text="0264449268"
+            android:textColor="@color/primaryTextColo"
+            android:textSize="@dimen/dp_16" />
+
+        <TextView
+            android:id="@+id/contact_item_res_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contact_item_phoneNum"
+            android:fontFamily="@font/poppins_regular"
+            android:gravity="center_vertical"
+            tools:text="Kasoa"
+            android:textColor="@color/primaryTextColo"
+            android:textSize="@dimen/dp_16" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="@color/dividerColor" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/contact_item_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/app_name"
+            android:padding="@dimen/dp_8"
+            android:src="@drawable/ic_delete"
+            android:visibility="visible" />
+    </RelativeLayout>
+</LinearLayout>

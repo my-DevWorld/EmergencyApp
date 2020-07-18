@@ -15,16 +15,12 @@ import android.widget.TextView;
 
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.screens.patient.PatientActivities;
-import com.example.emergencyalertapp.screens.patient.activities.EmergencyContact;
+import com.example.emergencyalertapp.screens.patient.activities.EmergencyContactScreen;
 import com.example.emergencyalertapp.screens.patient.activities.MedicalRecords;
 import com.example.emergencyalertapp.screens.patient.activities.Medication;
 import com.example.emergencyalertapp.screens.patient.activities.UserAccountSetting;
 import com.example.emergencyalertapp.screens.patient.activities.UserProfile;
 import com.example.emergencyalertapp.utils.UserClient;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import onboarding.screens.Login;
 
 public class AccountFragment extends Fragment {
 
@@ -67,7 +63,9 @@ public class AccountFragment extends Fragment {
         logout = view.findViewById(R.id.logout);
 
         userEmailAddress.setText(((PatientActivities)getActivity()).userEmail);
-        user_name.setText(((UserClient)getActivity().getApplicationContext()).getUser().getUsername());
+        if(((UserClient)getActivity().getApplicationContext()).getUser() != null){
+            user_name.setText(((UserClient)getActivity().getApplicationContext()).getUser().getUsername());
+        }
 
 
         userProfileLabel.setOnClickListener(v -> {
@@ -83,7 +81,7 @@ public class AccountFragment extends Fragment {
         });
 
         userEmergencyContactLabel.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), EmergencyContact.class);
+            Intent intent = new Intent(getActivity(), EmergencyContactScreen.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         });
@@ -105,4 +103,21 @@ public class AccountFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(((UserClient)getActivity().getApplicationContext()).getUser() != null){
+            user_name.setText(((UserClient)getActivity().getApplicationContext()).getUser().getUsername());
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+

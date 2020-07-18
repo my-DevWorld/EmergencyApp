@@ -76,7 +76,7 @@ public class PatientActivities extends AppCompatActivity implements SendAlertBot
     private SendAlertBottomSheetDialog sendAlertBottomSheetDialog;
 //    private DocNurseDetailsBottomSheetDialog docNurseDetailsBottomSheetDialog;
     private boolean mLocationPermissionGranted = false;
-    private FusedLocationProviderClient mFusedLocationClient;
+    public FusedLocationProviderClient mFusedLocationClient;
     private User user;
     public Location location;
     public ArrayList<Hospital> hospitals;
@@ -376,10 +376,18 @@ public class PatientActivities extends AppCompatActivity implements SendAlertBot
                             for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                                 user = documentSnapshot.toObject(User.class);
                             }
+                            if(user == null){
+//                                Toast.makeText(this, "User is empty", Toast.LENGTH_SHORT).show();
+                                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>: " + user.toString());
+                            }
                             ((UserClient)getApplicationContext()).setUser(user);
                             getHospitals();
                             getServiceProviders();
                         });
+                if(user == null){
+//                    Toast.makeText(this, "User is empty", Toast.LENGTH_SHORT).show();
+                    //TODO:
+                }
             }
 
         } else {

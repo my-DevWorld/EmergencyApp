@@ -36,15 +36,4 @@
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         />
 
-<!--    <TextView-->
-<!--        android:id="@+id/id"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:text="Service Providers"-->
-<!--        android:textSize="40sp"-->
-<!--        android:textColor="@color/colorPrimary"-->
-<!--        android:fontFamily="@font/poppins_medium"-->
-<!--        />-->
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

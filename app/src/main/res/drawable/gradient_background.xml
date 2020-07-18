@@ -10,9 +10,8 @@
         android:type="linear" />
 
     <corners
-        android:radius="10dp"/>
+        android:radius="@dimen/dp_10"/>
     <stroke android:color="@color/backIconColor1"
-        android:width="1dp"
+        android:width="@dimen/dp_1"
         />
-
 </shape>

@@ -6,51 +6,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:ignore="RelativeOverlap"
     tools:context="onboarding.screens.CreateProfile">
 
     <RelativeLayout
         android:id="@+id/actionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_24"
         android:gravity="center_vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:contentDescription="@string/app_name"
-            android:padding="8dp"
-            android:src="@drawable/ic_back"
-            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/loginLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="24dp"
-            android:layout_toEndOf="@+id/close"
             android:fontFamily="@font/poppins_medium"
             android:text="@string/create_profile"
             android:textColor="@color/primaryTextColo"
-            android:textSize="24sp" />
+            android:textSize="@dimen/sp_24" />
     </RelativeLayout>
 
     <TextView
         android:id="@+id/label1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_8"
         android:fontFamily="@font/poppins_regular"
         android:text="@string/don_t_worry_you_can_change_this_info_later"
         android:textColor="@color/secondaryTextColor"
-        android:textSize="16sp"
+        android:textSize="@dimen/sp_16"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/actionBar" />
 
@@ -58,15 +47,14 @@
         android:id="@+id/stepIndicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="55dp"
-        android:layout_marginEnd="55dp"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_55"
+        android:layout_marginEnd="@dimen/dp_55"
         app:stpi_stepCount="3"
         app:stpi_indicatorColor="@color/greenBtn"
         app:stpi_circleColor="@color/primaryButtonColorActive"
         app:stpi_lineColor="@color/primaryButtonColorActive"
         app:stpi_lineDoneColor="@color/greenBtn"
-
         app:layout_constraintTop_toBottomOf="@+id/label1"
         />
 
@@ -74,13 +62,13 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/dp_24"
         app:layout_constraintTop_toBottomOf="@+id/stepIndicator"
         >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="36dp"
+            android:paddingBottom="@dimen/dp_36"
             android:orientation="vertical"
             >
 
@@ -88,11 +76,11 @@
                 android:id="@+id/personalInfoCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:elevation="3dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="5dp"
+                android:layout_marginStart="@dimen/dp_24"
+                android:layout_marginEnd="@dimen/dp_24"
+                android:elevation="@dimen/dp_3"
+                app:cardCornerRadius="@dimen/dp_5"
+                app:cardElevation="@dimen/dp_5"
                 >
 
                 <LinearLayout
@@ -103,19 +91,20 @@
                     <RelativeLayout
                         android:id="@+id/header1"
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
+                        android:layout_height="@dimen/dp_56"
                         android:background="@color/primaryButtonColorActive"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp">
+                        android:paddingStart="@dimen/dp_6"
+                        android:paddingEnd="@dimen/dp_6">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:fontFamily="@font/poppins_semibold"
+                            android:fontFamily="@font/poppins_semi_bold"
                             android:text="@string/personal_info"
                             android:textColor="@color/whiteColor"
-                            android:textSize="20sp" />
+                            android:textSize="@dimen/sp_20"
+                             />
 
                         <ImageView
                             android:id="@+id/pInfoExpandLess"
@@ -123,9 +112,9 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginStart="4dp"
-                            android:layout_marginEnd="16dp"
-                            android:padding="4dp"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginEnd="@dimen/dp_16"
+                            android:padding="@dimen/dp_4"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/ic_expand_less"
                             />
@@ -137,9 +126,9 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginStart="4dp"
-                            android:layout_marginEnd="16dp"
-                            android:padding="4dp"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginEnd="@dimen/dp_16"
+                            android:padding="@dimen/dp_4"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/ic_expand_more"
                             android:visibility="gone"/>
@@ -149,9 +138,9 @@
                         android:id="@+id/personalInfo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="@dimen/dp_4"
                         android:orientation="vertical"
-                        android:padding="8dp"
+                        android:padding="@dimen/dp_8"
                         android:visibility="visible">
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -168,7 +157,7 @@
                                 android:fontFamily="@font/poppins_medium"
                                 android:inputType="textPersonName"
                                 android:textColor="@color/primaryTextColo"
-                                android:textSize="16sp" />
+                                android:textSize="@dimen/sp_16" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -176,7 +165,7 @@
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="@dimen/dp_12"
                             android:hint="@string/date_of_birth">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -185,7 +174,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:textColor="@color/primaryTextColo"
-                                android:textSize="16sp"
+                                android:textSize="@dimen/sp_16"
                                 android:inputType="none"
                                 />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -193,12 +182,12 @@
                         <LinearLayout
                             android:id="@+id/genderLayout"
                             android:layout_width="match_parent"
-                            android:layout_height="56dp"
-                            android:layout_marginTop="12dp"
+                            android:layout_height="@dimen/dp_56"
+                            android:layout_marginTop="@dimen/dp_12"
                             android:background="@drawable/border_line"
                             android:orientation="horizontal"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="4dp">
+                            android:paddingStart="@dimen/dp_8"
+                            android:paddingEnd="@dimen/dp_4">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -207,30 +196,30 @@
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="@string/gender"
                                 android:textColor="@color/primaryTextColo"
-                                android:textSize="16sp" />
+                                android:textSize="@dimen/sp_16" />
 
                             <RelativeLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginStart="36dp">
+                                android:layout_marginStart="@dimen/dp_36">
 
                                 <TextView
                                     android:id="@+id/femaleLabel"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
-                                    android:fontFamily="@font/poppins_semibold"
+                                    android:fontFamily="@font/poppins_semi_bold"
                                     android:text="@string/female"
                                     android:textColor="@color/secondaryTextColor"
-                                    android:textSize="12sp" />
+                                    android:textSize="@dimen/sp_12" />
 
                                 <CheckBox
                                     android:id="@+id/femaleCheckbox"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
-                                    android:layout_marginStart="4dp"
+                                    android:layout_marginStart="@dimen/dp_4"
                                     android:layout_toEndOf="@+id/femaleLabel" />
                             </RelativeLayout>
 
@@ -238,24 +227,24 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginStart="24dp">
+                                android:layout_marginStart="@dimen/dp_24">
 
                                 <TextView
                                     android:id="@+id/maleLabel"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
-                                    android:fontFamily="@font/poppins_semibold"
+                                    android:fontFamily="@font/poppins_semi_bold"
                                     android:text="@string/male"
                                     android:textColor="@color/secondaryTextColor"
-                                    android:textSize="12sp" />
+                                    android:textSize="@dimen/sp_12" />
 
                                 <CheckBox
                                     android:id="@+id/maleCheckbox"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
-                                    android:layout_marginStart="4dp"
+                                    android:layout_marginStart="@dimen/dp_4"
                                     android:layout_toEndOf="@+id/maleLabel" />
                             </RelativeLayout>
                         </LinearLayout>
@@ -265,7 +254,7 @@
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="@dimen/dp_12"
                             android:hint="@string/contact_number">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -275,7 +264,7 @@
                                 android:fontFamily="@font/poppins_medium"
                                 android:inputType="number"
                                 android:textColor="@color/primaryTextColo"
-                                android:textSize="16sp"
+                                android:textSize="@dimen/sp_16"
                                 android:maxLength="10"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -284,7 +273,7 @@
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="@dimen/dp_12"
                             android:hint="@string/residential_address">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -294,7 +283,7 @@
                                 android:fontFamily="@font/poppins_medium"
                                 android:inputType="textPostalAddress"
                                 android:textColor="@color/primaryTextColo"
-                                android:textSize="16sp" />
+                                android:textSize="@dimen/sp_16" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -304,12 +293,12 @@
                 android:id="@+id/medicalRecordCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="18dp"
-                android:layout_marginEnd="24dp"
-                android:elevation="3dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="5dp"
+                android:layout_marginStart="@dimen/dp_24"
+                android:layout_marginTop="@dimen/dp_18"
+                android:layout_marginEnd="@dimen/dp_24"
+                android:elevation="@dimen/dp_3"
+                app:cardCornerRadius="@dimen/dp_5"
+                app:cardElevation="@dimen/dp_5"
                 >
 
                 <LinearLayout
@@ -320,19 +309,19 @@
                     <RelativeLayout
                         android:id="@+id/header2"
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
+                        android:layout_height="@dimen/dp_56"
                         android:background="@color/primaryButtonColorActive"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp">
+                        android:paddingStart="@dimen/dp_6"
+                        android:paddingEnd="@dimen/dp_6">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:fontFamily="@font/poppins_semibold"
+                            android:fontFamily="@font/poppins_semi_bold"
                             android:text="@string/medical_records"
                             android:textColor="@color/whiteColor"
-                            android:textSize="20sp" />
+                            android:textSize="@dimen/sp_20" />
 
                         <ImageView
                             android:id="@+id/medRecExpandLess"
@@ -340,8 +329,8 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginEnd="16dp"
-                            android:padding="4dp"
+                            android:layout_marginEnd="@dimen/dp_16"
+                            android:padding="@dimen/dp_4"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/ic_expand_less"
                             android:visibility="gone"
@@ -353,9 +342,9 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginStart="4dp"
-                            android:layout_marginEnd="16dp"
-                            android:padding="4dp"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginEnd="@dimen/dp_16"
+                            android:padding="@dimen/dp_4"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/ic_expand_more"
                             />
@@ -365,131 +354,133 @@
                         android:id="@+id/medRec"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="@dimen/dp_8"
                         android:orientation="vertical"
                         android:visibility="gone">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginStart="@dimen/dp_8"
+                            android:layout_marginEnd="@dimen/dp_8"
+                            android:layout_marginTop="@dimen/dp_4"
                             android:orientation="horizontal"
                             >
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
-                                android:padding="4dp"
-                                android:text="Weight in Kg:"
+                                android:padding="@dimen/dp_4"
+                                android:text="@string/weight_in_kg"
                                 android:textColor="@color/primaryTextColo"
-                                android:textSize="16sp"
+                                android:textSize="@dimen/sp_16"
                                 />
 
                             <EditText
                                 android:id="@+id/userWeight"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:paddingStart="10dp"
-                                android:paddingEnd="10dp"
-                                android:paddingTop="6dp"
-                                android:paddingBottom="4dp"
+                                android:layout_marginStart="@dimen/dp_8"
+                                android:paddingStart="@dimen/dp_10"
+                                android:paddingEnd="@dimen/dp_10"
+                                android:paddingTop="@dimen/dp_6"
+                                android:paddingBottom="@dimen/dp_4"
                                 android:background="@drawable/border_line"
                                 android:fontFamily="@font/poppins_medium"
                                 android:gravity="center_vertical"
-                                android:hint="67"
+                                android:hint="@string/_67"
                                 android:inputType="numberDecimal"
                                 android:textColor="@color/primaryTextColo"
-                                android:textSize="16sp"
+                                android:textSize="@dimen/sp_16"
                                 android:maxLength="3"
-                                />
+                                android:autofillHints="@null" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="14dp"
-                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="@dimen/dp_8"
+                            android:layout_marginTop="@dimen/dp_14"
+                            android:layout_marginEnd="@dimen/dp_8"
                             android:orientation="horizontal"
                             >
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
-                                android:padding="4dp"
-                                android:text="Height in cm:"
+                                android:padding="@dimen/dp_4"
+                                android:text="@string/height_in_cm"
                                 android:textColor="@color/primaryTextColo"
-                                android:textSize="16sp" />
+                                android:textSize="@dimen/sp_16" />
 
                             <EditText
                                 android:id="@+id/userHeight"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:paddingStart="10dp"
-                                android:paddingEnd="10dp"
-                                android:paddingTop="6dp"
-                                android:paddingBottom="4dp"
+                                android:layout_marginStart="@dimen/dp_8"
+                                android:paddingStart="@dimen/dp_10"
+                                android:paddingEnd="@dimen/dp_10"
+                                android:paddingTop="@dimen/dp_6"
+                                android:paddingBottom="@dimen/dp_4"
                                 android:background="@drawable/border_line"
                                 android:fontFamily="@font/poppins_medium"
                                 android:gravity="center_vertical"
-                                android:hint="250"
+                                android:hint="@string/_250"
                                 android:inputType="numberDecimal"
                                 android:textColor="@color/primaryTextColo"
-                                android:textSize="16sp"
+                                android:textSize="@dimen/sp_16"
                                 android:maxLength="3"
+                                android:autofillHints="@null"
                                 />
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="14dp"
-                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="@dimen/dp_8"
+                            android:layout_marginTop="@dimen/dp_14"
+                            android:layout_marginEnd="@dimen/dp_8"
                             android:orientation="horizontal"
                             >
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
-                                android:padding="4dp"
-                                android:text="Blood Group:"
+                                android:padding="@dimen/dp_14"
+                                android:text="@string/blood_group"
                                 android:textColor="@color/primaryTextColo"
-                                android:textSize="16sp" />
+                                android:textSize="@dimen/sp_16" />
 
                             <EditText
                                 android:id="@+id/bloodGroup"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:paddingStart="10dp"
-                                android:paddingEnd="10dp"
-                                android:paddingTop="6dp"
-                                android:paddingBottom="4dp"
+                                android:layout_marginStart="@dimen/dp_8"
+                                android:paddingStart="@dimen/dp_10"
+                                android:paddingEnd="@dimen/dp_10"
+                                android:paddingTop="@dimen/dp_6"
+                                android:paddingBottom="@dimen/dp_4"
                                 android:background="@drawable/border_line"
                                 android:fontFamily="@font/poppins_medium"
                                 android:gravity="center_vertical"
-                                android:hint="O -"
+                                android:hint="@string/o"
                                 android:inputType="textCapCharacters"
                                 android:textColor="@color/primaryTextColo"
-                                android:textSize="16sp"
+                                android:textSize="@dimen/sp_16"
                                 android:maxLength="3"
                                 android:visibility="gone"
+                                android:autofillHints="@null"
                                 />
                             <RelativeLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/border_line"
-                                android:layout_marginStart="8dp"
+                                android:layout_marginStart="@dimen/dp_8"
                                 >
                                 <Spinner
                                     android:id="@+id/bloodGroupSpinner"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:paddingTop="10dp"
-                                    android:paddingBottom="10dp"
+                                    android:paddingTop="@dimen/dp_10"
+                                    android:paddingBottom="@dimen/dp_10"
                                     />
                             </RelativeLayout>
 
@@ -500,10 +491,10 @@
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginEnd="8dp"
-                            android:paddingBottom="8dp"
+                            android:layout_marginStart="@dimen/dp_8"
+                            android:layout_marginTop="@dimen/dp_12"
+                            android:layout_marginEnd="@dimen/dp_8"
+                            android:paddingBottom="@dimen/dp_8"
                             android:hint="@string/allergies_reaction"
                             >
 
@@ -514,7 +505,7 @@
                                 android:fontFamily="@font/poppins_medium"
                                 android:inputType="textMultiLine"
                                 android:textColor="@color/primaryTextColo"
-                                android:textSize="16sp" />
+                                android:textSize="@dimen/sp_16" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -525,12 +516,12 @@
                 android:id="@+id/contactCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="18dp"
-                android:layout_marginEnd="24dp"
-                android:elevation="3dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="5dp"
+                android:layout_marginStart="@dimen/dp_24"
+                android:layout_marginTop="@dimen/dp_18"
+                android:layout_marginEnd="@dimen/dp_24"
+                android:elevation="@dimen/dp_3"
+                app:cardCornerRadius="@dimen/dp_5"
+                app:cardElevation="@dimen/dp_5"
                 >
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -540,19 +531,19 @@
                     <RelativeLayout
                         android:id="@+id/header3"
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
+                        android:layout_height="@dimen/dp_56"
                         android:background="@color/primaryButtonColorActive"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp">
+                        android:paddingStart="@dimen/dp_6"
+                        android:paddingEnd="@dimen/dp_56">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:fontFamily="@font/poppins_semibold"
-                            android:text="Emergency Contact"
+                            android:fontFamily="@font/poppins_semi_bold"
+                            android:text="@string/emergency_contact"
                             android:textColor="@color/whiteColor"
-                            android:textSize="20sp" />
+                            android:textSize="@dimen/sp_20" />
 
                         <ImageView
                             android:id="@+id/contactExpandLess"
@@ -560,8 +551,8 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginEnd="16dp"
-                            android:padding="4dp"
+                            android:layout_marginEnd="@dimen/dp_16"
+                            android:padding="@dimen/dp_4"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/ic_expand_less"
                             android:visibility="gone"
@@ -573,9 +564,9 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginStart="4dp"
-                            android:layout_marginEnd="16dp"
-                            android:padding="4dp"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginEnd="@dimen/dp_16"
+                            android:padding="@dimen/dp_4"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/ic_expand_more"/>
                     </RelativeLayout>
@@ -583,12 +574,12 @@
                         android:id="@+id/contact"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="@dimen/dp_4"
                         android:orientation="vertical"
-                        android:paddingStart="8dp"
-                        android:paddingTop="8dp"
-                        android:paddingEnd="8dp"
-                        android:paddingBottom="12dp"
+                        android:paddingStart="@dimen/dp_8"
+                        android:paddingTop="@dimen/dp_8"
+                        android:paddingEnd="@dimen/dp_8"
+                        android:paddingBottom="@dimen/dp_12"
                         android:visibility="gone">
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -596,7 +587,7 @@
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Contact name">
+                            android:hint="@string/contact_name">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/contactFullName"
@@ -605,7 +596,7 @@
                                 android:fontFamily="@font/poppins_medium"
                                 android:inputType="textPersonName"
                                 android:textColor="@color/primaryTextColo"
-                                android:textSize="16sp" />
+                                android:textSize="@dimen/sp_16" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -613,7 +604,7 @@
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="@dimen/dp_12"
                             android:hint="@string/relation">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -623,7 +614,7 @@
                                 android:fontFamily="@font/poppins_medium"
                                 android:inputType="textCapWords"
                                 android:textColor="@color/primaryTextColo"
-                                android:textSize="16sp" />
+                                android:textSize="@dimen/sp_16" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -631,7 +622,7 @@
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="@dimen/dp_12"
                             android:hint="@string/contact_number">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -641,7 +632,7 @@
                                 android:fontFamily="@font/poppins_medium"
                                 android:inputType="number"
                                 android:textColor="@color/primaryTextColo"
-                                android:textSize="16sp"
+                                android:textSize="@dimen/sp_16"
                                 android:maxLength="10"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -650,7 +641,7 @@
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="@dimen/dp_12"
                             android:hint="@string/residential_address">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -660,27 +651,27 @@
                                 android:fontFamily="@font/poppins_medium"
                                 android:inputType="textPostalAddress"
                                 android:textColor="@color/primaryTextColo"
-                                android:textSize="16sp" />
+                                android:textSize="@dimen/sp_16" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <RelativeLayout
                             android:id="@+id/doneBtn"
-                            android:layout_width="150dp"
-                            android:layout_height="46dp"
-                            android:layout_marginTop="8dp"
+                            android:layout_width="@dimen/dp_150"
+                            android:layout_height="@dimen/dp_46"
+                            android:layout_marginTop="@dimen/dp_8"
                             android:background="@drawable/email_login_btn_bg"
                             android:gravity="center"
                             android:layout_gravity="end"
-                            android:elevation="1.45dp"
+                            android:elevation="@dimen/dp_1.45"
                             android:visibility="gone"
                             >
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
+                                android:layout_marginStart="@dimen/dp_8"
                                 android:text="@string/done"
-                                android:textSize="18sp"
+                                android:textSize="@dimen/sp_18"
                                 android:textColor="@color/whiteColor"
                                 android:fontFamily="@font/poppins_medium"
                                 android:layout_centerVertical="true"
@@ -692,25 +683,23 @@
 
             <RelativeLayout
                 android:id="@+id/submitBtn"
-                android:layout_width="150dp"
-                android:layout_height="54dp"
+                android:layout_width="@dimen/dp_150"
+                android:layout_height="@dimen/dp_54"
                 app:layout_constraintTop_toBottomOf="@+id/contactCard"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/dp_24"
                 android:background="@drawable/submit_btn_bg"
                 android:gravity="center"
                 android:layout_gravity="center_horizontal"
-                android:elevation="1.45dp"
+                android:elevation="@dimen/dp_1.45"
                 android:visibility="gone"
                 >
-<!--                android:background="@drawable/email_login_btn_bg"-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:text="@string/submit"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/sp_18"
                     android:textColor="@color/whiteColor"
                     android:fontFamily="@font/poppins_medium"
                     android:layout_centerVertical="true"
@@ -719,22 +708,13 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="40dp"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_40"
+                android:layout_marginBottom="@dimen/dp_40"
                 />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
-
-
-
-
 
 
 

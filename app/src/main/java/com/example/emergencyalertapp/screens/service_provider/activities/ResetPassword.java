@@ -65,14 +65,10 @@ public class ResetPassword extends AppCompatActivity implements View.OnClickList
         currentPassword = findViewById(R.id.currentPassword);
         currentPassword.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -84,14 +80,10 @@ public class ResetPassword extends AppCompatActivity implements View.OnClickList
         newPassword = findViewById(R.id.newPassword);
         newPassword.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -103,14 +95,10 @@ public class ResetPassword extends AppCompatActivity implements View.OnClickList
         confirmNewPassword = findViewById(R.id.confirmNewPassword);
         confirmNewPassword.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -128,12 +116,6 @@ public class ResetPassword extends AppCompatActivity implements View.OnClickList
     private void hideAndShowViews(RelativeLayout relativeLayout, LinearLayout linearLayout, TextView textView){
         if(textView.getId() == R.id.editLabel){
             linearLayout.setVisibility(View.VISIBLE);
-//            YoYo.with(Techniques.BounceInDown)
-//                    .duration(800)
-//                    .delay(900)
-//                    .playOn(relativeLayout);
-
-
             YoYo.with(Techniques.FadeIn)
                     .duration(350)
                     .playOn(linearLayout);
@@ -145,6 +127,7 @@ public class ResetPassword extends AppCompatActivity implements View.OnClickList
                     .duration(350)
                     .playOn(relativeLayout);
             linearLayout.setVisibility(View.GONE);
+
             currentPasswordLayout.setError(null);
             currentPassword.setText(null);
             newPasswordLayout.setError(null);
@@ -248,15 +231,6 @@ public class ResetPassword extends AppCompatActivity implements View.OnClickList
         }
     }
 }
-
-
-
-
-
-
-
-
-
 
 
 

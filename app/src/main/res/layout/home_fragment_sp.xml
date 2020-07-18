@@ -1,54 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".screens.service_provider.fragments.HomeFragment">
 
-    <LinearLayout
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_24"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/your_patients"
+        android:textColor="@color/secondaryTextColor"
+        android:textSize="@dimen/sp_20" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginStart="16dp"
-            android:text="Your patients..."
-            android:textSize="20sp"
-            android:textColor="@color/secondaryTextColor"
-            android:fontFamily="@font/poppins_medium"
-            />
+        android:layout_marginTop="@dimen/dp_12">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="12dp"
-            >
-            <androidx.core.widget.NestedScrollView
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/list_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
-                <RelativeLayout
-                    android:id="@+id/list_container"
+                android:layout_height="wrap_content"
+                android:background="@color/whiteColor">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/whiteColor"
-                    >
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        tools:listitem="@layout/service_provider_item"
-                        android:imeOptions="actionDone"
-                        android:layout_marginBottom="14dp"
-                        android:elevation="4dp"
-                        />
-                </RelativeLayout>
-            </androidx.core.widget.NestedScrollView>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-    </LinearLayout>
-</FrameLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/dp_14"
+                    android:elevation="@dimen/dp_4"
+                    android:imeOptions="actionDone"
+                    tools:listitem="@layout/service_provider_item" />
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</LinearLayout>

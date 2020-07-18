@@ -5,29 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/border_line"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="3dp"
-    android:elevation="4.5dp"
+    android:layout_marginStart="@dimen/dp_8"
+    android:layout_marginEnd="@dimen/dp_8"
+    android:layout_marginTop="@dimen/dp_8"
+    android:layout_marginBottom="@dimen/dp_3"
+    android:elevation="@dimen/dp_4.5"
     >
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp"
+        android:padding="@dimen/dp_4"
         >
         <ImageView
             android:id="@+id/hospital_image"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="@dimen/dp_65"
+            android:layout_height="@dimen/dp_65"
             android:src="@drawable/ic_account"
             android:layout_gravity="center_vertical"
-            />
+            android:contentDescription="@string/user_image" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/dp_8"
             android:orientation="vertical"
             android:layout_gravity="center_vertical"
             >
@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Hospital Name"
-                android:textSize="18sp"
+                android:textSize="@dimen/sp_18"
                 android:textColor="@color/primaryButtonColorActive"
                 android:fontFamily="@font/poppins_medium"/>
 
@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Specialty"
-                android:textSize="16sp"
+                android:textSize="@dimen/sp_16"
                 android:textColor="@color/primaryTextColo"
                 android:fontFamily="@font/poppins_regular"/>
 
@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Location"
-                android:textSize="14sp"
+                android:textSize="@dimen/sp_14"
                 android:textColor="@color/secondaryTextColor"
                 android:fontFamily="@font/poppins_regular"/>
         </LinearLayout>

@@ -14,8 +14,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="@dimen/dp_24"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
         android:gravity="center_vertical"
         >
 
@@ -23,7 +24,7 @@
             android:id="@+id/close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:padding="@dimen/dp_8"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_back"
             android:layout_centerVertical="true"
@@ -33,9 +34,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/close"
-            android:layout_marginStart="36dp"
+            android:layout_marginStart="@dimen/dp_36"
             android:text="@string/log_in"
-            android:textSize="24sp"
+            android:textSize="@dimen/sp_24"
             android:textColor="@color/primaryTextColo"
             android:fontFamily="@font/poppins_medium"
             android:layout_centerVertical="true"
@@ -45,10 +46,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="@dimen/dp_56"
+        android:layout_marginStart="@dimen/dp_24"
+        android:layout_marginEnd="@dimen/dp_24"
+        android:layout_marginBottom="@dimen/dp_8"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -63,7 +64,7 @@
             android:id="@+id/userEmailRegLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/dp_20"
             android:hint="@string/email"
             app:errorEnabled="true"
             >
@@ -80,7 +81,7 @@
             android:id="@+id/userPasswordRegLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/dp_12"
             android:hint="@string/password"
             app:passwordToggleEnabled="true"
             app:errorEnabled="true"
@@ -97,51 +98,53 @@
             android:id="@+id/forgottenPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/dp_8"
             android:fontFamily="@font/poppins_light"
             android:text="@string/forgot_password"
             android:textColor="@color/forgotPassword"
-            android:textSize="15sp"
+            android:textSize="@dimen/sp_15"
             android:layout_gravity="start"
             />
 
         <RelativeLayout
             android:id="@+id/btnLogin"
+            style="@android:style/Widget.Material.Button"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="@dimen/dp_48"
             app:layout_constraintTop_toBottomOf="@+id/line"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/dp_20"
             android:background="@drawable/email_login_btn_bg"
             android:gravity="center"
-            android:elevation="1.45dp"
+            android:elevation="@dimen/dp_1.45"
             >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dp_8"
                 android:text="@string/loginWithEmail"
-                android:textSize="18sp"
+                android:textSize="@dimen/sp_18"
                 android:textColor="@color/whiteColor"
                 android:fontFamily="@font/poppins_regular"
                 android:layout_centerVertical="true"
+                android:gravity="center"
                 />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/resendVerification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:fontFamily="@font/poppins_medium"
-            android:letterSpacing="0.1"
-            android:text="@string/resend_verification"
-            android:textAlignment="center"
-            android:textColor="@color/primaryButtonColorActive"
-            android:textSize="16sp"
-            android:visibility="invisible"
-            />
+<!--        <TextView-->
+<!--            android:id="@+id/resendVerification"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/dp_18"-->
+<!--            android:fontFamily="@font/poppins_medium"-->
+<!--            android:letterSpacing="0.1"-->
+<!--            android:text="@string/resend_verification"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textColor="@color/primaryButtonColorActive"-->
+<!--            android:textSize="@dimen/sp_16"-->
+<!--            android:visibility="invisible"-->
+<!--            />-->
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,17 +14,17 @@
         <RelativeLayout
             android:id="@+id/actionBar"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="@dimen/dp_56"
             android:gravity="center_vertical"
             android:background="@color/whiteColor"
-            android:elevation="3dp"
+            android:elevation="@dimen/dp_3"
             >
 
             <ImageView
                 android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:padding="@dimen/dp_8"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_back"
                 android:layout_centerVertical="true"
@@ -35,9 +34,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/back"
-                android:layout_marginStart="36dp"
+                android:layout_marginStart="@dimen/dp_36"
                 android:text="@string/edit_profile"
-                android:textSize="20sp"
+                android:textSize="@dimen/sp_20"
                 android:textColor="@color/primaryTextColo"
                 android:fontFamily="@font/poppins_medium"
                 android:layout_centerVertical="true"
@@ -47,8 +46,8 @@
                 android:id="@+id/ok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:layout_marginEnd="18dp"
+                android:padding="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_18"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_ok"
                 android:layout_centerVertical="true"
@@ -70,20 +69,20 @@
                 >
                 <ImageView
                     android:id="@+id/userImage"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_100"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="@dimen/dp_12"
                     android:src="@drawable/ic_account"
-                    />
+                    android:contentDescription="@string/user_image" />
 
                 <TextView
                     android:id="@+id/change_profile_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Change Profile Photo"
-                    android:textSize="16sp"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:text="@string/change_profile_photo"
+                    android:textSize="@dimen/sp_16"
                     android:textColor="@color/forgotPassword"
                     android:fontFamily="@font/poppins_medium"
                     android:layout_gravity="center_horizontal"
@@ -94,9 +93,9 @@
                     android:id="@+id/userNameLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:layout_marginStart="@dimen/dp_12"
+                    android:layout_marginEnd="@dimen/dp_12"
                     android:hint="@string/username"
                     >
 
@@ -114,9 +113,9 @@
                     android:id="@+id/fullNameLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_marginStart="@dimen/dp_12"
+                    android:layout_marginEnd="@dimen/dp_12"
                     android:hint="@string/fullName"
                     >
 
@@ -133,9 +132,9 @@
                     android:id="@+id/userEmailRegLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_marginStart="@dimen/dp_12"
+                    android:layout_marginEnd="@dimen/dp_12"
                     android:hint="@string/email"
                     >
 
@@ -152,9 +151,9 @@
                     android:id="@+id/placeOfWorkLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_marginStart="@dimen/dp_12"
+                    android:layout_marginEnd="@dimen/dp_12"
                     android:hint="@string/place_of_work"
                     >
 
@@ -171,9 +170,9 @@
                     android:id="@+id/phoneNumLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_marginStart="@dimen/dp_12"
+                    android:layout_marginEnd="@dimen/dp_12"
                     android:hint="@string/contact_number"
                     >
 
@@ -190,9 +189,9 @@
                     android:id="@+id/residentialAddressLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_marginStart="@dimen/dp_12"
+                    android:layout_marginEnd="@dimen/dp_12"
                     android:hint="@string/residential_address"
                     >
 
@@ -209,9 +208,9 @@
                     android:id="@+id/doc_or_nurser_Layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_marginStart="@dimen/dp_12"
+                    android:layout_marginEnd="@dimen/dp_12"
                     android:hint="@string/doctor_or_nurse"
                     >
 
@@ -228,9 +227,9 @@
                     android:id="@+id/specialityLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_marginStart="@dimen/dp_12"
+                    android:layout_marginEnd="@dimen/dp_12"
                     android:hint="@string/speciality"
                     >
 
@@ -245,12 +244,20 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="50dp"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_marginBottom="@dimen/dp_50"
                     />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+
+
+
+
+
 
 

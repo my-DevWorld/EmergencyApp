@@ -130,7 +130,7 @@ public class DoctorsAndNursesFragment extends Fragment implements ServiceProvide
                 addServiceProvider(serviceProvider.getUserID(), serviceProvider.getFullName(),
                         ((UserClient)getActivity().getApplicationContext()).getUser().getFullName(), patientDetails, serviceProvider);
 
-            }, 3500);
+            }, 2050);
         }
         else {
             Toast.makeText(getContext(), "Emergency contact limit reached.", Toast.LENGTH_SHORT).show();

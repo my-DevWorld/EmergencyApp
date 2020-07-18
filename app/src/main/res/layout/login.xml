@@ -14,9 +14,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:padding="8dp"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_16"
+        android:padding="@dimen/dp_8"
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_close"
         android:layout_centerVertical="true"
@@ -27,12 +27,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/close"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="@dimen/dp_72"
         >
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_100"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_emergency_alert_app_logo"
             android:layout_centerHorizontal="true"
@@ -42,10 +42,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/logo"
             android:text="@string/emergency_alert"
-            android:textSize="24sp"
+            android:textSize="@dimen/sp_24"
             android:textColor="@color/colorPrimary"
             android:fontFamily="@font/adobe_heiti_std_regular"
-            android:padding="4dp"
+            android:padding="@dimen/dp_4"
             android:layout_centerHorizontal="true"
             />
     </RelativeLayout>
@@ -57,38 +57,36 @@
         app:layout_constraintTop_toBottomOf="@+id/logoContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="@dimen/dp_72"
         android:text="@string/log_in_with"
-        android:textSize="18sp"
+        android:textSize="@dimen/sp_18"
         android:textColor="@color/primaryTextColo"
         android:fontFamily="@font/poppins_regular"
         android:layout_centerVertical="true"
         />
 
     <RelativeLayout
-        android:id="@+id/socilaBtn"
+        android:id="@+id/socialBtn"
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/loginLabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="18dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:padding="8dp"
+        android:layout_marginTop="@dimen/dp_18"
+        android:layout_marginStart="@dimen/dp_24"
+        android:layout_marginEnd="@dimen/dp_24"
+        android:padding="@dimen/dp_8"
         >
         <RelativeLayout
             android:id="@+id/fbBtn"
-            android:layout_width="96dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/dp_96"
+            android:layout_height="@dimen/dp_48"
             android:background="@drawable/fb_btn_bg"
             android:gravity="center"
             >
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_facebook"
                 android:layout_centerHorizontal="true"
@@ -97,17 +95,17 @@
 
         <RelativeLayout
             android:id="@+id/googleBtn"
-            android:layout_width="96dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/dp_96"
+            android:layout_height="@dimen/dp_48"
             android:layout_toEndOf="@+id/fbBtn"
-            android:layout_marginStart="18dp"
+            android:layout_marginStart="@dimen/dp_18"
             android:background="@drawable/google_btn_bg"
-            android:elevation="2.5dp"
+            android:elevation="@dimen/dp_2.5"
 
             >
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_google_logo"
                 android:layout_centerHorizontal="true"
@@ -116,16 +114,16 @@
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/phoneBtn"
-            android:layout_width="96dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/dp_96"
+            android:layout_height="@dimen/dp_48"
             android:layout_toEndOf="@+id/googleBtn"
-            android:layout_marginStart="18dp"
+            android:layout_marginStart="@dimen/dp_18"
             android:background="@drawable/phone_btn_bg"
             android:gravity="center"
             >
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_call"
                 android:layout_centerHorizontal="true"
@@ -135,56 +133,57 @@
 
     <RelativeLayout
         android:id="@+id/divider"
-        android:layout_width="46dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="@dimen/dp_46"
+        android:layout_height="@dimen/dp_26"
+        android:layout_marginTop="@dimen/dp_16"
         android:background="@color/whiteColor"
-        android:elevation="0.5dp"
+        android:elevation="@dimen/dp_0.5"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/socilaBtn">
+        app:layout_constraintTop_toBottomOf="@+id/socialBtn">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:elevation="0.5dp"
+            android:elevation="@dimen/dp_0.5"
             android:fontFamily="@font/poppins_regular"
             android:gravity="center"
-            android:text="or"
+            android:text="@string/or"
             android:textAlignment="center"
-            android:textSize="15sp" />
+            android:textSize="@dimen/sp_15" />
     </RelativeLayout>
 
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="26dp"
+        android:layout_height="@dimen/dp_26"
         android:layout_centerVertical="true"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_24"
         android:background="@drawable/line"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/socilaBtn"
+        app:layout_constraintTop_toBottomOf="@+id/socialBtn"
         />
 
     <RelativeLayout
         android:id="@+id/emailBtn"
-        android:layout_width="250dp"
-        android:layout_height="48dp"
+        style="@android:style/Widget.Material.Button"
+        android:layout_width="@dimen/dp_250"
+        android:layout_height="@dimen/dp_48"
         app:layout_constraintTop_toBottomOf="@+id/line"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="@dimen/dp_40"
         android:background="@drawable/email_login_btn_bg"
         android:gravity="center"
-        android:elevation="1.45dp"
+        android:elevation="@dimen/dp_1.45"
         >
     <ImageView
         android:id="@+id/ic_mail"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_mail"
         android:layout_centerVertical="true"
@@ -194,9 +193,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/ic_mail"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/dp_8"
             android:text="@string/loginWithEmail"
-            android:textSize="18sp"
+            android:textSize="@dimen/sp_18"
             android:textColor="@color/whiteColor"
             android:fontFamily="@font/poppins_regular"
             android:layout_centerVertical="true"
@@ -207,15 +206,15 @@
         android:id="@+id/registerHereLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:padding="4dp"
+        android:layout_marginTop="@dimen/dp_28"
+        android:padding="@dimen/dp_4"
         app:layout_constraintTop_toBottomOf="@+id/emailBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:gravity="center_vertical">
 
         <TextView
-            android:id="@+id/signinLabel"
+            android:id="@+id/signInLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
@@ -223,19 +222,19 @@
             android:text="@string/don_t_have_an_account"
             android:textAlignment="center"
             android:textColor="@color/secondaryTextColor"
-            android:textSize="15sp" />
+            android:textSize="@dimen/sp_15" />
 
         <TextView
-            android:id="@+id/signupWithSociaLite"
+            android:id="@+id/signUpWithSocialLite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/signinLabel"
-            android:layout_marginStart="1dp"
+            android:layout_toEndOf="@+id/signInLabel"
+            android:layout_marginStart="@dimen/dp_1"
             android:fontFamily="@font/poppins_regular"
             android:letterSpacing="0.1"
             android:text="@string/register_here"
             android:textAlignment="center"
             android:textColor="@color/primaryButtonColorActive"
-            android:textSize="15sp" />
+            android:textSize="@dimen/sp_15" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

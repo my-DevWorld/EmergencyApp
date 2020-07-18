@@ -1,6 +1,7 @@
 package com.example.emergencyalertapp.screens.patient.fragments;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +25,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.example.emergencyalertapp.R;
 import com.example.emergencyalertapp.adapters.HospitalAdapter;
 import com.example.emergencyalertapp.models.Hospital;
+import com.example.emergencyalertapp.screens.SplashScreen;
 import com.example.emergencyalertapp.screens.patient.PatientActivities;
 import com.example.emergencyalertapp.adapters.CustomInfoWindowAdapter;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -32,8 +35,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
+import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
 
@@ -50,6 +55,7 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
     private MapView mMapView;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private GoogleMap map;
+    private CustomInfoWindowAdapter adapter;
     private ArrayList<LatLng> latLngs;
     private ArrayList<MarkerOptions> markerOptions;
     private ArrayList<String> titles;
@@ -160,9 +166,15 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
         map.getUiSettings().setZoomGesturesEnabled(true);
         map.getUiSettings().setZoomControlsEnabled(true);
         map.getUiSettings().setRotateGesturesEnabled(false);
+        map.setInfoWindowAdapter(new CustomInfoWindowAdapter(getActivity()));
+
     }
 
     private void getDeviceLocation(){
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
                 final Task location = mFusedLocationProviderClient.getLastLocation();
                 location.addOnCompleteListener(task -> {
@@ -190,7 +202,6 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void getHospitalLocation(){
-        map.setInfoWindowAdapter(new CustomInfoWindowAdapter(getActivity()));
         latLngs = new ArrayList<>();
         titles = new ArrayList<>();
         locations = new ArrayList<>();
@@ -205,6 +216,7 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
                 markerOptions.add(new MarkerOptions().position(latLngs.get(i)).title(titles.get(i)).snippet(locations.get(i)));
                 map.addMarker(markerOptions.get(i));
             }
+
 
             HospitalAdapter hospitalAdapter = new HospitalAdapter(getContext(),
                     ((PatientActivities)getActivity()).hospitals);

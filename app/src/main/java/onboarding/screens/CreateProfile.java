@@ -632,7 +632,7 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         usersDoc = db.document(usersDocumentPath);
         patientsDocProfile = db.document(patientsProfileDocumentPath);
         patientsDocMedicalRecord = db.document(patientsMedicalRecordDocumentPath);
-        patientsDocEmergencyContact = db.collection(patientsEmergencyContactDocumentPath).document();
+        patientsDocEmergencyContact = db.document(patientsEmergencyContactDocumentPath);
         usersDoc.update("recordsAvailable", true).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 patientsDocProfile.set(patientProfile);

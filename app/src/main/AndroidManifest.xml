@@ -33,7 +33,7 @@
 
         <activity android:name=".screens.patient.activities.UserAccountSetting" />
         <activity android:name=".screens.patient.activities.Medication" />
-        <activity android:name=".screens.patient.activities.EmergencyContact" />
+        <activity android:name=".screens.patient.activities.EmergencyContactScreen" />
         <activity android:name=".screens.patient.activities.MedicalRecords" />
         <activity android:name=".screens.patient.activities.UserProfile" />
         <activity android:name=".screens.patient.PatientActivities" />
